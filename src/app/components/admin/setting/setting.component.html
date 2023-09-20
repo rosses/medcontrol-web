@@ -1,0 +1,97 @@
+<app-add-profession [show]="addProfessionModal" [edit]="edit" [job]="selJob" (onClose)="getProfessions($event)"></app-add-profession>
+<app-add-unidad [show]="addUnidadModal" [edit]="editUnidad" [job]="selUnidad" (onClose)="getUnidades($event)"></app-add-unidad>
+<app-action-profession [show]="actionProfessionModal" [action]="action" [selJob]="selId" (onDismiss)="onDismissActionModal()"></app-action-profession>
+
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col">
+        <div class="row mb-3">
+          <div class="col">
+            <h5>Boxs</h5>
+          </div>
+          <div class="col text-end">
+            <button type="button" (click)="addProfession()" class="btn btn-primary btn-sm px-3 py-2 rounded-2">Agregar Profesión</button>
+          </div>
+        </div> 
+
+        <div class="table-cmp table-cmp--setting">
+          <div class="table-cmp__header">
+            <div class="table-cmp__row">
+              <div class="table-cmp__col">Profesión</div>
+              <div class="table-cmp__col">Super.</div>
+              <div class="table-cmp__col">Vacunas</div>
+              <div class="table-cmp__col text-end">Acción</div>
+            </div>
+          </div>
+
+          <div class="table-cmp__body">
+            <div class="table-cmp__toggable-row" *ngFor="let job of jobs">
+              <div class="table-cmp__row">
+                <div class="table-cmp__col">{{job.name}}</div>
+                <div class="table-cmp__col">{{job.skippable ? 'No' : 'Sí'}}</div>
+                <div class="table-cmp__col">{{job.requireVacunas ? 'No' : 'Sí'}}</div>
+                <div class="table-cmp__col">
+                  <ul class="actions">
+                    <li (click)="deleteProfession(job._id)">
+                      <img src="assets/svg/icon-trash.svg" alt="icono basurero">
+                    </li>
+                    <li (click)="editProfession(job._id)">
+                      <img src="assets/svg/icon-edit.svg" style="max-width: 18px;" alt="icono editar">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col">
+        <div class="row mb-3">
+          <div class="col">
+            <h5>Especialidades</h5>
+          </div>
+          <div class="col text-end">
+            <button type="button" (click)="addUnidad()" class="btn btn-primary btn-sm px-3 py-2 rounded-2">Agregar Unidad</button>
+          </div>
+        </div>
+        
+
+        <div class="table-cmp table-cmp--setting">
+          <div class="table-cmp__header">
+            <div class="table-cmp__row">
+              <div class="table-cmp__col">Unidad</div>
+              <div class="table-cmp__col text-end">Acción</div>
+            </div>
+          </div>
+
+          <div class="table-cmp__body">
+            <div class="table-cmp__toggable-row" *ngFor="let unid of unids">
+              <div class="table-cmp__row">
+                <div class="table-cmp__col">{{unid.name}}</div> 
+                <div class="table-cmp__col">
+                  <ul class="actions">
+                    <li (click)="deleteUnit(unid._id)">
+                      <img src="assets/svg/icon-trash.svg" alt="icono basurero">
+                    </li>
+                    <li (click)="editUnit(unid._id)">
+                      <img src="assets/svg/icon-edit.svg" style="max-width: 18px;" alt="icono editar">
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="modal fade" [ngClass]="{'show d-block': showModalBill}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0 bg-primary">
+        <h5 class="modal-title text-white">Detalle turnos Agosto - Clínica Dávila</h5>
+        <button type="button" class="btn btn-link text-white" (click)="toggleBillModal()">
+          <fa-icon [icon]="faXmark" size="lg"></fa-icon>
+      </button>
+      </div>
+      <div class="modal-body text-center px-5 pt-5">
+
+        <div class="table-wrapper">
+          <div class="table-cmp table-cmp">
+            <div class="table-cmp__header">
+              <div class="table-cmp__row">
+                <div class="table-cmp__col fixed-col">ID</div>
+                <div class="table-cmp__col fixed-col">Numero de turnos</div>
+                <div class="table-cmp__col fixed-col">Total facturado</div>
+              </div>
+            </div>
+
+            <div class="table-cmp__body">
+              <div class="table-cmp__toggable-row"  *ngFor="let item of ['']">
+                <div class="table-cmp__row">
+                  <div class="table-cmp__col fixed-col">#2347</div>
+                  <div class="table-cmp__col fixed-col">24</div>
+                  <div class="table-cmp__col fixed-col">$45.000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col text-center"></div>
+          <div class="col text-center">
+            <button type="button" class="btn btn-primary w-75 btn-sm" (click)="toggleBillModal()">Volver</button>
+          </div>
+          <div class="col text-end">
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="toggleBillModal()">
+              <img src="assets/svg/icon-download.svg" alt="">
+              Descargar reporte
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+
+  <div class="container">
+
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <h5>Facturas</h5>
+      </div>
+    </div>
+
+    <div class="table-cmp table-cmp--toggable">
+      <div class="table-cmp__header">
+        <div class="table-cmp__row">
+          <div class="table-cmp__col"></div>
+          <div class="table-cmp__col">Mes</div>
+          <div class="table-cmp__col" style="text-align: center;">Prestadores</div>
+          <div class="table-cmp__col" style="text-align: center;">Numero de turnos</div>
+          <div class="table-cmp__col" style="text-align: center;">Total facturado</div>
+          <div class="table-cmp__col" style="text-align: center;">Detalle</div>
+          <div class="table-cmp__col"></div>
+        </div>
+      </div>
+
+      <div class="table-cmp__body">
+        <div class="table-cmp__toggable-row"  *ngFor="let item of adminList" [ngClass]="{'open': item.open}">
+          <div class="table-cmp__row">
+            <div class="table-cmp__col"></div>
+            <div class="table-cmp__col">Agosto</div>
+            <div class="table-cmp__col" style="text-align: center;">2</div>
+            <div class="table-cmp__col" style="text-align: center;">24</div>
+            <div class="table-cmp__col" style="text-align: center;">$240.000</div>
+            <div class="table-cmp__col" style="text-align: center;">
+              <button type="button" class="btn btn-link" (click)="item.open = !item.open">
+                <fa-icon [icon]="!item.open ? faAngleDown : faAngleUp"></fa-icon>
+              </button>
+            </div>
+            <div class="table-cmp__col"></div>
+          </div>
+          <div class="table-inner" *ngFor="let item of ['']">
+            <div class="table-inner__row">
+              <div class="table-inner__col"></div>
+              <div class="table-inner__col">Clínica Dávila</div>
+              <div class="table-inner__col"></div>
+              <div class="table-inner__col" style="justify-content: center;">12</div>
+              <div class="table-inner__col" style="justify-content: center;">$120.000</div>
+              <div class="table-inner__col" style="justify-content: center;">
+                <span class="status" [ngClass]="{'done': false}">
+                  <fa-icon [icon]="false ? faCircleDot : faCircle" class="me-2"></fa-icon>
+                  {{ false ? 'Pagado' : 'Pendiente' }}
+                </span>
+              </div>
+              <div class="table-inner__col">
+                <button
+                  type="button"
+                  (click)="toggleBillModal()"
+                  class="btn btn-outline-dark btn-mid">
+                    Detalles
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

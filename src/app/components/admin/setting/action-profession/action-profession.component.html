@@ -1,0 +1,52 @@
+<div class="modal fade" [ngClass]="{'show d-block': show}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="dismissAction()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-2">
+
+          <div class="animate__animated animate__fadeIn" *ngIf="!loading && !completed">
+            <div class="row justify-content-center">
+              <div class="col-9 text-center">
+                <div class="d-flex justify-content-center mb-3" *ngIf="action === 'eliminar'">
+                  <img src="assets/svg/icon-warning.svg" class="me-3 highlight" alt="icono alerta">
+                </div>
+                <h4 class="d-flex align-items-center justify-content-center">
+                  <img src="assets/svg/icon-warning.svg" class="me-3" alt="icono alerta" *ngIf="action !== 'eliminar'">
+                   {{ action | i18nSelect:actionMap | titlecase }} Profesión
+                </h4>
+                <p [ngClass]="{'mb-1': action === 'eliminar'}" >¿Estás seguro de que quieres {{ action | i18nSelect:actionMap }} la profesión seleccionada?</p>
+                <p style="font-size: 12px; padding: 0 1em; margin-bottom: 2em;" *ngIf="action === 'eliminar'">Esto significa que no volverá a aparecer en el registro de la App, limitando las opciones de búsqueda a los usuarios.</p>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-10">
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="dismissAction()">Volver</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm" (click)="triggerAction( action )">{{ action | i18nSelect:actionMap | titlecase }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <app-loader class="d-flex justify-content-center align-items-center py-5" *ngIf="loading"></app-loader>
+
+          <div class="animate__animated animate__fadeIn" *ngIf="!loading && completed">
+            <div class="d-flex justify-content-center mb-3" *ngIf="action === 'eliminar'">
+              <img src="assets/svg/icon-success.svg" width="120" alt="icono alerta">
+            </div>
+            <h4 class="d-flex align-items-center justify-content-center">
+              <img src="assets/svg/icon-warning.svg" class="me-3" alt="icono alerta" *ngIf="action !== 'activar' && action !== 'eliminar'">
+              <img src="assets/svg/icon-circle-check.svg" class="me-3" alt="icono alerta" *ngIf="action === 'activar'">
+              Profesión {{ action | i18nSelect:actionResp }}
+            </h4>
+            <div class="text-center mt-5">
+              <button type="button" class="btn btn-primary btn-sm" (click)="dismissAction()">Volver</button>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>

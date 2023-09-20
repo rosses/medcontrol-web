@@ -1,0 +1,24 @@
+.pincode-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: .5em;
+  margin-bottom: 1em;
+  input {
+    &[type=text] {
+      width: 1.75em;
+      font-size: 1.2em;
+      line-height: 2em;
+      border-radius: 5px;
+      background-color: #F8F8FD;
+      text-align: center;
+      border: 1px solid #142748;
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+    }
+  }
+}

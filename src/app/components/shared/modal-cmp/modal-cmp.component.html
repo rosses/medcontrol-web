@@ -1,0 +1,22 @@
+<div class="modal fade" [ngClass]="{'show d-block': toggle}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4">
+      <div class="modal-header" *ngIf="close || title != ''">
+        <h5
+          class="modal-title">
+            {{ title }}
+        </h5>
+        <button
+          type="button"
+          *ngIf="close"
+          (click)="closeModal()"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+.menu-sidebar-wrapper {
+  background-color: rgba($color: #ffffff, $alpha: 1.0);
+  box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 20px 0px 0px;
+  width: 70px;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all .15s ease-in-out;
+  .close-menu {
+    color: #C5C5C5;
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    transition: all 0.25s linear;
+    justify-content: center;
+    opacity: 0;
+  }
+  .menu-sidebar-header {
+    width: 100%;
+    height: 65px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    button {
+      flex-basis: 70px;
+      width: 70;
+      background: rgba($color: #000000, $alpha: 0);
+      border: 0;
+    }
+  }
+  .menu-sidebar-content {
+    width: 100%;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 2em 0 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      li {
+        width: 100%;
+        display: flex;
+        // justify-content: center;
+        align-items: center;
+        button {
+          height: 60px;
+          flex-grow: 1;
+          border-radius: 0;
+          border: 0;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 0;
+          white-space: nowrap;
+          color: #4F5B67;
+          text-decoration: none;
+          &:hover,
+          &.active {
+            color: #ffffff;
+            background-color: #142748;
+          }
+          .icon {
+            width: 70px;
+            display: flex;
+            flex-shrink: 0;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+  }
+  .menu-footer {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    opacity: 0;
+    padding: 0 1em;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 1px solid #f1f1f1;
+    transition: all 0.25s linear;
+    button {
+      border: 0;
+      white-space: nowrap;
+    }
+  }
+  &.open {
+    width: 250px;
+    transition: all .15s ease-in-out;
+    .close-menu {
+      transition: all .15s ease-in-out;
+      opacity: 1;
+    }
+    .menu-footer {
+      opacity: 1;
+      transition: all 0.25s linear;
+    }
+  }
+}

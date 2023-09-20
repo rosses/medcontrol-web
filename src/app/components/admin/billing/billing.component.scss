@@ -1,0 +1,22 @@
+.status {
+  font-size: 0.9em;
+  &.done {
+    color: #07b2c5;
+  }
+}
+.btn-link {
+  color: #828282;
+}
+.fixed-col {
+  text-align: center;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 0;
+}
+.table-wrapper {
+  max-height: 350px;
+  margin-bottom: 2em;
+  overflow: scroll;
+  scrollbar-color: #142748 #EAECEF;
+}

@@ -1,0 +1,31 @@
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<h3>Iniciar sesión</h3>
+<p class="mb-4">Por favor ingrese sus datos para ingresar a la cuenta.</p>
+
+<div class="field-control">
+  <label for="" class="form-label">Email</label>
+  <input type="email" class="form-control" id="" placeholder="Ingrese su email" [(ngModel)]="userData.email" [disabled]="loading">
+</div>
+<div class="field-control mb-2">
+  <label for="" class="form-label">Contraseña</label>
+  <div class="suffix-wrapper">
+    <input [type]="hide ? 'password' : 'text'" class="form-control" id="" placeholder="Ingrese su contraseña" [(ngModel)]="userData.password" [disabled]="loading" (keypress)="enterBtn($event)">
+    <button class="icon" (click)="hide = !hide">
+      <fa-icon *ngIf="hide" [icon]="faEye"></fa-icon>
+      <fa-icon *ngIf="!hide" [icon]="faEyeSlash"></fa-icon>
+    </button>
+  </div>
+</div>
+
+<p class="text-end mb-5">
+  <!--<a [routerLink]="['/password-recovery']">Olvidé mi contraseña</a>-->
+</p>
+
+
+<button
+  type="button"
+  (click)="login()"
+  class="btn btn-primary btn-cmp w-100">Iniciar sesión</button>

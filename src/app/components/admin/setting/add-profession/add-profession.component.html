@@ -1,0 +1,63 @@
+<div class="modal fade" [ngClass]="{'show d-block': show}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown animate__faster" style="min-width: 650px;">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0 bg-primary">
+        <h5 class="modal-title text-white" *ngIf="edit">Editar Profesión</h5>
+        <h5 class="modal-title text-white" *ngIf="!edit">Agregar Profesión</h5>
+        <button type="button" class="btn btn-link text-white" (click)="close()">
+          <fa-icon [icon]="faXmark" size="lg"></fa-icon>
+      </button>
+      </div>
+      <div class="modal-body py-4">
+
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <form #formProfession="ngForm" (ngSubmit)="addProfession()">
+              <div class="field-control">
+                <label class="form-label">Nombre Profesión</label>
+                <div class="input-group mb-3">
+                  <input [disabled]="edit && !editable" type="text" class="form-control border-end-0" placeholder="Ingrese nombre" name="name" [(ngModel)]="job.name">
+                  <!-- <span *ngIf="edit && !editable" (click)="editable = true"   class="input-group-text border-start-0">
+                      <img src="assets/svg/icon-edit.svg" alt="icono editar">
+                  </span> -->
+                </div>
+              </div>
+              <div class="field-control mb-3" *ngIf="!edit || editable">
+                <label class="form-label">¿Requiere registro en superitendencia?</label>
+                <p style="font-size: 12px;">* Registro de Superintendencia de Salud</p>
+                <div>
+                  <app-radio-btn name="data-required" [value]="true" [(ngModel)]="job.skippable" [radioChecked]="true">Sí</app-radio-btn>
+                  <app-radio-btn name="data-required" [value]="false" [(ngModel)]="job.skippable">No</app-radio-btn>
+                </div>
+              </div>
+
+              <div class="field-control mb-3" *ngIf="!edit || editable">
+                <label class="form-label">¿Requiere ingreso de vacunas y/o anticuperpos?</label>
+                <p style="font-size: 12px;">* Registro de carnet de vacunas y/u otros.</p>
+                <div>
+                  <app-radio-btn name="data-required2" [value]="true" [(ngModel)]="job.requireVacunas" [radioChecked]="true">Sí</app-radio-btn>
+                  <app-radio-btn name="data-required2" [value]="false" [(ngModel)]="job.requireVacunas">No</app-radio-btn>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-center gap-3 px-5">
+                <button type="button" (click)="close()" class="btn btn-outline-primary w-50">Volver</button>
+                <button *ngIf="!edit" type="submit" [disabled]="job.name==''" class="btn btn-primary w-50">Agregar</button>
+                <button *ngIf="edit && editable" [disabled]="job.name==''" type="submit" class="btn btn-primary w-50">Editar</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-4">
+            <div>
+              <label class="form-label"><b>Unidades</b></label>
+              <div class="box_units mb-4">
+                <div class="d-block mb-2" *ngFor="let u of units; let i = index;"><input type="checkbox" [checked]="meIschecked(u)" [value]="u.id" (click)="changeUnitOfProfession(u)" /> {{u.name}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

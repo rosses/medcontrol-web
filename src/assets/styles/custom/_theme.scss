@@ -1,0 +1,22 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+$primary: #142748;
+$primary-light: #1473E6;
+// $primary-dark: #089BAB;
+// $secondary: #FFBD76;
+// $tertiary: #025162;
+
+$theme-colors:map-merge($theme-colors, (
+  "primary": $primary,
+  "primary-light": $primary-light,
+  // "secondary": $secondary,
+  // "tertiary": $tertiary,
+  // "primary-dark": $primary-dark
+));
+
+$body-color: #727D91;
+$headings-color: $primary;
+
+@import "~bootstrap/scss/bootstrap";

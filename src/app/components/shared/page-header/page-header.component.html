@@ -1,0 +1,14 @@
+<div class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h5 class="fw-normal mb-0">Hola {{ userName }},</h5>
+        <p class="mb-0">{{ info }}</p>
+      </div>
+      <div class="col text-end">
+        <p class="mb-0">{{ today | date:'dd \'de\' MMMM \',\' YYYY' }}</p>
+        <p class="mb-0">{{ today | date:'hh:mm a' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="menu-sidebar-wrapper" [ngClass]="{'open': open}">
+<!--   <button type="button" class="btn btn-link close-menu" *ngIf="open" (click)="toggleMenu(false)">
+    <fa-icon [icon]="faXmark"></fa-icon>
+  </button> -->
+  <div class="menu-sidebar-header">
+    <!--
+    <button class="btn-opener" (click)="toggleMenu(open = !open)">
+      <img src="assets/svg/icon-bars.svg" alt="">
+    </button>
+    -->
+  </div>
+  <div class="menu-sidebar-content">
+    <ul>
+      <li *ngFor="let item of adminMenu; let indice = index">
+        <button
+          class="btn btn-link"
+          [routerLink]="[ item.url ]"
+          routerLinkActive="active">
+            <span class="icon"><img src="{{'assets/svg/' + item.icon + '.svg'}}" alt="icono"></span>
+            <span *ngIf="open">{{ item.name }}</span>
+        </button>
+      </li>
+    </ul>
+    <div class="menu-footer">
+      <button
+        type="button"
+        class="btn btn-primary btn-sm text-white"
+        (click)="logOut()">
+          Cerrar sesión
+      </button>
+    </div>
+  </div>
+</div>

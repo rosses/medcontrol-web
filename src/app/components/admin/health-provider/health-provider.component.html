@@ -1,0 +1,88 @@
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<div class="modal fade" [ngClass]="{'show d-block': modalProvider}" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4 overflow-hidden">
+      <app-add-provider
+        [data]="selCustomer"
+        [onEditProvider]="editProvider"
+        (onAddProvider)="filltable()"
+        (onCloseModal)="toggleModalProvider('close')"></app-add-provider>
+    </div>
+  </div>
+</div>
+
+<app-action-provider
+  [items]="selCustomers"
+  [show]="modalAction"
+  [action]="actionProvider"
+  (onDismiss)="dismissAction()"></app-action-provider>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+  <div class="container">
+
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <h5>Prestadores de salud</h5>
+      </div>
+      <div class="col d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-dark btn-mid" (click)="triggerAction('eliminar')" [disabled]="selCustomers.length == 0">
+            Eliminar
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+        <div class="table-cmp table-cmp--selectable">
+          <div class="table-cmp__header">
+            <div class="table-cmp__row">
+              <div class="table-cmp__col"></div>
+              <div class="table-cmp__col">Prestador de salud</div>
+              <div class="table-cmp__col" style="flex-grow: .5;">Rut</div>
+              <div class="table-cmp__col text-center">Administradores</div>
+              <div class="table-cmp__col text-center" style="flex-grow: .25;">Código</div>
+              <div class="table-cmp__col text-center">Información</div>
+            </div>
+          </div>
+
+          <div class="table-cmp__body">
+            <div class="table-cmp__row text-center" *ngIf="dataTable.length == 0">Sin prestadores de salud en sistema</div>
+            <div class="table-cmp__row" *ngFor="let item of dataTable">
+              <div class="table-cmp__col">
+                <app-checkbox-cmp (toggle)="toggleListItem($event, item._id)"></app-checkbox-cmp>
+              </div>
+              <div class="table-cmp__col"> {{ item.name }} </div>
+              <div class="table-cmp__col" style="flex-grow: .5;"> {{ item.rut }} </div>
+              <div class="table-cmp__col text-center"> {{ item.admin?.length }} </div>
+              <div class="table-cmp__col text-center" style="flex-grow: .25;"> {{ item.accesscode }} </div>
+              <div class="table-cmp__col text-center">
+                <button
+                  type="button"
+                  (click)="toggleModalProvider('edit', item._id)"
+                  class="btn btn-outline-dark btn-mid">
+                    Detalles
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col text-center">
+        <button
+          class="btn btn-primary btn-sm px-3 py-2 rounded-3"
+          (click)="toggleModalProvider('add')">
+            Agregar Prestador
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,83 @@
+.table-cmp {
+  &--setting {
+    .table-cmp__row {
+      padding: 0 5em;
+      .table-cmp__col {
+         overflow: hidden;
+         text-overflow: ellipsis;
+         width: 100%;
+         white-space: nowrap;
+      }
+    }
+    .table-cmp__nopadding {
+      padding: 0 1em;
+    }
+  }
+}
+
+.checkbox-wrapper {
+  display: inline-flex;
+  height: .75em;
+}
+
+
+ul {
+  &.actions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: end;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    li {
+      cursor: pointer;
+    }
+  }
+}
+
+.toggle {
+  input[type=checkbox]{
+      height: 0;
+      width: 0;
+      visibility: hidden;
+      display:none;
+  }
+  
+  label {
+      cursor: pointer;
+      text-indent: -9999px;
+      width: 50px;
+      height: 20px;
+      background: grey;
+      display: block;
+      border-radius: 20px;
+      position: relative;
+  }
+  
+  label:after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 10px;
+      transition: 0.3s;
+  }
+  
+  input:checked + label {
+      background: #5178DB;
+  }
+  
+  input:checked + label:after {
+      left: calc(100% - 5px);
+      transform: translateX(-100%);
+  }
+  
+  label:active:after {
+      width: 45px;
+  }
+}

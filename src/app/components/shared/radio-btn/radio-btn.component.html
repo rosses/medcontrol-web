@@ -1,0 +1,11 @@
+<div class="radio-cmp" (click)="toggleState(radioField)">
+  <label><ng-content></ng-content></label>
+  
+  <input 
+  type="radio" 
+  #radioField name="{{name}}" 
+  [checked]="radioField.checked || radioChecked? 'checked' : ''" 
+  [value]="value">
+  
+  <fa-icon [ngStyle]="{'color': radioField.checked ? '#07B2C5' : ''}" [icon]="radioField.checked ? faCircleDot : faCircle"></fa-icon>
+</div>

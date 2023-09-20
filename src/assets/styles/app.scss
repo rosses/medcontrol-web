@@ -1,0 +1,11 @@
+@import './custom/theme';
+@import './custom/table-cmp';
+@import './custom/generic';
+@import 'animate.css';
+
+.btn {
+    --bs-btn-disabled-opacity: 0.2 !important;
+}
+.pac-container {
+    z-index: 10000000 !important;
+}

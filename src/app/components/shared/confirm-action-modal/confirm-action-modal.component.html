@@ -1,0 +1,51 @@
+
+<div class="modal fade" [ngClass]="{'show d-block': show}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="dismiss()"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="animate__animated animate__fadeIn" *ngIf="!completed && !loading">
+          <div class="row justify-content-center">
+            <div class="col-9 text-center">
+              <h4 class="d-flex align-items-center justify-content-center">
+                <img src="assets/svg/icon-warning.svg" class="me-3" alt="icono alerta"> {{ action | titlecase }} Prestador
+              </h4>
+              <p>¿Estas seguro de que quieres {{ action }} al prestador seleccionado?</p>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-10">
+              <div class="d-flex justify-content-between">
+                <button type="button" style="width: 150px;" class="btn btn-primary btn-sm" (click)="confirm(false)">Volver</button>
+                <button type="button" style="width: 150px;" class="btn btn-outline-primary btn-sm" (click)="confirm(true)">{{ action | titlecase }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center py-5 animate__animated animate__fadeIn" *ngIf="loading">
+          <app-loader></app-loader>
+        </div>
+
+        <div class="animate__animated animate__fadeIn" *ngIf="completed && !loading">
+          <h4 class="d-flex align-items-center justify-content-center">
+            <img src="assets/svg/icon-warning.svg" class="me-3" alt="icono alerta"> Prestador {{ actionEffect }}
+          </h4>
+          <div class="text-center mt-5">
+            <button type="button" class="btn btn-primary btn-cmp" (click)="dismiss()">Volver</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

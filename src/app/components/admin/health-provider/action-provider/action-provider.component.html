@@ -1,0 +1,45 @@
+<div class="modal fade" [ngClass]="{'show d-block': show}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="dismissAction()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-2">
+
+          <div class="animate__animated animate__fadeIn" *ngIf="!loading && !completed">
+            <div class="row justify-content-center">
+              <div class="col-9 text-center">
+                <h4 class="d-flex align-items-center justify-content-center">
+                  <img src="assets/svg/icon-warning.svg" class="me-3" alt="icono alerta">
+                   {{ action | i18nSelect:actionMap | titlecase }} Prestador
+                </h4>
+                <p>¿Estas seguro de que quieres {{ action | i18nSelect:actionMap }} al prestador seleccionado?</p>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-10">
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="dismissAction()">Volver</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm" (click)="triggerAction( action )">{{ action | i18nSelect:actionMap | titlecase }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <app-loader class="d-flex justify-content-center align-items-center py-5" *ngIf="loading"></app-loader>
+
+          <div class="animate__animated animate__fadeIn" *ngIf="!loading && completed">
+            <h4 class="d-flex align-items-center justify-content-center">
+              <img src="assets/svg/icon-warning.svg" class="me-3" alt="icono alerta" *ngIf="action !== 'activar'">
+              <img src="assets/svg/icon-circle-check.svg" class="me-3" alt="icono alerta" *ngIf="action === 'activar'">
+              Prestador {{ action | i18nSelect:actionResp }}
+            </h4>
+            <div class="text-center mt-5">
+              <button type="button" class="btn btn-primary btn-sm" (click)="dismissAction()">Volver</button>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>

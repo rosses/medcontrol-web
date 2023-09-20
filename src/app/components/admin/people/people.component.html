@@ -1,0 +1,116 @@
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+
+  <div class="container">
+
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <h5>Pacientes</h5>
+        <button class="btn btn-sm btn-success">nuevo paciente</button>
+      </div>
+      <div class="col-2 text-end">
+        <input type="text" class="form-control" placeholder="Rut / Nombre" (ngModelChange)="filterbox()" [(ngModel)]="filter.search" />
+      </div>
+      <div class="col-2 text-end">
+        <select class="form-control" [(ngModel)]="filter.prevision">
+          <option value="">Previsión (todas)</option>
+          <option value="">Fonasa</option>
+          <option value="">Colmena</option>
+          <option value="">Vida Tres</option>
+          <option value="">Consalud</option>
+          <option value="">Banmedica</option>
+        </select>
+      </div>
+      <div class="col-2 text-end">
+        <select class="form-control" [(ngModel)]="filter.stage">
+          <option value="">Etapa (todas)</option>
+          <option value="">Consultas</option>
+          <option value="">Preoperatorio</option>
+          <option value="">Operatorio</option>
+          <option value="">Postoperatorio</option>
+        </select>
+      </div>
+      <div class="col-1 text-end">
+        <button class="btn btn-primary">Filtrar</button>
+      </div>
+    </div> 
+
+    <div class="row">
+      <div class="col">
+
+        <div class="table-cmp table-cmp--toggable">
+          <div class="table-cmp__header">
+            <div class="table-cmp__row">
+              <div class="table-cmp__col"></div>
+              <div class="table-cmp__col">Rut</div>
+              <div class="table-cmp__col">Nombre</div>
+              <div class="table-cmp__col">Previsión</div>
+              <div class="table-cmp__col">Etapa</div>
+            </div>
+          </div>
+
+          <div class="table-cmp__body">
+            <div class="table-cmp__toggable-row" *ngIf="peoples.length == 0">
+              <div class="row">
+                <div class="col-12 text-center mt-3 mb-3">Sin pacientes</div>
+              </div>
+            </div>
+            <div class="table-cmp__toggable-row" *ngFor="let item of peoples" [ngClass]="{'open': item.open}">
+              <div class="table-cmp__row">
+                <div class="table-cmp__col"></div>
+                <div class="table-cmp__col">{{item.name}}</div>
+                <div class="table-cmp__col">{{item.rut}}</div>
+                <div class="table-cmp__col">{{item.admin?.length}}</div>
+                <div class="table-cmp__col">
+                  <button *ngIf="item.admin.length" type="button" class="btn btn-link" (click)="item.open = !item.open">
+                    <fa-icon [icon]="!item.open ? faAngleDown : faAngleUp"></fa-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="table-inner" *ngFor="let user of item.admin">
+                <div class="table-inner__row">
+                  <div class="table-inner__col"></div>
+                  <div class="table-inner__col">
+                    <img src="assets/svg/icon-user.svg" class="me-2" alt="icono usuario">
+                    {{user.name}} {{user.lastname}}
+                  </div>
+                  <div class="table-inner__col">
+                    <img src="assets/svg/icon-mail.svg" class="me-2" alt="icono correo">
+                    {{user.email}}
+                  </div>
+                  <div class="table-inner__col">
+                    <img src="assets/svg/icon-calendar.svg" class="me-2" alt="icono calendario">
+                    Fecha Ingreso: {{user.createdAt | date}}
+                  </div>
+                  <div class="table-inner__col">
+
+                    <ul class="actions">
+                      <li (click)="toggleShareModal(true, user.authcode)">
+                        <img src="assets/svg/icon-share.svg" alt="icono ">
+                      </li>
+                      <!-- <li (click)="1+1">
+                        <img src="assets/svg/icon-circle-x.svg" alt="icono ">
+                      </li> -->
+                    <!--   <li (click)="1+1">
+                        <img src="assets/svg/icon-circle-check.svg" alt="icono ">
+                      </li> -->
+                    </ul>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

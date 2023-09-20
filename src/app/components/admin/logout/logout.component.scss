@@ -1,0 +1,32 @@
+.table-cmp {
+  &--setting {
+    .table-cmp__row {
+      padding: 0 5em;
+      // .table-cmp__col {
+      //   border: 1px solid red;
+      // }
+    }
+  }
+}
+
+.checkbox-wrapper {
+  display: inline-flex;
+  height: .75em;
+}
+
+
+ul {
+  &.actions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: end;
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+    li {
+      cursor: pointer;
+    }
+  }
+}

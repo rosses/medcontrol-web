@@ -1,0 +1,37 @@
+.add-provider-wrapper {
+  height: 575px;
+}
+.form-label {
+  color: red;
+  color: #727D91;
+  font-weight: 600;
+  font-size: 1.15em;
+}
+.load-img-list {
+  border-top: 1px solid #D0D0D0;
+  padding: 0;
+  list-style: none;
+  li {
+    border-bottom: 1px solid #D0D0D0;
+    padding: .25em 1em;
+  }
+}
+.btn-upload {
+  position: relative;
+  input {
+    cursor: pointer;
+    &[type=file] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border: 1px solid red;
+      opacity: 0;
+    }
+  }
+}
+
+fa-icon{
+  cursor: pointer
+}

@@ -1,0 +1,12 @@
+.modal-body {
+  button {
+    width: 150px;
+  }
+}
+img {
+  &.highlight {
+    width: 55px;
+    display: block;
+    text-align: center;
+  }
+}

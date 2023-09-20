@@ -1,0 +1,182 @@
+<div class="modal-header bg-primary px-5">
+  <h5 class="modal-title text-white">
+    {{!onEditProvider ? 'Ingreso nuevo Prestador' : 'Editar prestador'}}
+  </h5>
+  <button
+    type="button"
+    *ngIf="true"
+    (click)="closeModal()"
+    class="btn btn-link text-white">
+      <fa-icon [icon]="faXmark" size="lg"></fa-icon>
+  </button>
+</div>
+<div class="modal-body px-5">
+
+  <div class="add-provider-wrapper">
+
+    <ng-container *ngIf="!loading; else loadingTemplate">
+
+      <div class="h-100 animate__animated animate__fadeIn" *ngIf="!providerAdded">
+
+        <div class="row py-3 h-100 align-items-center">
+          <div class="col">
+
+              <form action="">
+                <div class="row">
+                  <div class="col">
+
+                    <div class="field-control mb-3 mt-4">
+                      <label class="form-label" for="name-customer">Prestador de Salud (*)</label>
+                      <input class="form-control" type="text" name="name" id="name-customer" placeholder="Nombre prestador de salud" [(ngModel)]="data.name">
+                    </div>
+                    <div class="field-control mb-3">
+                      <label class="form-label">Rut Prestador (*)</label>
+                      <input type="text" class="form-control" placeholder="11.111.111-k" [(ngModel)]="data.rut" name="rut" (input)="inputEvent($event)">
+                    </div>
+                    <div class="field-control mb-3">
+                      <label class="form-label">Reseña</label>
+                      <textarea class="form-control" rows="9" [(ngModel)]="data.review" name="review"></textarea>
+                    </div>
+
+                  </div>
+                  <div class="col">
+
+                    <p style="font-size: 1.15em; color: #727D91; font-weight: 600;">Sube 2 imagenes y el logo </p>
+                    <ul class="load-img-list">
+
+                      <li>
+                        <div class="row align-items-center">
+                          <label for="inputPassword" class="col-sm-4 col-form-label form-label mb-0">Logo (*): </label>
+                          <div class="col-sm-6 text-center">
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-4 btn-upload">
+                              <input type="file" name="logoFile" (change)="uploadFile( $event )">
+                              <fa-icon [icon]="faArrowUpFromBracket" class="me-2"></fa-icon> Subir imagen
+                            </button>
+                          </div>
+                          <div class="col-2 text-end">
+                            <fa-icon [icon]="faCircleCheck" class="text-success me-2" size="lg" *ngIf="data.logo != ''" (click)="openImage(data.logo)"></fa-icon>
+                            <fa-icon [icon]="faCircleXmark" class="text-danger" size="lg" *ngIf="data.logo != ''" (click)="deleteImageUrl('logo')"></fa-icon>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row align-items-center">
+                          <label for="inputPassword" class="col-sm-4 col-form-label form-label mb-0">Imagen 1 (*): </label>
+                          <div class="col-sm-6 text-center">
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-4 btn-upload">
+                              <input type="file" name="providerImg1" (change)="uploadFile( $event )">
+                              <fa-icon [icon]="faArrowUpFromBracket" class="me-2"></fa-icon> Subir imagen
+                            </button>
+                          </div>
+                          <div class="col-2 text-end">
+                            <fa-icon [icon]="faCircleCheck" class="text-success me-2" size="lg" *ngIf="data.image1 != ''" (click)="openImage(data.image1)"></fa-icon>
+                            <fa-icon [icon]="faCircleXmark" class="text-danger" size="lg" *ngIf="data.image1 != ''" (click)="deleteImageUrl('image1')"></fa-icon>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row align-items-center">
+                          <label for="inputPassword" class="col-sm-4 col-form-label form-label mb-0">Imagen 2: </label>
+                          <div class="col-sm-6 text-center">
+                            <button type="button" class="btn btn-outline-secondary btn-sm px-4 btn-upload">
+                              <input type="file" name="providerImg2" (change)="uploadFile( $event )">
+                              <fa-icon [icon]="faArrowUpFromBracket" class="me-2"></fa-icon> Subir imagen
+                            </button>
+                          </div>
+                          <div class="col-2 text-end">
+                            <fa-icon [icon]="faCircleCheck" class="text-success me-2" size="lg" *ngIf="data.image2 != ''" (click)="openImage(data.image2)"></fa-icon>
+                            <fa-icon [icon]="faCircleXmark" class="text-danger" size="lg" *ngIf="data.image2 != ''" (click)="deleteImageUrl('image2')"></fa-icon>
+                          </div>
+                        </div>
+                      </li>
+
+                    </ul>
+
+                    <div class="field-control mb-3">
+                      <label class="form-label">Dirección Principal</label>
+                      <input type="text" class="form-control" [(ngModel)]="data.address" name="address" [options]="mapOptions" ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)" />
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="field-control mb-3">
+                          <label class="form-label">Comuna</label>
+                          <input type="text" class="form-control" readonly [(ngModel)]="data.county" name="county" />
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="field-control mb-3">
+                          <label class="form-label">Región</label>
+                          <input type="text" class="form-control" readonly [(ngModel)]="data.state" name="state" />
+                        </div>                        
+                      </div>
+                    </div>
+
+                    <div class="field-control mb-3">
+                      <label class="form-label">Email Administrador</label>
+                      <input type="text" class="form-control" placeholder="Ingrese email del administrador" [(ngModel)]="data.email" name="email">
+                    </div>
+
+                    <div class="field-control mb-3">
+                      <label class="form-label">Sitio Web</label>
+                      <input type="text" class="form-control" placeholder="Ingrese sitio web del prestador" [(ngModel)]="data.website" name="website">
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="!onEditProvider">
+                  <div class="col text-center">
+                    <button (click)="addProvider()" type="button" class="btn btn-primary px-5">Añadir Prestador</button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="onEditProvider">
+                  <div class="col-6"></div>
+                  <div class="col-6">
+                    <div class="d-flex">
+                      <button type="button" class="btn btn-primary px-5 flex-grow-1 me-3" (click)="closeModal()">Volver</button>
+                      <button type="button" class="btn btn-outline-primary px-5 flex-grow-1" (click)="editProvider()">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="h-100 animate__animated animate__fadeIn" *ngIf="providerAdded">
+
+        <div class="row h-100">
+          <div class="col align-self-center">
+
+              <div class="text-center">
+                <h6 class="mb-0">Muchas gracias</h6>
+                <p>Hemos generado un código de acceso</p>
+
+                <app-pin-code [code]="data.accesscode"></app-pin-code>
+
+                <p class="mb-5">Ahora podrás usarlo para<br/> ingresar desde nuestro sitio.</p>
+                <button
+                  type="button"
+                  (click)="closeModal()"
+                  class="btn btn-primary w-25">
+                    Finalizar
+                </button>
+              </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="d-flex justify-content-center align-items-center h-100" *ngIf="loading"><app-loader></app-loader></div>
+    </ng-template>
+
+  </div>
+</div>

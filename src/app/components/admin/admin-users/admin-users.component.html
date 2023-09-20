@@ -1,0 +1,117 @@
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<div class="modal fade" [ngClass]="{'show d-block': shareCodeModal}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeInDown animate__faster">
+    <div class="modal-content rounded-4">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="toggleShareModal(false)"></button>
+      </div>
+      <div class="modal-body text-center">
+
+        <ng-container *ngIf="!codeShared; else elseTemplate">
+          <div class="animate__animated animate__fadeIn">
+            <h5>Compartir código por email</h5>
+            <div class="my-4">
+              <app-pin-code [code]="selCode"></app-pin-code>
+            </div>
+            <p>Enviaremos el código de acceso al<br/> correo añadido del usuario</p>
+            <button type="button" class="btn btn-primary btn-cmp w-50 mt-4 mb-3" (click)="codeShared = !codeShared">Enviar Correo</button>
+          </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <div class="animate__animated animate__fadeIn">
+            <img src="assets/svg/icon-success.svg" alt="">
+            <h5>Código enviado</h5>
+            <button type="button" class="btn btn-primary btn-cmp w-50 mt-4 mb-3" (click)="toggleShareModal(false)">Aceptar</button>
+          </div>
+        </ng-template>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+
+  <div class="container">
+
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <h5>Administradores</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+        <div class="table-cmp table-cmp--toggable">
+          <div class="table-cmp__header">
+            <div class="table-cmp__row">
+              <div class="table-cmp__col"></div>
+              <div class="table-cmp__col">Prestador de salud</div>
+              <div class="table-cmp__col">Rut</div>
+              <div class="table-cmp__col">Administradores</div>
+              <div class="table-cmp__col">Información</div>
+            </div>
+          </div>
+
+          <div class="table-cmp__body">
+            <div class="table-cmp__toggable-row" *ngFor="let item of adminList" [ngClass]="{'open': item.open}">
+              <div class="table-cmp__row">
+                <div class="table-cmp__col"></div>
+                <div class="table-cmp__col">{{item.name}}</div>
+                <div class="table-cmp__col">{{item.rut}}</div>
+                <div class="table-cmp__col">{{item.admin?.length}}</div>
+                <div class="table-cmp__col">
+                  <button *ngIf="item.admin.length" type="button" class="btn btn-link" (click)="item.open = !item.open">
+                    <fa-icon [icon]="!item.open ? faAngleDown : faAngleUp"></fa-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="table-inner" *ngFor="let user of item.admin">
+                <div class="table-inner__row">
+                  <div class="table-inner__col"></div>
+                  <div class="table-inner__col">
+                    <img src="assets/svg/icon-user.svg" class="me-2" alt="icono usuario">
+                    {{user.name}} {{user.lastname}}
+                  </div>
+                  <div class="table-inner__col">
+                    <img src="assets/svg/icon-mail.svg" class="me-2" alt="icono correo">
+                    {{user.email}}
+                  </div>
+                  <div class="table-inner__col">
+                    <img src="assets/svg/icon-calendar.svg" class="me-2" alt="icono calendario">
+                    Fecha Ingreso: {{user.createdAt | date}}
+                  </div>
+                  <div class="table-inner__col">
+
+                    <ul class="actions">
+                      <li (click)="toggleShareModal(true, user.authcode)">
+                        <img src="assets/svg/icon-share.svg" alt="icono ">
+                      </li>
+                      <!-- <li (click)="1+1">
+                        <img src="assets/svg/icon-circle-x.svg" alt="icono ">
+                      </li> -->
+                    <!--   <li (click)="1+1">
+                        <img src="assets/svg/icon-circle-check.svg" alt="icono ">
+                      </li> -->
+                    </ul>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,83 @@
+ 
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+  <div class="container">
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <h5>Registro de Superintendencia</h5>
+      </div>
+      <div class="col-3">
+        <input type="text" class="form-control" placeholder="Buscar..." (ngModelChange)="filterbox()" [(ngModel)]="search" />
+      </div>
+    </div> 
+
+    <div class="row justify-content-center px-0">
+      <div class="col-12">
+
+        <div class="table-cmp table-cmp--setting">
+          <div class="table-cmp__header">
+            <div class="table-cmp__row table-cmp__nopadding" style="margin-right:20px;">
+              <div class="table-cmp__col" style="max-width:45px;">Auto.</div> 
+              <div class="table-cmp__col">RUT</div> 
+              <div class="table-cmp__col">Nombre</div> 
+              <div class="table-cmp__col">Email</div> 
+              <div class="table-cmp__col">Celular</div> 
+              <div class="table-cmp__col">Fecha Registro</div>
+              <div class="table-cmp__col">Profesión</div>
+              <div class="table-cmp__col">Reg. Superint.</div> 
+              <div class="table-cmp__col">Adjuntos</div> 
+              <div class="table-cmp__col">Reg. Validado</div>
+            </div>
+          </div>
+          <div class="table-cmp__body" style="overflow-y: auto; max-height: 60vh;">
+            <div class="table-cmp__toggable-row" *ngFor="let p of peoples; let i = index;">
+              <div class="table-cmp__row table-cmp__nopadding">
+                <div class="table-cmp__col" style="max-width:45px;">
+                  <fa-icon [icon]="p.autocheck ? faCheckCircle : faTimesCircle"></fa-icon>
+                </div> 
+                <div class="table-cmp__col" title="{{p?.rut}}">
+                  {{p?.rut}}
+                </div> 
+                <div class="table-cmp__col" title="{{p?.name}} {{p?.lastname}}">
+                  {{p?.name}} {{p?.lastname}}
+                </div> 
+                <div class="table-cmp__col" title="{{p?.email}}">
+                  {{p?.email}}
+                </div> 
+                <div class="table-cmp__col" title="{{p?.phone}}">
+                  {{p?.phone}}
+                </div> 
+                <div class="table-cmp__col">
+                  {{p.createdAt | date: 'dd/MM/yy'}}
+                </div>
+                <div class="table-cmp__col" title="{{getPro(p?.profession)}}">
+                  {{getPro(p?.profession)}}
+                </div>
+                <div class="table-cmp__col">
+                  {{p?.registroSuperintendencia}}&nbsp;
+                </div>
+                <div class="table-cmp__col">
+                  <a [href]="z.url" class="mx-1" target="_blank" *ngFor="let z of p.registroUrl; let i = index;">{{(i+1)}}</a>
+                </div>
+                <div class="table-cmp__col">
+                  <div class="toggle">
+                    <input type="checkbox" id="switch_{{i}}" name="switch_{{i}}" (change)="changeActivation(i)" [(ngModel)]="p.registroValidado" /><label for="switch_{{i}}">Toggle</label>
+                  </div> 
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div> 
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

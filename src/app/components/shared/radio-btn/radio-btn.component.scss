@@ -1,0 +1,14 @@
+.radio-cmp {
+  display: inline-flex;
+  padding: 1em;
+  cursor: pointer;
+  label {
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+  }
+  input {
+    z-index: -1;
+    opacity: 0;
+  }
+}
