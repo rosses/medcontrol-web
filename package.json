@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:digitalocean": "npm install --force --production=true && npm run build && npm ci"
   },
   "private": true,
   "dependencies": {
