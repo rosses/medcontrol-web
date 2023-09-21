@@ -8,7 +8,7 @@ import { ApiService } from 'src/app/api.service';
 })
 export class PageHeaderComponent implements OnInit {
 
-  @Input() userName: string = 'userName';
+  @Input() userName: string = '';
   @Input() info: string = 'Info';
 
   today: number = Date.now();
@@ -19,7 +19,7 @@ export class PageHeaderComponent implements OnInit {
   constructor(public api: ApiService) { }
 
   ngOnInit(): void {
-    this.userName = this.api.getProfile('name')
+    this.userName = this.api.getProfile('name') || '';
   }
 
 }

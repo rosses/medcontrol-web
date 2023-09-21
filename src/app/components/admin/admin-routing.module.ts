@@ -9,6 +9,7 @@ import { BillingComponent } from './billing/billing.component';
 import { SettingComponent } from './setting/setting.component';
 import { SuperintendenciaComponent } from './superintendencia/superintendencia.component';
 import { PeopleComponent } from './people/people.component';
+import { PeopleManagementComponent } from './people-management/people-management.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'people',
         component: PeopleComponent
+      },
+      {
+        path: 'people/:cardcode',
+        component: PeopleManagementComponent
       },
       {
         path: 'billing',

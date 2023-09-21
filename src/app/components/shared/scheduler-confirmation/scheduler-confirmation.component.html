@@ -1,0 +1,63 @@
+<div class="m-3">
+  <form (ngSubmit)="save()">
+    <h4>Asistencia confirmada</h4>
+    <hr />
+    <h5 class="my-4">Datos generales</h5>
+    <div class="row my-1">
+      <div class="col-4">
+        <div class="form-group">
+          <label>RUT:</label>
+          <input type="text" class="form-control" name="cardcode" ngxRut [(ngModel)]="data.cardcode" readonly />
+        </div>      
+      </div>
+      <div class="col-8">
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input type="text" name="name" class="form-control" [(ngModel)]="data.name" readonly />
+        </div>      
+      </div>
+    </div>
+
+    <h5 class="my-4">Preingreso (opcional)</h5>
+
+    <div class="row my-1">
+      <div class="col">
+        <div class="form-group">
+          <label>Temperatura (C):</label>
+          <input type="number" name="temp" class="form-control" [(ngModel)]="data.lastname" [disabled]="loading" #temp />
+        </div>      
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label>Peso (KG):</label>
+          <input type="number" name="weight" class="form-control" [(ngModel)]="data.weight" [disabled]="loading" />
+        </div>      
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label>Altura (CM):</label>
+          <input type="number" name="height" class="form-control" [(ngModel)]="data.height" [disabled]="loading" />
+        </div>      
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label>Presión (sist.):</label>
+          <input type="number" name="sistolic" class="form-control" [(ngModel)]="data.sistolic" [disabled]="loading" />
+        </div>      
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label>Presión (diast.):</label>
+          <input type="number" name="diastolic" class="form-control" [(ngModel)]="data.diastolic" [disabled]="loading" />
+        </div>      
+      </div>
+    </div>  
+    
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

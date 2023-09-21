@@ -12,6 +12,12 @@ import { PinCodeComponent } from './pin-code/pin-code.component';
 import { ConfirmActionModalComponent } from './confirm-action-modal/confirm-action-modal.component';
 import { RadioBtnComponent } from './radio-btn/radio-btn.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { PeopleNewComponent } from './people-new/people-new.component';
+import { FormsModule } from '@angular/forms';
+import { InputMaskModule } from '@ngneat/input-mask';
+import { NgxRutModule } from '@numetalsour/ngx-rut';
+import { SchedulerConfirmationComponent } from './scheduler-confirmation/scheduler-confirmation.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,12 +30,18 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     PinCodeComponent,
     ConfirmActionModalComponent,
     RadioBtnComponent,
+    PeopleNewComponent,
+    SchedulerConfirmationComponent
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
     RouterModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    FormsModule,
+    InputMaskModule,
+    NgxRutModule,
+    NgbNavModule
   ],
   exports: [
     FontAwesomeModule,
@@ -41,7 +53,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     ModalCmpComponent,
     PinCodeComponent,
     ConfirmActionModalComponent,
-    RadioBtnComponent
+    RadioBtnComponent,
+    PeopleNewComponent,
+    SchedulerConfirmationComponent
   ]
 })
 export class SharedModule { }

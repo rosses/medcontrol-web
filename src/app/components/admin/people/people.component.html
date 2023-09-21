@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
 </app-modal-cmp>
 
-<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+<app-page-header info="Mantenedor de pacientes"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
 
@@ -11,7 +11,7 @@
     <div class="row align-items-end mb-4">
       <div class="col">
         <h5>Pacientes</h5>
-        <button class="btn btn-sm btn-success">nuevo paciente</button>
+        <button class="btn btn-sm btn-success" (click)="addPeople()">nuevo paciente express</button>
       </div>
       <div class="col-2 text-end">
         <input type="text" class="form-control" placeholder="Rut / Nombre" (ngModelChange)="filterbox()" [(ngModel)]="filter.search" />
@@ -51,57 +51,25 @@
               <div class="table-cmp__col">Nombre</div>
               <div class="table-cmp__col">Previsión</div>
               <div class="table-cmp__col">Etapa</div>
+              <div class="table-cmp__col">Opciones</div>
             </div>
           </div>
 
           <div class="table-cmp__body">
-            <div class="table-cmp__toggable-row" *ngIf="peoples.length == 0">
+            <div class="table-cmp__toggable-row" *ngIf="peoples.length == 0" hidden>
               <div class="row">
                 <div class="col-12 text-center mt-3 mb-3">Sin pacientes</div>
               </div>
             </div>
-            <div class="table-cmp__toggable-row" *ngFor="let item of peoples" [ngClass]="{'open': item.open}">
+            <div class="table-cmp__toggable-row" *ngFor="let item of dummy.people">
               <div class="table-cmp__row">
                 <div class="table-cmp__col"></div>
-                <div class="table-cmp__col">{{item.name}}</div>
-                <div class="table-cmp__col">{{item.rut}}</div>
-                <div class="table-cmp__col">{{item.admin?.length}}</div>
+                <div class="table-cmp__col">{{item.cardcode}}</div>
+                <div class="table-cmp__col">{{item.name}} {{item.lastname}} {{item.lastname2}}</div>
+                <div class="table-cmp__col">{{item.health}}</div>
+                <div class="table-cmp__col">{{item.stageName}}</div>
                 <div class="table-cmp__col">
-                  <button *ngIf="item.admin.length" type="button" class="btn btn-link" (click)="item.open = !item.open">
-                    <fa-icon [icon]="!item.open ? faAngleDown : faAngleUp"></fa-icon>
-                  </button>
-                </div>
-              </div>
-              <div class="table-inner" *ngFor="let user of item.admin">
-                <div class="table-inner__row">
-                  <div class="table-inner__col"></div>
-                  <div class="table-inner__col">
-                    <img src="assets/svg/icon-user.svg" class="me-2" alt="icono usuario">
-                    {{user.name}} {{user.lastname}}
-                  </div>
-                  <div class="table-inner__col">
-                    <img src="assets/svg/icon-mail.svg" class="me-2" alt="icono correo">
-                    {{user.email}}
-                  </div>
-                  <div class="table-inner__col">
-                    <img src="assets/svg/icon-calendar.svg" class="me-2" alt="icono calendario">
-                    Fecha Ingreso: {{user.createdAt | date}}
-                  </div>
-                  <div class="table-inner__col">
-
-                    <ul class="actions">
-                      <li (click)="toggleShareModal(true, user.authcode)">
-                        <img src="assets/svg/icon-share.svg" alt="icono ">
-                      </li>
-                      <!-- <li (click)="1+1">
-                        <img src="assets/svg/icon-circle-x.svg" alt="icono ">
-                      </li> -->
-                    <!--   <li (click)="1+1">
-                        <img src="assets/svg/icon-circle-check.svg" alt="icono ">
-                      </li> -->
-                    </ul>
-
-                  </div>
+                  <a [routerLink]="['/admin/people/' + item.cardcode]"><fa-icon [icon]="faEdit"></fa-icon></a>
                 </div>
               </div>
 

@@ -19,6 +19,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { SuperintendenciaComponent } from './superintendencia/superintendencia.component';
 import { AddUnidadComponent } from './setting/add-unidad/add-unidad.component';
 import { PeopleComponent } from './people/people.component';
+import { PeopleManagementComponent } from './people-management/people-management.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -35,14 +37,16 @@ import { PeopleComponent } from './people/people.component';
     AddProfessionComponent,
     AddUnidadComponent,
     ActionProfessionComponent,
-    SuperintendenciaComponent
+    SuperintendenciaComponent,
+    PeopleManagementComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     AdminRoutingModule,
     FormsModule,
-    GooglePlaceModule
-  ]
+    GooglePlaceModule,
+    NgbNavModule
+  ],
 })
 export class AdminModule { }

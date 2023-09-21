@@ -127,3 +127,27 @@
     }
   }
 }
+
+.btn-fast {
+  color: #FFF;
+  text-decoration: none;
+  text-align: center;
+  padding: 25px;
+  display: inline-block;
+  margin-right: 20px;
+  &.consulta {
+    background-color: rgb(5, 155, 155);
+  }
+  &.ingreso {
+    background-color: rgb(165, 109, 4);
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.confirm {
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faAngleDown, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/api.service';
+import { DummyService } from 'src/app/dummy.service';
+import { PeopleNewComponent } from '../../shared/people-new/people-new.component';
 
 
 @Component({
@@ -16,6 +19,7 @@ export class PeopleComponent implements OnInit {
 
   faAngleUp = faAngleUp;
   faAngleDown = faAngleDown;
+  faEdit = faEdit;
 
   peoples: any[] = [];
   loading: boolean = false;
@@ -24,7 +28,11 @@ export class PeopleComponent implements OnInit {
     stage: ''
   }
 
-  constructor(public api: ApiService) { }
+  constructor(
+    public api: ApiService,
+    public modal: NgbModal,
+    public dummy: DummyService
+  ) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -54,17 +62,15 @@ export class PeopleComponent implements OnInit {
   filterbox() {
 
   }
-
-  toggleShareModal( state: boolean, id?: string ) {
-    if (id) {
-      this.selCode = id;
-    }
-    
-    this.shareCodeModal = state;
-    if (!state) {
-      this.codeShared = false;
-      this.shareCodeModal = false;
-    }
-  }
+  addPeople() {
+    const mdl = this.modal.open(PeopleNewComponent, {
+      backdrop: false,
+      keyboard: true,
+      size: 'lg'
+    });
+    mdl.result.then((data) => {
+      console.log('then.data: ', data);
+    },(err) => { console.log('dismiss:',err); });
+  } 
 
 }

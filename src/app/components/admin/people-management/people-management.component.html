@@ -1,0 +1,49 @@
+<app-modal-cmp [toggle]="loading">
+  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<app-page-header info="Ficha del paciente"></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+
+  <div class="container">
+    
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+      <li [ngbNavItem]="1" [class.active]="active == 1">
+        <button class="nav-icon" ngbNavLink>
+          <img src="assets/icon/user.png" />
+          <span>Ficha general</span>
+        </button>
+        <ng-template ngbNavContent>
+          <p>
+
+          </p>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" [class.active]="active == 2">
+        <button class="nav-icon" ngbNavLink>
+          <img src="assets/icon/calendar.png" />
+          <span>Consultas</span>
+        </button>
+        <ng-template ngbNavContent>
+          <p>
+          </p>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3" [class.active]="active == 3">
+        <button class="nav-icon" ngbNavLink>
+          <img src="assets/icon/evolution.png" />
+          <span>Evoluciones</span>
+        </button>
+        <ng-template ngbNavContent>
+          <p>
+
+          </p>
+        </ng-template>
+      </li>
+    </ul>
+    
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+  </div>
+</div>

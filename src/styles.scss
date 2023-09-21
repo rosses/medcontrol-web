@@ -1,2 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/styles/app.scss';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+/* This is the class name given by the Font Awesome component when icon contains 'spinner' */
+.fa-spin {
+    /* Apply 'spinner' keyframes looping once every second (1s)  */
+    animation: spinner 1s linear infinite;
+}
+.form-control[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+}
