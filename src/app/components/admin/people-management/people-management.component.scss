@@ -24,3 +24,33 @@
     }
   }
 }
+
+.session {
+  background-color:#EDEDED;
+}
+
+h4 {
+  span {
+    margin-left: 20px;
+  }
+}
+.badge-enproceso {
+  display: inline-block;
+  background-color: rgb(233, 202, 30);
+  color: #FFF;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+.badge-reagendar {
+  display: inline-block;
+  background-color: rgb(233, 81, 30);
+  color: #FFF;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px 10px;
+  text-decoration: none;
+}

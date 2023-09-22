@@ -14,9 +14,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PeopleManagementComponent implements OnInit {
 
-  public me: any = {};
+  public data: any = {};
   public loading: boolean = false;
   public active:number = 1;
+
+  public faEdit = faEdit;
 
   constructor(
     public api: ApiService,
@@ -31,7 +33,7 @@ export class PeopleManagementComponent implements OnInit {
       let cc = this.ar.snapshot.paramMap.get('cardcode');
       let f = this.dummy.people.map((e:any) => { return e.cardcode}).indexOf(cc);
       if (f>-1) {
-        this.me = this.dummy.people[f];
+        this.data = this.dummy.people[f];
         this.loading = false;
       }
     },1500); 
@@ -39,6 +41,9 @@ export class PeopleManagementComponent implements OnInit {
 
   filterbox() {
 
+  }
+  editar(sessionId:string) {
+    
   }
   addPeople() {
     const mdl = this.modal.open(PeopleNewComponent, {

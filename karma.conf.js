@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/medcontrol-super-admin'),
+      dir: require('path').join(__dirname, './coverage/medcontrol-web'),
       subdir: '.',
       reporters: [
         { type: 'html' },
