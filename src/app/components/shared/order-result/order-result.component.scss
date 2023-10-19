@@ -1,0 +1,36 @@
+
+.nav-item {
+    margin-left: 8px;
+    margin-right: 8px;
+    .nav-icon {
+      text-align: center;
+      background-color: #FFF;
+      border: 1px solid #FFF;
+      img {
+        max-width: 40px;
+        padding: 5px;
+      }
+      span {
+        display: block;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 13px;
+      }
+    }
+    &.active {
+      .nav-icon {
+        border: 1px solid #dee2e6;
+        border-bottom: 0px;
+      }
+    }
+  }
+
+  textarea {
+    resize: none;
+  }
+  .btn-cargaplantilla {
+    font-size: 12px;
+    padding: 2px;
+    margin-top: 5px;
+    color: #FFF;
+  }

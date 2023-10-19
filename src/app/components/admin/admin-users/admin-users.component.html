@@ -1,5 +1,5 @@
-<app-modal-cmp [toggle]="loading">
-  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
 <div class="modal fade" [ngClass]="{'show d-block': shareCodeModal}" tabindex="-1">
@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Dashboard"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
 

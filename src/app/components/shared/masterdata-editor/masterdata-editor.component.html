@@ -1,0 +1,60 @@
+<div class="m-3">
+  <form (ngSubmit)="save()">
+    <h5>{{(mode=='add' ? 'Agregar' : 'Editar')}} dato maestro</h5>
+    <hr />
+    <div class="row mt-2">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input type="text" class="form-control" name="nameField" [(ngModel)]="data.Name" [disabled]="loading" />
+        </div>      
+      </div>
+    </div>
+    <div class="row mt-3" *ngIf="master == 'Exam'">
+      <div class="col">
+        <div class="form-group">
+          <label>Tipo examen:</label>
+          <select name="ExamTypeID" [disabled]="loading" class="form-control" [(ngModel)]="data.ExamTypeID">
+            <option value="{{r.ExamTypeID}}" *ngFor="let r of rows">{{r.Name}}</option>
+          </select>
+        </div>      
+      </div>
+    </div> 
+    <div class="row mt-3" *ngIf="master == 'ExamData'">
+      <div class="col">
+        <div class="form-group">
+          <label>Examen asociado:</label>
+          <select name="ExamID" [disabled]="loading" class="form-control" [(ngModel)]="data.ExamID">
+            <option value="{{r.ExamID}}" *ngFor="let r of rows">{{r.Name}}</option>
+          </select>
+        </div>      
+      </div>
+    </div> 
+    <div class="row mt-3" *ngIf="master == 'Medicine'">
+      <div class="col">
+        <div class="form-group">
+          <label>Laboratorio:</label>
+          <select name="LabID" [disabled]="loading" class="form-control" [(ngModel)]="data.LabID">
+            <option value="{{r.LabID}}" *ngFor="let r of rows">{{r.Name}}</option>
+          </select>
+        </div>      
+      </div>
+    </div>      
+    <div class="row mt-3">
+      <div class="col">
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [checked]="data.Active == 1" (click)="data.Active = (data.Active == 1 ? 0 : 1)" /> Elemento activo 
+          </label>
+        </div>      
+      </div>
+    </div>  
+    
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

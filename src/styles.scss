@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/styles/app.scss';
-
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
@@ -15,4 +14,70 @@
 .form-control[readonly] {
     background-color: #e9ecef;
     opacity: 1;
+}
+.btn {
+    --bs-btn-disabled-opacity: 0.2 !important;
+}
+.pac-container {
+    z-index: 10000000 !important;
+}
+.session-modal {
+    .modal-dialog {
+        width: 100%;
+        max-width: 1200px;
+    }
+}
+select.form-control {
+    appearance: auto !important;
+}
+.form-control {
+    font-size: 0.8rem !important;
+    padding: 5px 4px !important;
+}
+.table-mini button {
+    padding: 2px 6px !important;
+    margin-left: 4px !important;
+    margin-right: 4px !important;
+    color: #FFF !important;
+} 
+.table-mini button.btn-warning {
+    background-color: #efa626 !important;
+    border-color: #efa626 !important;
+}
+.table-mini button.btn-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+.page-wrapper .container {
+    min-height: calc(100vh - 140px);
+}
+.status-Consultas {
+    display: inline-block;
+    background-color: rgb(233, 202, 30);
+    color: #FFF;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+.status-Nocalifica {
+    display: inline-block;
+    background-color: rgb(214, 78, 78);
+    color: #FFF;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+.status-Preoperatorio {
+    display: inline-block;
+    background-color: rgb(6, 48, 187);
+    color: #FFF;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 10px;
+    text-decoration: none;
 }

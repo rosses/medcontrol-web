@@ -37,9 +37,7 @@ export class ApiService {
   getShifttypes() {
     return this.get('/v1/shifttype');
   }
-  getSuperadminDashboard() {
-    return this.get('/v1/user/superadmin-dashboard')
-  }
+
 
   /* Customer manager */
   getCustomerDashboard() {
@@ -113,46 +111,283 @@ export class ApiService {
     return this.get("/v1/user?" + d); 
   }
   
-  /* Jobs management */
-  getJobs(){
-    return this.get('/v1/job');
+  /* Labs */
+  getLabs(){
+    return this.get('/v1/lab');
   }
-  addJob(job: any){
-    return this.post('/v1/job', job);
+  addLab(data: any){
+    return this.post('/v1/lab', data);
   }
-  editJob(job: any){
-    return this.post('/v1/job/' + job._id, job);
+  editLab(data: any){
+    return this.post('/v1/lab/' + data.LabID, data);
   }
-  getJob(id: string){
-    return this.get('/v1/job/' + id);
+  getLab(id: string){
+    return this.get('/v1/lab/' + id);
   }
-  deleteJob(id: string){
-    return this.delete('/v1/job/' + id);
+  deleteLab(id: string){
+    return this.delete('/v1/lab/' + id);
   }
-  getUnits(){
-    return this.get('/v1/unit');
-  } 
-  addUnit(job: any){
-    return this.post('/v1/unit', job);
+  /* Evolutions */ 
+  addEvolution(data: any){
+    return this.post('/v1/evolution', data);
   }
-  editUnit(job: any){
-    return this.post('/v1/unit/' + job._id, job);
+  editEvolution(data: any){
+    return this.post('/v1/evolution/' + data.EvolutionID, data);
   }
-  getUnit(id: string){
-    return this.get('/v1/unit/' + id);
+  getEvolutions(id: string){
+    return this.get('/v1/evolution/' + id);
   }
-  deleteUnit(id: string){
-    return this.delete('/v1/unit/' + id);
+  deleteEvolution(id: string){
+    return this.delete('/v1/evolution/' + id);
+  }
+  getStatuses() {
+    return this.get('/v1/status');
+  }
+  /* Groups */
+  getGroups(){
+    return this.get('/v1/group');
+  }
+  addGroup(data: any){
+    return this.post('/v1/group', data);
+  }
+  editGroup(data: any){
+    return this.post('/v1/group/' + data.GroupID, data);
+  }
+  getGroup(id: string){
+    return this.get('/v1/group/' + id);
+  }
+  deleteGroup(id: string){
+    return this.delete('/v1/group/' + id);
+  }
+  /* People */
+  getPeoples(){
+    return this.get('/v1/people');
+  }
+  addPeople(data: any){
+    return this.post('/v1/people', data);
+  }
+  editPeople(data: any){
+    return this.post('/v1/people/' + data.PeopleID, data);
+  }
+  getPeople(id: string){
+    return this.get('/v1/people/' + id);
+  }
+  deletePeople(id: string){
+    return this.delete('/v1/people/' + id);
+  }
+  getPeopleDates(id: string){
+    return this.get('/v1/people/'+id+'/dates');
+  }
+  getPeopleExams(id: string){
+    return this.get('/v1/people/'+id+'/exams');
+  }
+  getPeopleEvolutions(id: string){
+    return this.get('/v1/people/'+id+'/evolutions');
+  }
+  /* Health */
+  getHealths(){
+    return this.get('/v1/health');
+  }
+  addHealth(data: any){
+    return this.post('/v1/health', data);
+  }
+  editHealth(data: any){
+    return this.post('/v1/health/' + data.HealthID, data);
+  }
+  getHealth(id: string){
+    return this.get('/v1/health/' + id);
+  }
+  deleteHealth(id: string){
+    return this.delete('/v1/health/' + id);
+  }
+  /* Health */
+  getExamDatas(){
+    return this.get('/v1/examdata');
+  }
+  addExamData(data: any){
+    return this.post('/v1/examdata', data);
+  }
+  editExamData(data: any){
+    return this.post('/v1/examdata/' + data.ExamDataID, data);
+  }
+  getExamData(id: string){
+    return this.get('/v1/examdata/' + id);
+  }
+  deleteExamData(id: string){
+    return this.delete('/v1/examdata/' + id);
+  }
+  
+  /* Medicines */
+  getMedicines(){
+    return this.get('/v1/medicine');
+  }
+  addMedicine(data: any){
+    return this.post('/v1/medicine', data);
+  }
+  editMedicine(data: any){
+    return this.post('/v1/medicine/' + data.MedicineID, data);
+  }
+  getMedicine(id: string){
+    return this.get('/v1/medicine/' + id);
+  }
+  deleteMedicine(id: string){
+    return this.delete('/v1/medicine/' + id);
+  }
+  /* Dates */
+  getDates(){
+    return this.get('/v1/date');
+  }
+  addDate(data: any){
+    return this.post('/v1/date', data);
+  }
+  editDate(data: any){
+    return this.post('/v1/date/' + data.id, data);
+  }
+  getDate(id: string){
+    return this.get('/v1/date/' + id);
+  }
+  deleteDate(id: string){
+    return this.delete('/v1/date/' + id);
+  }
+  getDatesNext() {
+    return this.get('/v1/date/next')
+  }
+  getDatesFilter(data?:any) {
+    let d = '';
+    if (data) { d = new URLSearchParams(data).toString(); }
+    return this.get('/v1/date/find?' + d)
+  }
+  addDatesConfirm(data:any) {
+    return this.post('/v1/date/confirm', data)
+  }
+  /* Diagnosis */
+  getDiagnosis(){
+    return this.get('/v1/diagnosis');
+  }
+  addDiagnosis(data: any){
+    return this.post('/v1/diagnosis', data);
+  }
+  editDiagnosis(data: any){
+    return this.post('/v1/diagnosis/' + data.DiagnosisID, data);
+  }
+  getUniqueDiagnosis(id: string){
+    return this.get('/v1/diagnosis/' + id);
+  }
+  deleteDiagnosis(id: string){
+    return this.delete('/v1/diagnosis/' + id);
+  }
+  /* CertificateTypes */
+  getCertificateTypes(){
+    return this.get('/v1/certificate-type');
+  }
+  addCertificateType(data: any){
+    return this.post('/v1/certificate-type', data);
+  }
+  editCertificateType(data: any){
+    return this.post('/v1/certificate-type/' + data.CertificateTypeID, data);
+  }
+  getCertificateType(id: string){
+    return this.get('/v1/certificate-type/' + id);
+  }
+  deleteCertificateType(id: string){
+    return this.delete('/v1/certificate-type/' + id);
+  }
+  /* Exams */
+  getExams(){
+    return this.get('/v1/exam');
+  }
+  addExam(data: any){
+    return this.post('/v1/exam', data);
+  }
+  editExam(data: any){
+    return this.post('/v1/exam/' + data.ExamID, data);
+  }
+  getExam(id: string){
+    return this.get('/v1/exam/' + id);
+  }
+  deleteExam(id: string){
+    return this.delete('/v1/exam/' + id);
+  }
+  /* ExamTypes */
+  getExamTypes(){
+    return this.get('/v1/exam-type');
+  }
+  addExamType(data: any){
+    return this.post('/v1/exam-type', data);
+  }
+  editExamType(data: any){
+    return this.post('/v1/exam-type/' + data.ExamTypeID, data);
+  }
+  getExamType(id: string){
+    return this.get('/v1/exam-type/' + id);
+  }
+  deleteExamType(id: string){
+    return this.delete('/v1/exam-type/' + id);
+  }
+  /* Specialists */
+  getSpecialists(){
+    return this.get('/v1/specialist');
+  }
+  addSpecialist(data: any){
+    return this.post('/v1/specialist', data);
+  }
+  editSpecialist(data: any){
+    return this.post('/v1/specialist/' + data.SpecialistID, data);
+  }
+  getSpecialist(id: string){
+    return this.get('/v1/specialist/' + id);
+  }
+  deleteSpecialist(id: string){
+    return this.delete('/v1/specialist/' + id);
+  }
+  /* Surgerys */
+  getSurgerys(){
+    return this.get('/v1/surgery');
+  }
+  addSurgery(data: any){
+    return this.post('/v1/surgery', data);
+  }
+  editSurgery(data: any){
+    return this.post('/v1/surgery/' + data.SurgeryID, data);
+  }
+  getSurgery(id: string){
+    return this.get('/v1/surgery/' + id);
+  }
+  deleteSurgery(id: string){
+    return this.delete('/v1/surgery/' + id);
+  }
+
+  /* Templates */
+  loadTemplate(id: string) {
+    return this.get('/v1/template/'+id);
+  }
+  setTemplate(id: string, data:any) {
+    return this.post('/v1/template/'+id, data);
+  }
+  /* Evolutions */
+  /* Interviews */
+  /* Recipes */
+  /* Orders */
+  /* Certificates */
+  /* Users */
+  /* Profiles */
+  /* Anthropometrys */
+  
+  saveSession(data:any) {
+    return this.post("/v1/date/"+data.DateID, data);
+  }
+  saveExamData(data:any) {
+    return this.post("/v1/examdata/save", data);
+  }
+  getExamValuesByDate(DateID:string) {
+    return this.get("/v1/examdata/get-by-date/"+DateID);
   }
   
 
   /* Auth services */
   login(data:any) {
-    return this.post('/v1/auth/login', data);
-  }
-  register(data:any) {
-    return this.post('/v1/auth/register', data);
-  }
+    return this.http.post(environment.url + '/v1/auth/login', data);
+  } 
   lostpassword(data:any) {
     return this.post('/v1/auth/lost-password', data);
   }

@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:3300'
-  //url: 'https://api.medplace.cl'
+  url: 'http://localhost:8000'
 };
 
 /*

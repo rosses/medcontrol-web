@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/api.service';
 import { DummyService } from 'src/app/dummy.service';
 import { PeopleNewComponent } from '../../shared/people-new/people-new.component';
+import { lastValueFrom } from 'rxjs';
 
 
 @Component({
@@ -35,10 +36,7 @@ export class PeopleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    },1500);
+    this.loadPeople();
     /*
     this.api.getCustomers().subscribe((customers: any[]) => {
       this.api.getUsers({
@@ -58,7 +56,17 @@ export class PeopleComponent implements OnInit {
       });
     });*/
   }
-
+  async loadPeople() {
+    try {
+      this.loading = true;
+      const data = await lastValueFrom(this.api.getPeoples());
+      this.peoples = data;
+      this.loading = false;
+    } catch (err:any) {
+      this.api.toastError(err.error.message);
+      this.loading = false;
+    }
+  }
   filterbox() {
 
   }
@@ -68,6 +76,7 @@ export class PeopleComponent implements OnInit {
       keyboard: true,
       size: 'lg'
     });
+    mdl.componentInstance.data.Mode = 'full';
     mdl.result.then((data) => {
       console.log('then.data: ', data);
     },(err) => { console.log('dismiss:',err); });

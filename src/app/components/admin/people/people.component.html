@@ -1,8 +1,8 @@
-<app-modal-cmp [toggle]="loading">
-  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
-<app-page-header info="Mantenedor de pacientes"></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Mantenedor de pacientes"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
 
@@ -10,8 +10,7 @@
 
     <div class="row align-items-end mb-4">
       <div class="col">
-        <h5>Pacientes</h5>
-        <button class="btn btn-sm btn-success" (click)="addPeople()">nuevo paciente express</button>
+        <button class="btn btn-sm btn-success" (click)="addPeople()">nuevo paciente</button>
       </div>
       <div class="col-2 text-end">
         <input type="text" class="form-control" placeholder="Rut / Nombre" (ngModelChange)="filterbox()" [(ngModel)]="filter.search" />
@@ -19,20 +18,11 @@
       <div class="col-2 text-end">
         <select class="form-control" [(ngModel)]="filter.prevision">
           <option value="">Previsión (todas)</option>
-          <option value="">Fonasa</option>
-          <option value="">Colmena</option>
-          <option value="">Vida Tres</option>
-          <option value="">Consalud</option>
-          <option value="">Banmedica</option>
         </select>
       </div>
       <div class="col-2 text-end">
         <select class="form-control" [(ngModel)]="filter.stage">
           <option value="">Etapa (todas)</option>
-          <option value="">Consultas</option>
-          <option value="">Preoperatorio</option>
-          <option value="">Operatorio</option>
-          <option value="">Postoperatorio</option>
         </select>
       </div>
       <div class="col-1 text-end">
@@ -56,20 +46,20 @@
           </div>
 
           <div class="table-cmp__body">
-            <div class="table-cmp__toggable-row" *ngIf="peoples.length == 0" hidden>
+            <div class="table-cmp__toggable-row" *ngIf="peoples.length == 0">
               <div class="row">
                 <div class="col-12 text-center mt-3 mb-3">Sin pacientes</div>
               </div>
             </div>
-            <div class="table-cmp__toggable-row" *ngFor="let item of dummy.people">
+            <div class="table-cmp__toggable-row" *ngFor="let item of peoples">
               <div class="table-cmp__row">
                 <div class="table-cmp__col"></div>
-                <div class="table-cmp__col">{{item.cardcode}}</div>
-                <div class="table-cmp__col">{{item.name}} {{item.lastname}} {{item.lastname2}}</div>
-                <div class="table-cmp__col">{{item.health}}</div>
-                <div class="table-cmp__col">{{item.stageName}}</div>
+                <div class="table-cmp__col">{{item.CardCode}}</div>
+                <div class="table-cmp__col">{{item.Name}} {{item.Lastname}} {{item.Lastname2}}</div>
+                <div class="table-cmp__col">{{item.Health}}</div>
+                <div class="table-cmp__col"><span class="status-{{item.GroupName}}">{{item.GroupName}}</span></div>
                 <div class="table-cmp__col">
-                  <a [routerLink]="['/admin/people/' + item.cardcode]"><fa-icon [icon]="faEdit"></fa-icon></a>
+                  <a [routerLink]="['/admin/people/' + item.PeopleID]"><fa-icon [icon]="faEdit"></fa-icon></a>
                 </div>
               </div>
 

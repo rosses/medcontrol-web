@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faAngleUp, faAngleDown, faCircleDot, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-billing',
@@ -22,7 +23,9 @@ export class BillingComponent implements OnInit {
     { open: false }
   ]
 
-  constructor() { }
+  constructor(
+    public api: ApiService
+  ) { }
 
   ngOnInit(): void {
   }

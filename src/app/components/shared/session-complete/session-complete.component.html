@@ -1,0 +1,333 @@
+<div class="m-3">
+  <app-modal-cmp [toggle]="loading" [fixWidth]="false">
+    <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
+  </app-modal-cmp>
+  <form *ngIf="render">
+    <h4>Consulta [{{dataPeople?.CardCode}} | {{dataPeople?.Name}} {{dataPeople?.Lastname}} {{dataPeople?.Lastname2}}]</h4>
+    <hr />
+     
+    <ul ngbNav #nav2="ngbNav" [(activeId)]="subactive" class="nav-tabs">
+      <li [ngbNavItem]="1" [class.active]="subactive == 1">
+        <button type="button" class="nav-icon" ngbNavLink (click)="subactive=1">
+          <span>Antecedentes</span>
+        </button>
+        <ng-template ngbNavContent>
+          <div class="row">
+            <div class="col-4">
+              <div class="py-1">
+                <h5 class="my-1">Antropometría</h5>
+                <div class="form-group mt-2">
+                  <label>Temperatura (C)</label>
+                  <input name="Temperature" type="number" class="form-control" [(ngModel)]="data.anthropometry.Temperature">
+                </div>
+                <div class="form-group mt-2">
+                  <label>Peso (kg)</label>
+                  <input name="Weight" type="number" class="form-control" [(ngModel)]="data.anthropometry.Weight">
+                </div>
+                <div class="form-group mt-2">
+                  <label>Estatura (cms)</label>
+                  <input name="Height" type="number" class="form-control" [(ngModel)]="data.anthropometry.Height">
+                </div>
+                <div class="form-group mt-2">
+                  <label>Presión Sistólica</label>
+                  <input name="Sistolic" type="number" class="form-control" [(ngModel)]="data.anthropometry.Sistolic">
+                </div>
+                <div class="form-group mt-2">
+                  <label>Presión Diastólica</label>
+                  <input name="Diastolic" type="number" class="form-control" [(ngModel)]="data.anthropometry.Diastolic">
+                </div>
+                <div class="form-group mt-2">
+                  <label>IMC</label>
+                  <input name="IMC" type="number" class="form-control" [value]="getIMC()" disabled>
+                </div>
+              </div> 
+            </div>
+            <div class="col-4">
+              <h5 class="my-1">Datos complementarios</h5>
+              <div class="form-group mt-2">
+                <label>Médicos:</label>
+                <textarea name="AntMedical" class="form-control" [(ngModel)]="data.AntMedical" style="height: 80px;"></textarea>
+              </div>
+              <div class="form-group mt-2">
+                <label>Alergías:</label>
+                <textarea name="AntAllergy" class="form-control" [(ngModel)]="data.AntAllergy" style="height: 80px;"></textarea>
+              </div>
+              <div class="form-group mt-2">
+                <label>Fármacos:</label>
+                <textarea name="AntDrugs" class="form-control" [(ngModel)]="data.AntDrugs" style="height: 80px;"></textarea>
+              </div>
+              <div class="form-group mt-2">
+                <label>Cirugías:</label>
+                <textarea name="AntSurgical" class="form-control" [(ngModel)]="data.AntSurgical" style="height: 80px;"></textarea>
+              </div>
+            </div>
+            <div class="col-4">
+              <h5 class="my-1">Diagnóstico</h5>
+ 
+              <div class="form-group mt-2">
+                <label>Cambiar Etapa:</label>
+                <select name="DestinationGroupID" class="form-control" [(ngModel)]="data.DestinationGroupID">
+                  <option [value]="g.GroupID" *ngFor="let g of Groups">{{g.Name}}</option>
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label>Cambiar Estado:</label>
+                <select name="StatusID" class="form-control" [(ngModel)]="data.StatusID">
+                  <option [value]="g.StatusID" *ngFor="let g of Statuses">{{g.Name}}</option>
+                </select>
+              </div>
+              <div class="form-group mt-2" [hidden]="">
+                <label>Diagnostico:</label> 
+                <select name="DiagnosisID" class="form-control" [(ngModel)]="data.DiagnosisID">
+                  <option value="">No aplica</option>
+                  <option [value]="d.DiagnosisID" *ngFor="let d of Diagnosis">{{d.Name}}</option>
+                </select>          
+              </div>
+              <div class="form-group mt-2">
+                <label>Cirugía:</label>
+                <select name="DestinationGroupID" class="form-control" [(ngModel)]="data.SurgeryID">
+                  <option value="">No aplica</option>
+                  <option [value]="s.SurgeryID" *ngFor="let s of Surgerys">{{s.Name}}</option>
+                </select>
+                <button class="btn btn-sm btn-info btn-cargaplantilla" (click)="searchTemplate()">cargar plantilla de exámenes</button>
+              </div>
+              <div class="form-group mt-2">
+                <label>Observaciones:</label>
+                <textarea name="Obs" class="form-control" [(ngModel)]="data.Obs" style="height: 80px;"></textarea>
+              </div>
+
+            </div>
+          </div>
+
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" [class.active]="subactive == 2">
+        <button type="button" class="nav-icon" ngbNavLink (click)="subactive=2">
+          <span>Exámenes</span>
+        </button>
+        <ng-template ngbNavContent> 
+          <div class="row mb-2">
+            <div class="col-8">
+               
+            </div>
+            <div class="col-4 text-end">
+              <button class="btn btn-sm btn-success" (click)="addOrder()">Agregar exámen</button>
+            </div>
+          </div> 
+          <div class="row mb-2">
+            <div class="col-12">
+              <table class="mt-4 table table-striped table-mini table-bordered">
+                <thead>
+                  <tr>
+                    <th width="220">Tipo</th>
+                    <th>Nombre Exámen</th>
+                    <th width="100">Opciones</th>
+                    <th width="220">Tipo</th>
+                    <th>Nombre Exámen</th>
+                    <th width="100">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="data.orders.length == 0">
+                    <td colspan="6">Sin examenes en esta consulta</td>
+                  </tr>
+                  <ng-container *ngFor="let ii of pareo(data.orders);">
+                  <tr>
+                    <td>
+                      <select class="form-control" name="type_of_examen_{{ii}}" [(ngModel)]="data.orders[ii].ExamTypeID" (change)="examEvaluate(ii)">
+                        <option [value]="t.ExamTypeID" *ngFor="let t of ExamTypes">{{t.Name}}</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select class="form-control" name="examen_{{ii}}" [(ngModel)]="data.orders[ii].ExamID">
+                        <option [value]="t.ExamID" *ngFor="let t of getExams(ii)">{{t.Name}}</option>
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-sm btn-danger" (click)="borrar('orders',ii)">X</button>
+                    </td>
+                    <td *ngIf="data.orders[ii+1]">
+                      <select class="form-control" name="type_of_examen_{{(ii+1)}}" [(ngModel)]="data.orders[ii+1].ExamTypeID" (change)="examEvaluate((ii+1))">
+                        <option [value]="t.ExamTypeID" *ngFor="let t of ExamTypes">{{t.Name}}</option>
+                      </select>
+                    </td>
+                    <td *ngIf="data.orders[ii+1]">
+                      <select class="form-control" name="examen_{{(ii+1)}}" [(ngModel)]="data.orders[ii+1].ExamID">
+                        <option [value]="t.ExamID" *ngFor="let t of getExams( (ii + 1) )">{{t.Name}}</option>
+                      </select>
+                    </td>
+                    <td *ngIf="data.orders[ii+1]" class="text-center">
+                      <button type="button" class="btn btn-sm btn-danger" (click)="borrar('orders',(ii+1))">X</button>
+                    </td>
+                  </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4" [class.active]="subactive == 4">
+        <button type="button" class="nav-icon" ngbNavLink (click)="subactive=4">
+          <span>Recetas</span>
+        </button>
+        <ng-template ngbNavContent> 
+        <div class="row mb-2">
+          <div class="col-8">
+             
+          </div>
+          <div class="col-4 text-end">
+            <button class="btn btn-sm btn-success" (click)="addRecipe()">Agregar receta</button>
+          </div>
+        </div> 
+        <div class="row mb-2">
+          <div class="col-12">
+            <table class="mt-4 table table-striped table-mini table-bordered">
+              <thead>
+                <tr>
+                  <th width="180">Medicamento</th>
+                  <th width="220">Dosis</th>
+                  <th>Veces</th>
+                  <th>Días</th>
+                  <th width="180">Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="data.recipes.length == 0">
+                  <td colspan="5">Sin recetas en esta consulta</td>
+                </tr>
+                <tr *ngFor="let o of data.recipes; let ii = index;">
+                  <td>
+                    <select class="form-control" name="type_of_examen_{{ii}}" [(ngModel)]="o.MedicineID">
+                      <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="dose_{{ii}}" [(ngModel)]="o.Dose">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="period_{{ii}}" [(ngModel)]="o.Period">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" name="periodicity_{{ii}}" [(ngModel)]="o.Periodicity">
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-danger" (click)="borrar('recipes',ii)">X</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> 
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="5" [class.active]="subactive == 5">
+        <button type="button" class="nav-icon" ngbNavLink (click)="subactive=5">
+          <span>Interconsultas</span>
+        </button>
+        <ng-template ngbNavContent> 
+          <div class="row mb-2">
+            <div class="col-8">
+               
+            </div>
+            <div class="col-4 text-end">
+              <button class="btn btn-sm btn-success" (click)="addInterview()">Agregar interconsulta</button>
+            </div>
+          </div> 
+          <div class="row mb-2">
+            <div class="col-12">
+              <table class="mt-4 table table-striped table-mini table-bordered">
+                <thead>
+                  <tr>
+                    <th width="180">Especialista</th>
+                    <th>Descripción</th>
+                    <th>Se desea</th>
+                    <th width="180">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="data.interviews.length == 0">
+                    <td colspan="4">Sin interconsultas en esta consulta</td>
+                  </tr>
+                  <tr *ngFor="let o of data.interviews; let ii = index;">
+                    <td>
+                      <select class="form-control" name="specialists_{{ii}}" [(ngModel)]="o.SpecialistID">
+                        <option [value]="s.SpecialistID" *ngFor="let s of Specialists">{{s.Name}}</option>
+                      </select>
+                    </td> 
+                    <td>
+                      <input type="text" class="form-control" name="DDescription_{{ii}}" [(ngModel)]="o.Description">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="WantText_{{ii}}" [(ngModel)]="o.WantText">
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-sm btn-danger" (click)="borrar('interviews',ii)">X</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div> 
+          </ng-template>
+      </li>
+      <li [ngbNavItem]="6" [class.active]="subactive == 6">
+        <button type="button" class="nav-icon" ngbNavLink (click)="subactive=6">
+          <span>Certificados</span>
+        </button>
+        <ng-template ngbNavContent> 
+          <div class="row mb-2">
+            <div class="col-8">
+               
+            </div>
+            <div class="col-4 text-end">
+              <button class="btn btn-sm btn-success" (click)="addCertificate()">Agregar certificado</button>
+            </div>
+          </div> 
+          <div class="row mb-2">
+            <div class="col-12">
+              <table class="mt-4 table table-striped table-mini table-bordered">
+                <thead>
+                  <tr>
+                    <th width="180">Tipo</th>
+                    <th>Descripción</th>
+                    <th width="180">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="data.certificates.length == 0">
+                    <td colspan="3">Sin certificados en esta consulta</td>
+                  </tr>
+                  <tr *ngFor="let o of data.recipes; let ii = index;">
+                    <td>
+                      <select class="form-control" name="specialists_{{ii}}" [(ngModel)]="o.CertificateTypeID">
+                        <option [value]="c.CertificateTypeID" *ngFor="let c of CertificateTypes">{{c.Name}}</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="CDescription_{{ii}}" [(ngModel)]="o.Description">
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-sm btn-danger" (click)="borrar('certificates',ii)">X</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div> 
+        </ng-template>
+      </li> 
+    </ul>
+    <div [ngbNavOutlet]="nav2" class="mt-2"></div>
+   
+
+
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="button" (click)="save()" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

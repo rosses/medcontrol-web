@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/api.service';
 export class MenuSidebarComponent implements OnInit {
 
   faXmark = faXmark;
-  open: boolean = true;
+  open: boolean = false;
 
   adminMenu = [
     {

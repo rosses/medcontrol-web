@@ -1,97 +1,272 @@
-<app-add-profession [show]="addProfessionModal" [edit]="edit" [job]="selJob" (onClose)="getProfessions($event)"></app-add-profession>
-<app-add-unidad [show]="addUnidadModal" [edit]="editUnidad" [job]="selUnidad" (onClose)="getUnidades($event)"></app-add-unidad>
-<app-action-profession [show]="actionProfessionModal" [action]="action" [selJob]="selId" (onDismiss)="onDismissActionModal()"></app-action-profession>
-
-<app-modal-cmp [toggle]="loading">
-  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
-<app-page-header [userName]="'Francisco'" info="Bienvenido a tu Dashboard."></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Configuración"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
   <div class="container">
-    <div class="row mb-4">
-      <div class="col">
-        <div class="row mb-3">
-          <div class="col">
-            <h5>Boxs</h5>
-          </div>
-          <div class="col text-end">
-            <button type="button" (click)="addProfession()" class="btn btn-primary btn-sm px-3 py-2 rounded-2">Agregar Profesión</button>
-          </div>
-        </div> 
 
-        <div class="table-cmp table-cmp--setting">
-          <div class="table-cmp__header">
-            <div class="table-cmp__row">
-              <div class="table-cmp__col">Profesión</div>
-              <div class="table-cmp__col">Super.</div>
-              <div class="table-cmp__col">Vacunas</div>
-              <div class="table-cmp__col text-end">Acción</div>
-            </div>
-          </div>
-
-          <div class="table-cmp__body">
-            <div class="table-cmp__toggable-row" *ngFor="let job of jobs">
-              <div class="table-cmp__row">
-                <div class="table-cmp__col">{{job.name}}</div>
-                <div class="table-cmp__col">{{job.skippable ? 'No' : 'Sí'}}</div>
-                <div class="table-cmp__col">{{job.requireVacunas ? 'No' : 'Sí'}}</div>
-                <div class="table-cmp__col">
-                  <ul class="actions">
-                    <li (click)="deleteProfession(job._id)">
-                      <img src="assets/svg/icon-trash.svg" alt="icono basurero">
-                    </li>
-                    <li (click)="editProfession(job._id)">
-                      <img src="assets/svg/icon-edit.svg" style="max-width: 18px;" alt="icono editar">
-                    </li>
-                  </ul>
-                </div>
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+      <!-- Ficha General -->
+      <li [ngbNavItem]="1" [class.active]="active == 1">
+        <button class="nav-icon" ngbNavLink (click)="setActive(1)">
+          <span>Datos maestros</span>
+        </button>
+        <ng-template ngbNavContent>
+          <div class="px-2 py-3">
+            <div class="row align-items-center mb-2">
+              <div class="col-2">
+                <b>Maestro de datos:</b>
+              </div>
+              <div class="col-4">
+                <select class="form-control" (change)="reloadMasterdata()" [(ngModel)]="master">
+                  <!--<option value="Lab">Laboratorios</option>-->
+                  <option value="Medicine">Medicamentos</option>
+                  <option value="ExamType">Exámenes: Grupos</option>
+                  <option value="Exam">Exámenes: Nombres</option>
+                  <option value="ExamData">Exámenes: Datos</option>
+                  <option value="Specialist">Especialistas</option>
+                  <option value="Diagnosis">Diagnósticos</option>
+                  <option value="Surgery">Cirugias</option>
+                  <option value="CertificateType">Tipos Certificados</option>
+                  <option value="Health">Salud</option>
+                </select>
+              </div>
+              <div class="col-6 text-end">
+                <button class="btn btn-success btn-sm" (click)="addMasterdata()">Agregar valor</button>
               </div>
             </div>
-          </div>
-        </div>
+            
+            <table class="mt-4 table table-striped table-mini table-bordered">
+              <thead>
+                <tr>
+                  <th width="60">ID</th>
+                  <th>Valor</th>
+                  <th *ngIf="master == 'Exam'">Tipo</th>
+                  <th *ngIf="master == 'Medicine'">Laboratorio</th>
+                  <th *ngIf="master == 'ExamData'">Nombre Examen</th>
+                  <th width="60">Activo</th>
+                  <th width="180">Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="masterdata.length == 0">
+                  <td [attr.colspan]="getCols()">Sin elementos en este maestro</td>
+                </tr>
+                <tr *ngFor="let row of masterdata">
+                  <td>{{getMasterdataId(row)}}</td>
+                  <td>{{row.Name}}</td>
+                  <td *ngIf="master == 'Exam'">{{row.ExamTypeName}}</td>
+                  <td *ngIf="master == 'Medicine'">{{row.LabName}}</td>
+                  <td *ngIf="master == 'ExamData'">{{row.ExamName}}</td>
+                  <td>
+                    <span *ngIf="row.Active == 1">SI</span>
+                    <span *ngIf="row.Active == 0">NO</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning" (click)="editMasterdata(row)">editar</button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteMasterdata(row)">eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-      </div>
-      <div class="col">
-        <div class="row mb-3">
-          <div class="col">
-            <h5>Especialidades</h5>
-          </div>
-          <div class="col text-end">
-            <button type="button" (click)="addUnidad()" class="btn btn-primary btn-sm px-3 py-2 rounded-2">Agregar Unidad</button>
-          </div>
-        </div>
-        
-
-        <div class="table-cmp table-cmp--setting">
-          <div class="table-cmp__header">
-            <div class="table-cmp__row">
-              <div class="table-cmp__col">Unidad</div>
-              <div class="table-cmp__col text-end">Acción</div>
-            </div>
           </div>
 
-          <div class="table-cmp__body">
-            <div class="table-cmp__toggable-row" *ngFor="let unid of unids">
-              <div class="table-cmp__row">
-                <div class="table-cmp__col">{{unid.name}}</div> 
-                <div class="table-cmp__col">
-                  <ul class="actions">
-                    <li (click)="deleteUnit(unid._id)">
-                      <img src="assets/svg/icon-trash.svg" alt="icono basurero">
-                    </li>
-                    <li (click)="editUnit(unid._id)">
-                      <img src="assets/svg/icon-edit.svg" style="max-width: 18px;" alt="icono editar">
-                    </li>
-                  </ul>
-                </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2" [class.active]="active == 2">
+        <button class="nav-icon" ngbNavLink (click)="setActive(2)">
+          <span>Plantillas</span>
+        </button>
+        <ng-template ngbNavContent>
+          <div class="alert alert-info">
+            Los cambios que se apliquen a la plantilla no son retroactivos
+          </div>
+          <div class="px-2 py-3">
+            <div class="row align-items-center mb-4">
+              <div class="col-2">
+                <b>Cirug&iacute;a:</b>
+              </div>
+              <div class="col-4">
+                <select class="form-control" (change)="loadTemplates()" [(ngModel)]="surgery">
+                  <option [value]="surgery.SurgeryID" *ngFor="let surgery of surgerys; let i = index;">{{surgery.Name}}</option>
+                </select>
+              </div>
+              <div class="col-6 text-end">
+                <button class="btn btn-success btn-sm" (click)="saveTemplate()" [disabled]="surgery==''">Guardar plantilla</button>
               </div>
             </div>
+
+            <div class="row" *ngIf="surgery != ''">
+              <div class="col-6">
+                <div class="row mt-5">
+                  <div class="col-6"><h5>Recetas</h5></div>
+                  <div class="col-6 text-end">
+                    <button class="btn btn-sm btn-primary" (click)="addRecipe()">+ agregar</button>
+                  </div>
+                </div>
+                <table class="mt-2 table table-striped table-mini table-bordered">
+                  <thead>
+                    <tr>
+                      <th width="60">Fila</th>
+                      <th>Medicamento</th>
+                      <th>Dosis</th>
+                      <th>Veces</th>
+                      <th>Dias</th>
+                      <th width="60">Quitar</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr *ngIf="template.Recipes.length == 0"><td colspan="6">Sin elementos</td></tr>
+                    <tr *ngFor="let o of template.Recipes; let i = index">
+                      <td>{{(i+1)}}</td>
+                      <td>
+                        <select class="form-control" name="type_of_examen_{{i}}" [(ngModel)]="o.MedicineID">
+                          <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" name="dose_{{i}}" [(ngModel)]="o.Dose">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" name="period_{{i}}" [(ngModel)]="o.Period">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" name="periodicity_{{i}}" [(ngModel)]="o.Periodicity">
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-danger" (click)="deleteTemplate('Recipes',i)">X</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+ 
+                <div class="row mt-5">
+                  <div class="col-6"><h5>Exámenes</h5></div>
+                  <div class="col-6 text-end">
+                    <button class="btn btn-sm btn-primary" (click)="addOrder()">+ agregar</button>
+                  </div>
+                </div>
+                <table class="mt-2 table table-striped table-mini table-bordered">
+                  <thead>
+                    <tr>
+                      <th width="60">Fila</th>
+                      <th>Tipo</th>
+                      <th>Nombre Exámen</th>
+                      <th>Indicaciones</th>
+                      <th width="60">Quitar</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr *ngIf="template.Orders.length == 0"><td colspan="5">Sin elementos</td></tr>
+                    <tr *ngFor="let o of template.Orders; let i = index">
+                      <td>{{(i+1)}}</td>
+                      <td>
+                        <select class="form-control" name="type_of_examen_{{i}}" [(ngModel)]="o.ExamTypeID" (change)="examEvaluate(i)">
+                          <option [value]="t.ExamTypeID" *ngFor="let t of ExamTypes">{{t.Name}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control" name="examen_{{i}}" [(ngModel)]="o.ExamID">
+                          <option [value]="t.ExamID" *ngFor="let t of getExams(i)">{{t.Name}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" name="Edesc_{{i}}" [(ngModel)]="o.Description">
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-danger" (click)="deleteTemplate('Orders',i)">X</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+    
+              </div>
+              <div class="col-6">
+                <div class="row mt-5">
+                  <div class="col-6"><h5>Interconsultas</h5></div>
+                  <div class="col-6 text-end">
+                    <button class="btn btn-sm btn-primary" (click)="addInterview()">+ agregar</button>
+                  </div>
+                </div>
+                <table class="mt-2 table table-striped table-mini table-bordered">
+                  <thead>
+                    <tr>
+                      <th width="60">Fila</th>
+                      <th>Especialista</th>
+                      <th>Descripción</th>
+                      <th>Se desea</th>
+                      <th width="60">Quitar</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr *ngIf="template.Interviews.length == 0"><td colspan="5">Sin elementos</td></tr>
+                    <tr *ngFor="let o of template.Interviews; let i = index">
+                      <td>{{(i+1)}}</td>
+                      <td>
+                        <select class="form-control" name="specialists_{{i}}" [(ngModel)]="o.SpecialistID">
+                          <option [value]="s.SpecialistID" *ngFor="let s of Specialists">{{s.Name}}</option>
+                        </select>
+                      </td> 
+                      <td>
+                        <input type="text" class="form-control" name="DDescription_{{i}}" [(ngModel)]="o.Description">
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" name="WantText_{{i}}" [(ngModel)]="o.WantText">
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-danger" (click)="deleteTemplate('Interviews',i)">X</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="row mt-5">
+                  <div class="col-6"><h5>Certificados</h5></div>
+                  <div class="col-6 text-end">
+                    <button class="btn btn-sm btn-primary" (click)="addCertificate()">+ agregar</button>
+                  </div>
+                </div>
+                <table class="mt-2 table table-striped table-mini table-bordered">
+                  <thead>
+                    <tr>
+                      <th width="60">Fila</th>
+                      <th>Tipo</th>
+                      <th>Descripción</th>
+                      <th width="60">Quitar</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr *ngIf="template.Certificates.length == 0"><td colspan="4">Sin elementos</td></tr>
+                    <tr *ngFor="let o of template.Certificates; let i = index">
+                      <td>{{(i+1)}}</td>
+                      <td>
+                        <select class="form-control" name="specialists_{{i}}" [(ngModel)]="o.CertificateTypeID">
+                          <option [value]="c.CertificateTypeID" *ngFor="let c of CertificateTypes">{{c.Name}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" name="CDescription_{{i}}" [(ngModel)]="o.Description">
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-danger" (click)="deleteTemplate('Certificates',i)">X</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+
           </div>
-        </div>
-      </div>
-    </div> 
+
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
 
   </div>
 </div>

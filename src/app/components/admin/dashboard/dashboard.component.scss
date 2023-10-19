@@ -15,6 +15,10 @@
     }
   }
 }
+a {
+  color: blue;
+  text-decoration: none;
+}
 
 .tab-list {
   .tab {
@@ -58,7 +62,7 @@
   font-size: 14px;
   padding : 4px;
 
-  .status-enproceso {
+  .status-Consultas {
     a {
       display: inline-block;
       background-color: rgb(233, 202, 30);
@@ -70,10 +74,23 @@
       text-decoration: none;
     }
   }
-  .status-cotizado {
+  .status-Preoperatorio {
     a {
       display: inline-block;
       background-color: rgb(6, 48, 187);
+      color: #FFF;
+      font-size: 10px;
+      font-weight: bold;
+      text-align: center;
+      padding: 5px 10px;
+      text-decoration: none;
+    }
+  }
+
+  .status-Nocalifica {
+    a {
+      display: inline-block;
+      background-color: rgb(214, 78, 78);
       color: #FFF;
       font-size: 10px;
       font-weight: bold;
@@ -88,42 +105,11 @@
 .box-operatorio {
   position: relative; 
   font-size: 14px;
-  padding : 4px;
-
-  .status-enproceso {
-    a {
-      display: inline-block;
-      background-color: rgb(233, 202, 30);
-      color: #FFF;
-      font-size: 10px;
-      font-weight: bold;
-      text-align: center;
-      padding: 5px 10px;
-      text-decoration: none;
-    }
-  }
-  .status-cotizado {
-    a {
-      display: inline-block;
-      background-color: rgb(6, 48, 187);
-      color: #FFF;
-      font-size: 10px;
-      font-weight: bold;
-      text-align: center;
-      padding: 5px 10px;
-      text-decoration: none;
-    }
-  }
-  .status-reagendar {
-    a {
-      display: inline-block;
-      background-color: rgb(196, 74, 4);
-      color: #FFF;
-      font-size: 10px;
-      font-weight: bold;
-      text-align: center;
-      padding: 5px 10px;
-      text-decoration: none;
+  .row {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    &:hover {
+      background-color:#EDEDED;
     }
   }
 }
@@ -132,11 +118,16 @@
   color: #FFF;
   text-decoration: none;
   text-align: center;
-  padding: 25px;
+  padding: 10px 20px;
   display: inline-block;
   margin-right: 20px;
+  cursor: pointer;
+  transition: ease .3s all;
   &.consulta {
     background-color: rgb(5, 155, 155);
+  }
+  &.consulta:hover {
+    background-color: rgb(19, 110, 110);
   }
   &.ingreso {
     background-color: rgb(165, 109, 4);

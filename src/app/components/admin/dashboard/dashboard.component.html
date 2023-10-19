@@ -1,130 +1,39 @@
-<app-modal-cmp [toggle]="loading">
-  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
-<app-page-header [userName]="api.getProfile('name')" info="Bienvenido a tu Dashboard."></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Dashboard"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
 
   <div class="container">
-    <!--
-    <div class="row mb-4">
-      <div class="col">
-        <div class="box top-group">
-          <h5 class="fw-normal">Eventos por revisar:</h5>
-          <div class="mt-1 box-alerta">
-            <a href="#">&raquo;</a>
-            <div class="row">
-              <div class="col-4"><b>15783450-1</b></div>
-              <div class="col-6">JUAN CASTILLO</div>
-            </div>
-            <div class="row">
-              <div class="col-4"><b>17/09/2023</b></div>
-              <div class="col-6">Vera tema CX</div>
-            </div>
-          </div>
-
-          <div class="mt-1 box-alerta">
-            <a href="#">&raquo;</a>
-            <div class="row">
-              <div class="col-4"><b>16624648-2</b></div>
-              <div class="col-6">ROMINA JARAMILLO</div>
-            </div>
-            <div class="row">
-              <div class="col-4"><b>16/09/2023</b></div>
-              <div class="col-6">FALTA BIOPSIA</div>
-            </div>
-          </div> 
-        
-        </div>
-      </div>
-      
-
-      <div class="col">
-        <div class="box top-group">
-          <h5 class="fw-normal">Cotizaciones/Seguimiento:</h5>
-
-          <div class="mt-1 box-seguimiento">
-            <div class="row">
-              <div class="col-3"><b>7105820-K</b></div>
-              <div class="col-6">OSCAR MEDINA</div>
-              <div class="col-3 status-enproceso"><a href="#">EN PROCESO</a></div>
-            </div>
-          </div>
-
-          <div class="mt-1 box-seguimiento">
-            <div class="row">
-              <div class="col-3"><b>11968570-5</b></div>
-              <div class="col-6">CAMILA NORAMBUENA</div>
-              <div class="col-3 status-cotizado"><a href="#">COTIZADO</a></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="box top-group">
-          <h5 class="fw-normal">Consultas 20-09-2023:</h5>
-
-          <h6 class="mt-3">Sin consultas hoy</h6>
-
-        </div>
-      </div>
-      
-    </div>
-    -->
-
-    <!--
-    <div class="row align-items-stretch" style="height: 350px;">
-      <div class="col-12">
-        <div class="box h-100">
-          <p>Operatorios por agendar</p>
-
-          <div class="row">
-            <div class="col-2"><b>RUT</b></div>
-            <div class="col-2"><b>Paciente</b></div>
-            <div class="col-3"><b>Fechas</b></div>
-            <div class="col-3"><b>Observación</b></div>
-            <div class="col-2"><b>Estado</b></div>
-          </div>
-
-          <div class="mt-3 box-operatorio">
-            <div class="row">
-              <div class="col-2"><b>9582360-2</b></div>
-              <div class="col-2">FELIPE CASANOVA</div>
-              <div class="col-3">03/SEP/2023 - 05/OCT/2023</div>
-              <div class="col-3">PENDIENTE INFORME DR RAMIREZ</div>
-              <div class="col-2 status-reagendar"><a href="#">RE-AGENDAR</a></div>
-            </div>
-          </div>
-
-          <div class="mt-3 box-operatorio">
-            <div class="row">
-              <div class="col-2"><b>14380960-3</b></div>
-              <div class="col-2">MILLARAY FUENTES</div>
-              <div class="col-3">24/AGO/2023 - 24/SEP/2023</div>
-              <div class="col-3">TIENE QUE ENVIAR ECO ABDOMINAL</div>
-              <div class="col-2 status-enproceso"><a href="#">EN PROCESO</a></div>
-            </div>
-          </div>
-  
-
-        </div>
-      </div> 
-    </div>
-    -->
-
     <h5 class="my-3">Accesos rápidos</h5>
     <div class="row mb-4">
       <div class="col">
-        <a [routerLink]="" (click)="addPeople()" class="btn-fast consulta">Paciente Express</a>
+        <a [routerLink]="" (click)="addPeople()" class="btn-fast consulta">Toma de hora</a>
         <a [routerLink]="['/admin/people']" hidden class="btn-fast ingreso">Preingreso</a>
       </div>
     </div>
 
-    <h5 class="my-3">Listado de paciente del día</h5>
-    <div class="row align-items-stretch" style="height: 350px;">
+    <div class="row align-items-end mb-4">
+      <div class="col-6">
+        <h5 class="my-3">Agendamientos</h5>
+      </div>
+      <div class="col text-end">
+        <label for="date_from">Desde:</label>
+        <input type="date" id="date_from" class="form-control" [(ngModel)]="filter.from" />
+      </div>
+      <div class="col text-end">
+        <label for="date_to">Hasta:</label>
+        <input type="date" id="date_to" class="form-control" [(ngModel)]="filter.to" />
+      </div>
+      <div class="col text-start">
+        <button class="btn btn-primary btn-sm" (click)="reload()">Filtrar</button>
+      </div>
+    </div> 
+
+    
+    <div class="row align-items-stretch">
       <div class="col-12">
         <div class="box h-100">
 
@@ -136,17 +45,20 @@
             <div class="col-2"><b>Etapa</b></div>
           </div>
 
-          <div class="mt-1 box-operatorio" *ngFor="let p of dummy.people">
-            <div class="row" *ngFor="let d of p.dates">
-              <div class="col-2">{{d.date}}</div>
+          <div class="mt-1 mb-3 text-center p-3" *ngIf="dates.length == 0">
+            No se han encontrado citas con el filtro aplicado
+          </div>
+          <div class="mb-1 box-operatorio" *ngFor="let p of dates"> <!--dummy.people">-->
+            <div class="row">
+              <div class="col-2">{{p.Date | date: 'dd/MM/yyyy'}}</div>
               <div class="col-2">
-                <span *ngIf="d.confirmed">{{d.time}}</span> 
-                <a *ngIf="!d.confirmed" [routerLink]="" class="confirm" (click)="confirm(p.cardcode, p.name + ' ' + p.lastname + ' ' + p.lastname2)">{{d.time}}</a> 
-                &nbsp;<fa-icon *ngIf="d.confirmed" style="color:green;" [icon]="faCheckCircle"></fa-icon>
+                <span *ngIf="p.Confirmed==1">{{p.Time | slice:0:5}}</span> 
+                <a *ngIf="p.Confirmed==0" [routerLink]="" class="confirm" (click)="confirm(p.DateID, p.CardCode, p.Name + ' ' + p.Lastname + ' ' + p.Lastname2)">{{p.Time | slice:0:5}}</a> 
+                &nbsp;<fa-icon *ngIf="p.Confirmed==1" style="color:green;" [icon]="faCheckCircle"></fa-icon>
               </div>
-              <div class="col-3"><b>{{p.cardcode}}</b> {{p.name}} {{p.lastname}}</div>
+              <div class="col-3"><a [routerLink]="['/admin/people/' + p.PeopleID]"><b>{{p.CardCode}}</b> {{p.Name}} {{p.Lastname}}</a></div>
               <div class="col-3"></div>
-              <div class="col-2 status-{{p.stage}}"><a [routerLink]="['/admin/people/' + p.cardcode]">{{p.stageName}}</a></div>
+              <div class="col-2"><span class="status-{{p.GroupName}}">{{p.GroupName}}</span></div>
             </div>
           </div>  
   

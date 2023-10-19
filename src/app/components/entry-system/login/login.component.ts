@@ -18,8 +18,7 @@ export class LoginComponent implements OnInit {
   hide: boolean = true;
   public userData: any = {
     email: '',
-    password: '',
-    platform: 'superadmin'
+    password: ''
   };
 
   constructor(private router: Router, public api: ApiService) { }
@@ -29,27 +28,18 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true; 
-    setTimeout(async () => {
-      if (this.userData.email == 'prueba@drsalinas.cl' && this.userData.password=='123456') {
-        await this.api.setProfile("{}");
-        await this.api.setToken("a");
-        this.router.navigateByUrl('/admin/dashboard');
-      } else {
-        this.api.toastError('Acceso denegado');
-      }
-      this.loading = false;
-    },1200);
-    /*
+
+ 
     this.api.login(this.userData).subscribe(async (data:any) => { 
-      await this.api.setProfile(data);
-      await this.api.setToken(data.token);
+      await this.api.setProfile(data.user);
+      await this.api.setToken(data.access_token);
       this.router.navigateByUrl('/admin/dashboard');
       this.loading = false;
     }, (err:any) => {
-      this.api.toastError(err.error.error);
+      console.log(err);
+      this.api.toastError(err.error.message);
       this.loading = false;
     });
-    */
   }
 
   enterBtn(event: KeyboardEvent) {

@@ -1,0 +1,51 @@
+<div class="m-3">
+  <app-modal-cmp [toggle]="loading" [fixWidth]="false">
+    <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
+  </app-modal-cmp>
+  <form *ngIf="render">
+    <h4>Carga de resultados de exámenes</h4>
+    <hr />
+
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <table class="mt-4 table table-striped table-mini table-bordered">
+          <thead>
+            <tr>
+              <th width="150">Examen</th>
+              <th width="150">Campo</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="rows.length == 0">
+              <td colspan="3">No hay campos para completar</td>
+            </tr>
+            <tr *ngFor="let o of rows; let ii = index;">
+              <td>
+                {{o.ExamName}}
+              </td>
+              <td>
+                {{o.Name}}
+              </td>
+              <td>
+                <input type="text" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+ 
+   
+
+
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="button" (click)="save()" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

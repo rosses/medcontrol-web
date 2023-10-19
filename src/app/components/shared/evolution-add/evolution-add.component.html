@@ -1,0 +1,28 @@
+<div class="m-3">
+  <form (ngSubmit)="save()">  
+    <h5 class="my-4">Nueva evolución</h5>
+    <div class="row my-1">
+      <div class="col-4">
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" class="form-control" name="date" [disabled]="loading" [(ngModel)]="data.DateAs" />
+        </div>      
+      </div>
+    </div>
+    <div class="row my-1">
+      <div class="col-8">
+        <div class="form-group">
+          <label>Descripción:</label>
+          <textarea name="description" class="form-control" [disabled]="loading" [(ngModel)]="data.Description"></textarea>
+        </div>      
+      </div>
+    </div>
+
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

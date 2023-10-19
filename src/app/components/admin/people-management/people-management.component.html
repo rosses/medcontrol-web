@@ -1,104 +1,312 @@
-<app-modal-cmp [toggle]="loading">
-  <div class="d-flex justify-content-center align-items-center" style="height: 350px;"><app-loader></app-loader></div>
+<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
-<app-page-header info="Ficha del paciente"></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Ficha del paciente"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
 
   <div class="container">
-    <h4 class="mb-3">{{data.name}} {{data.lastname}} {{data.lastname2}} <span class="badge-{{data.stage}}">{{data.stageName}}</span></h4>
+    
+    <div class="row">
+      <div class="col-8">
+        <h4 class="mb-3">{{data.Name}} {{data.Lastname}} {{data.Lastname2}} <span class="status-{{data.GroupName}}">{{data.GroupName}}</span></h4>
+      </div>
+      <div class="col-4">
+
+      </div>
+    </div>
+    
     <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-      <li [ngbNavItem]="1" [class.active]="active == 1">
-        <button class="nav-icon" ngbNavLink (click)="active=1">
-          <img src="assets/icon/user.png" />
-          <span>Ficha general</span>
+      <!-- Resumen -->
+      <li [ngbNavItem]="0" [class.active]="active == 0">
+        <button class="nav-icon" ngbNavLink (click)="setActive(0)">
+          <img src="assets/icon/resume.png" />
+          <span>Vista General</span>
         </button>
         <ng-template ngbNavContent>
-         <div class="px-5 py-2">
-          <div class="row my-2">
+         <div class="px-3 py-2" *ngIf="render">
+          <div class="row">
             <div class="col-4">
-              <label>Nombre:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.name" />
+              <h5>Información:</h5>
+              <table class="table table-bordered">
+                <thead>
+                  <tr><th width="100">RUT</th><td>{{data?.CardCode}}</td></tr>
+                  <tr><th>Nombre</th><td>{{data?.Name}} {{data?.Lastname}} {{data?.Lastname2}}</td></tr>
+                  <tr><th>Edad</th><td> {{ getBirthdayTime() }} </td></tr>
+                  <tr><th>Fecha Nac.</th><td>{{data?.Birthday | date: 'dd/MM/yyyy'}}</td></tr>
+                  <tr><th>Email</th><td>{{data?.Email}}</td></tr>
+                  <tr><th>Teléfono</th><td>{{data?.Phone}} / {{data?.Phone2}}</td></tr>
+                  <tr><th>Dirección</th><td>{{data?.Address}}, {{data?.County}}, {{data?.City}}</td></tr>
+                  <tr><th>Profesión</th><td>{{data?.Profession}}</td></tr>
+                  <tr><th>Previsión</th><td>{{data?.HealthName}}</td></tr>
+                  <!--<tr><th>Observaciones:</th><td>{{data?.Obs}}</td></tr>-->
+                </thead>
+              </table>
             </div>
             <div class="col-4">
-              <label>Apellido Paterno:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.lastname" />
+              <h5>Datos clinicos:</h5>
+              <table class="table table-bordered">
+                <thead>
+                  <tr><th width="100">Peso</th><td>{{data?.Anthropometry?.Weight | number: '1.1-1'}}kgs</td></tr>
+                  <tr><th>Altura</th><td>{{data?.Anthropometry?.Height | number: '1.0-0'}}cms</td></tr>
+                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}}</td></tr>
+                  <tr><th>Temperatura</th><td>{{data?.Anthropometry?.Temperature | number: '1.1-1'}}&deg;</td></tr>
+                  <tr><th>Presión</th><td>{{data?.Anthropometry?.Sistolic}}/{{data?.Anthropometry?.Diastolic}}</td></tr>
+                  <tr><th>Médicos</th><td>{{data?.Date?.AntMedical}}</td></tr>
+                  <tr><th>Alergias</th><td>{{data?.Date?.AntAllergy}}</td></tr>
+                  <tr><th>Quirúrgicos</th><td>{{data?.Date?.AntSurgical}}</td></tr>
+                  <tr><th>Fármacos</th><td>{{data?.Date?.AntDrugs}}</td></tr>
+                </thead>
+              </table>
             </div>
             <div class="col-4">
-              <label>Apellido Materno:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.lastname2" />
-            </div>
-          </div>
-          <div class="row my-2">
-            <div class="col-4">
-              <label>Email:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.email" />
-            </div>
-            <div class="col-4">
-              <label>Teléfono:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.phone" />
-            </div>
-            <div class="col-4">
-              <label>Teléfono 2:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.phone2" />
+              <h5>Evoluciones:</h5>
+              <div class="evo-scroll">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr *ngIf="evolutions.length == 0">
+                    <th>Sin evoluciones</th>
+                  </tr>
+                  <ng-container *ngFor="let row of evolutions; let i = index;">
+                    <tr>
+                      <th>{{row.CreatedByName}}: {{row.DateAs | date: 'dd/MM/yy'}}</th>
+                    </tr>
+                    <tr>
+                      <td>{{row.Description}}</td>
+                    </tr>
+                  </ng-container> 
+                </tbody>
+              </table>
+              </div>
+              <hr />
+              <div class="text-end">
+                <button class="btn btn-sm btn-primary"><fa-icon [icon]="faPrint"></fa-icon> Imprimir ficha</button>&nbsp;&nbsp;
+                <button class="btn btn-sm btn-primary"><fa-icon [icon]="faChartLine"></fa-icon> Comparar examenes</button>
+              </div>
             </div>
           </div> 
-          <div class="row my-2">
-            <div class="col-4">
-              <label>Previsión:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.health" />
-            </div> 
-          </div>  
-          <div class="row my-2">
-            <div class="col text-end">
-              <button class="btn btn-success">Guardar cambios</button>
+          <div class="row"> 
+            <div class="col-12">
+              <h5>Cirugía</h5>
+              <div class="row my-3" *ngIf="data.Surgerys.length == 0">
+                <div class="col-12 text-start">
+                  No se han creado procesos de cirugía
+                </div>
+              </div>
+              <div class="row my-3" *ngFor="let x of data.Surgerys">
+                <div class="col-12">
+                  <div class="p-2" style="border: 1px solid blue;">
+                    <div class="row">
+                      <div class="col-4">
+                        <h6>{{x.SurgeryName}}</h6>
+                        <b>Diagnóstico:</b> {{x.DiagnosisName}}<br />
+                        <b>Observaciones:</b> {{x.Obs}}<br />
+                        <b>Fecha Consulta:</b> {{x.Date | date: 'dd/MM/yyyy' }}<br />
+                        <b>Fecha Término:</b>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeCirugy()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Cirugía:</b>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeCirugy()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
+                      </div>
+                      <div class="col-4">
+                        <h6>Autorizaciones:</h6>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="p-2" style="background-color:#d6d6d6;">
+                              <div class="row">
+                                <div class="col-4">
+                                  <h3>50%</h3>
+                                </div>
+                                <div class="col-8">
+                                  <table class="table table-bordered">
+                                    <thead>
+                                      <tr><th>Especialista</th><td>Nombre</td><td>OK</td></tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr><th>Cardíologo</th><td>Juan Torres</td><td><input type="checkbox" checked /></td></tr>
+                                      <tr><th>Nutricionista</th><td>Federico</td><td><input type="checkbox" /></td></tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <h6>Exámenes:</h6>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="p-2" style="background-color:#d6d6d6;">
+                              <div class="row">
+                                <div class="col-4">
+                                  <h3>62%</h3>
+                                </div>
+                                <div class="col-8">
+                                  <table class="table table-bordered">
+                                    <thead>
+                                      <tr><th>Examen</th><td>OK</td></tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr><th>Rx</th><td><input checked type="checkbox" /></td></tr>
+                                      <tr><th>Ecografia</th><td><input checked type="checkbox" /></td></tr>
+                                      <tr><th>Lab</th><td><input type="checkbox" /></td></tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
          </div> 
         </ng-template>
       </li>
+      <!-- Datos personales -->
+      <li [ngbNavItem]="1" [class.active]="active == 1">
+        <button class="nav-icon" ngbNavLink (click)="setActive(1)">
+          <img src="assets/icon/user.png" />
+          <span>Datos Personales</span>
+        </button>
+        <ng-template ngbNavContent>
+         <div class="px-3 py-2">
+
+          <h5 class="my-3">General</h5>
+
+          <div class="row my-2">
+            <div class="col-4">
+              <label>RUT:</label>
+              <input type="text" class="form-control" ngxRut [(ngModel)]="data.CardCode" />
+            </div>
+            <div class="col-4">
+              <label>Fecha Nac.:</label>
+              <input type="date" class="form-control" [(ngModel)]="data.Birthday" />
+            </div>
+          </div>
+
+          <div class="row my-2">
+            <div class="col-4">
+              <label>Nombre:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Name" />
+            </div>
+            <div class="col-4">
+              <label>Apellido Paterno:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Lastname" />
+            </div>
+            <div class="col-4">
+              <label>Apellido Materno:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Lastname2" />
+            </div>
+          </div>
+
+          <!-- <h5 class="my-3">Datos de contacto</h5> -->
+        
+          <div class="row my-2">
+            <div class="col-4">
+              <label>Email:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Email" />
+            </div>
+            <div class="col-4">
+              <label>Teléfono:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Phone" />
+            </div>
+            <div class="col-4">
+              <label>Teléfono 2:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Phone2" />
+            </div>
+          </div> 
+
+          <!-- <h5 class="my-3">Localización</h5> -->
+
+          <div class="row my-2">
+            <div class="col-4">
+              <label>Dirección:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Address" />
+            </div>
+            <div class="col-4">
+              <label>Comuna:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.County" />
+            </div>
+            <div class="col-4">
+              <label>Ciudad:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.City" />
+            </div>
+          </div> 
+
+          <!-- <h5 class="my-3">Otros antecedentes</h5> --> 
+          <div class="row my-2">
+            <div class="col-4">
+              <label>Previsión:</label>
+              <select name="Health" [(ngModel)]="data.HealthID" class="form-control">
+                <option [value]="h.HealthID" *ngFor="let h of Healts">{{h.Name}}</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <label>Profesión:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Profession" />
+            </div> 
+            <div class="col-4">
+              <label>Observaciones:</label>
+              <input type="text" class="form-control" [(ngModel)]="data.Obs" />
+            </div> 
+          </div>  
+          <div class="row my-2">
+            <div class="col text-end">
+              <button class="btn btn-success" (click)="savePeople()">Guardar perfil paciente</button>
+            </div>
+          </div>
+         </div> 
+        </ng-template>
+      </li>
+      <!-- Consultas -->
       <li [ngbNavItem]="2" [class.active]="active == 2">
-        <button class="nav-icon" ngbNavLink (click)="active=2">
+        <button class="nav-icon" ngbNavLink (click)="setActive(2)">
           <img src="assets/icon/calendar.png" />
           <span>Consultas</span>
         </button>
         <ng-template ngbNavContent>
-          <div class="px-5 py-2">
+          <div class="px-3 py-2">
             <div class="row my-2">
               <div class="col-12">
-                <div class="session p-2" *ngFor="let d of data.dates">
+                <div class="session text-center p-4" *ngIf="dates.length == 0">
+                  <h6>Sin consultas ingresadas</h6>
+                </div>
+                <div class="session mb-1 p-2" *ngFor="let d of dates">
                   <div class="row">
                     <div class="col text-center">
-                      <h5 class="m-0 p-0">{{d.date}}</h5>
-                      <h6 class="m-0 p-0">{{d.time}}</h6>
+                      <h5 class="m-0 p-0">{{d.Date | date: 'dd/MM/yyyy'}}</h5>
+                      <h6 class="m-0 p-0">{{d.Time | slice:0:5}}</h6>
                     </div>
                     <div class="col-9">
                       <div class="row"> 
                         <div class="col">
-                          <b>Atendido por:</b><br>
-                          No ingresado
+                          <b>Actualizado por:</b><br>
+                          {{d.UpdatedUserName}}
                         </div>
                         <div class="col">
-                          <b>Recetas:</b><br>
-                          No ingresado
+                          <b>Exámenes:</b><br>
+                          {{d.orders}}
                         </div>
                         <div class="col">
                           <b>Interconsultas:</b><br>
-                          No ingresado
+                          {{d.interviews}}
                         </div>
                         <div class="col">
-                          <b>Observaciones:</b><br>
-                          No ingresado
+                          <b>Recetas:</b><br>
+                          {{d.recipes}}
                         </div>
                         <div class="col">
-                          <b>Triage:</b><br />
-                          No ingresado
+                          <b>Certificados:</b><br />
+                          {{d.certificates}}
                         </div>
                       </div> 
                     </div>
                     <div class="col-1">
-                      <button (click)="editar('faedit')" class="btn btn-sm btn-primary"><fa-icon [icon]="faEdit"></fa-icon></button>
+                      <button (click)="session(d.DateID)" class="btn btn-sm btn-primary"><fa-icon [icon]="faEdit"></fa-icon></button>
                     </div>
                   </div>
                 </div>
@@ -107,148 +315,295 @@
            </div> 
         </ng-template>
       </li>
-      <li [ngbNavItem]="7" [class.active]="active == 7">
-        <button class="nav-icon" ngbNavLink (click)="active=7">
-          <img src="assets/icon/hospital.png" />
-          <span>Ficha Clínica</span>
-        </button>
-        <ng-template ngbNavContent>
-          <div class="px-5 py-2">
-            <div class="row my-2">
-              <div class="col-12">
-
-                <h6 class="my-2">&Uacute;ltimo triage (10/09/2023):</h6>
-                <div class="session p-2">
-                  <div class="row"> 
-                    <div class="col">
-                      <b>Peso:</b><br>
-                      0 kg
-                    </div>
-                    <div class="col">
-                      <b>Altura:</b><br>
-                      0 cm
-                    </div>
-                    <div class="col">
-                      <b>Temperatura (C):</b><br>
-                      0&deg;
-                    </div>
-                    <div class="col">
-                      <b>Presión:</b><br>
-                      110/80
-                    </div>
-                  </div> 
-                </div>
-                <br /><br />
-                <h6 class="my-2">Formularios clínicos</h6>
-                <div class="session p-2">
-                  <div class="row"> 
-                    <div class="col-2">
-                      <b>Toma de muestras:</b>
-                    </div>
-                    <div class="col-8">
-                      No se ha ingresado toma de muestras
-                    </div>
-                    <div class="col">
-                      <button (click)="editar('faedit')" class="btn btn-sm btn-primary">Actualizar</button>
-                    </div> 
-                  </div> 
-                </div>
-
-              </div>
-            </div>
-           </div> 
-        </ng-template>
-      </li>
+      <!-- Evoluciones -->
       <li [ngbNavItem]="3" [class.active]="active == 3">
-        <button class="nav-icon" ngbNavLink (click)="active=3">
+        <button class="nav-icon" ngbNavLink (click)="setActive(3)">
           <img src="assets/icon/evolution.png" />
           <span>Evoluciones</span>
         </button>
         <ng-template ngbNavContent>
-          <div class="px-5 py-2">
+          <div class="px-3 py-2">
             <div class="row my-2">
-              <div class="col-12">
-
+              <div class="col-8">
                 <h6 class="my-2">Evoluciones:</h6>
               </div>
-           </div>
-           <div class="row my-2">
-            <div class="col text-end">
-              <button class="btn btn-success">Ingresar evolución</button>
+              <div class="col-4 text-end">
+                <button class="btn btn-success" (click)="addEvolution()">Ingresar evolución</button>
+              </div>
+           </div> 
+           <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th width="120">Fecha</th>
+                    <th width="150">Creada por</th>
+                    <th>Descripción</th>
+                    <th width="80">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="evolutions.length == 0">
+                    <th colspan="4">Sin evoluciones</th>
+                  </tr>
+                  <ng-container *ngFor="let row of evolutions; let i = index;">
+                    <tr>
+                      <td>{{row.CreatedByName}}</td>
+                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
+                      <td>{{row.Description}}</td>
+                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
+                    </tr>
+                  </ng-container> 
+                </tbody>
+              </table> 
             </div>
            </div>
           </div> 
+
         </ng-template>
       </li>
+      <!-- Exámenes -->
       <li [ngbNavItem]="4" [class.active]="active == 4">
-        <button class="nav-icon" ngbNavLink (click)="active=4">
+        <button class="nav-icon" ngbNavLink (click)="setActive(4)">
           <img src="assets/icon/heart-rate-monitor.png" />
           <span>Exámenes</span>
         </button>
         <ng-template ngbNavContent>
-          <div class="px-5 py-2">
+          <div class="px-3 py-2">
             <div class="row my-2">
               <div class="col-12">
-
                 <h6 class="my-2">Exámenes:</h6>
               </div>
            </div>
            <div class="row my-2">
-            <div class="col text-end">
-              <button class="btn btn-success">Ingresar examen</button>
+            <div class="col">
+              <table class="table table-striped table-mini table-bordered">
+                <tbody *ngIf="exams.length == 0">
+                  <tr>
+                    <td colspan="3" class="text-start">Sin examenes en el paciente</td>
+                  </tr>
+                </tbody>
+                <ng-container *ngFor="let o of exams; let ii = index;">
+                  <thead>
+                    <tr>
+                      <th style="background-color:#ffffa0;" colspan="2">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" class="text-center"><button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button></th>
+                    </tr>
+                    <tr>
+                      <th width="200">Tipo</th>
+                      <th>Examenes</th>
+                      <th width="120">Opciones</th>
+                    </tr>
+                  </thead> 
+                  <tbody>
+                    <tr *ngFor="let e of o.data; let iii = index;">
+                      <td>
+                        {{e.ExamTypeName}}
+                      </td>
+                      <td>
+                        <div *ngFor="let m of e.Exams">{{m}}</div>
+                      </td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-primary" (click)="deployResults(o.DateID, e.ExamTypeID, e.ExamTypeName)">resultados</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+              </table>
             </div>
-           </div>
+           </div> 
           </div> 
         </ng-template>
       </li>
-
-      
-      <li [ngbNavItem]="8" [class.active]="active == 8">
-        <button class="nav-icon" ngbNavLink (click)="active=8">
-          <img src="assets/icon/surgery-room.png" />
-          <span>Operatorio</span>
-        </button>
-        <ng-template ngbNavContent>
-          <div class="px-5 py-2">
-            <div class="row my-2">
-              <div class="col-12">
-
-                <h6 class="my-2">Cirugias:</h6>
-              </div>
-           </div>
-           <div class="row my-2">
-            <div class="col text-end">
-              <button class="btn btn-success">Crear preoperatorio</button>
-            </div>
-           </div>
-          </div> 
-        </ng-template>
-      </li>
+      <!-- Recetas -->
       <li [ngbNavItem]="5" [class.active]="active == 5">
-        <button class="nav-icon" ngbNavLink (click)="active=5">
+        <button class="nav-icon" ngbNavLink (click)="setActive(5)">
           <img src="assets/icon/prescription.png" />
           <span>Recetas</span>
         </button>
         <ng-template ngbNavContent>
-          <p>
+          <div class="px-3 py-2">
+            <div class="row my-2">
+              <div class="col-8">
+                <h6 class="my-2">Recetas:</h6>
+              </div>
+              <div class="col-4 text-end">
+                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
+              </div>
+           </div> 
+           <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th width="120">Fecha</th>
+                    <th width="150">Creada por</th>
+                    <th>Descripción</th>
+                    <th width="80">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="recipes.length == 0">
+                    <th colspan="4">Sin recetas</th>
+                  </tr>
+                  <ng-container *ngFor="let row of recipes; let i = index;">
+                    <tr>
+                      <td>{{row.CreatedByName}}</td>
+                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
+                      <td>{{row.Description}}</td>
+                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
+                    </tr>
+                  </ng-container> 
+                </tbody>
+              </table> 
+            </div>
+           </div>
+          </div> 
 
-          </p>
         </ng-template>
       </li>
+      <!-- Certificados -->
       <li [ngbNavItem]="6" [class.active]="active == 6">
-        <button class="nav-icon" ngbNavLink (click)="active=6">
+        <button class="nav-icon" ngbNavLink (click)="setActive(6)">
+          <img src="assets/icon/stamp.png" />
+          <span>Certificados</span>
+        </button>
+        <ng-template ngbNavContent>
+          <div class="px-3 py-2">
+            <div class="row my-2">
+              <div class="col-8">
+                <h6 class="my-2">Certificados:</h6>
+              </div>
+              <div class="col-4 text-end">
+                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
+              </div>
+           </div> 
+           <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th width="120">Fecha</th>
+                    <th width="150">Creada por</th>
+                    <th>Descripción</th>
+                    <th width="80">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="certificates.length == 0">
+                    <th colspan="4">Sin certificados</th>
+                  </tr>
+                  <ng-container *ngFor="let row of certificates; let i = index;">
+                    <tr>
+                      <td>{{row.CreatedByName}}</td>
+                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
+                      <td>{{row.Description}}</td>
+                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
+                    </tr>
+                  </ng-container> 
+                </tbody>
+              </table> 
+            </div>
+           </div>
+          </div> 
+
+        </ng-template>
+      </li>
+      <!-- Interconsultas -->
+      <li [ngbNavItem]="7" [class.active]="active == 7">
+        <button class="nav-icon" ngbNavLink (click)="setActive(7)">
           <img src="assets/icon/doctor.png" />
           <span>Interconsultas</span>
         </button>
         <ng-template ngbNavContent>
-          <p>
+          <div class="px-3 py-2">
+            <div class="row my-2">
+              <div class="col-8">
+                <h6 class="my-2">Interconsultas:</h6>
+              </div>
+              <div class="col-4 text-end">
+                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
+              </div>
+           </div> 
+           <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th width="120">Fecha</th>
+                    <th width="150">Creada por</th>
+                    <th>Descripción</th>
+                    <th width="80">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="interviews.length == 0">
+                    <th colspan="4">Sin interconsultas</th>
+                  </tr>
+                  <ng-container *ngFor="let row of interviews; let i = index;">
+                    <tr>
+                      <td>{{row.CreatedByName}}</td>
+                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
+                      <td>{{row.Description}}</td>
+                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
+                    </tr>
+                  </ng-container> 
+                </tbody>
+              </table> 
+            </div>
+           </div>
+          </div> 
 
-          </p>
+        </ng-template>
+      </li>   
+      <!-- Presupuestos -->
+      <li [ngbNavItem]="8" [class.active]="active == 8">
+        <button class="nav-icon" ngbNavLink (click)="setActive(8)">
+          <img src="assets/icon/bill.png" />
+          <span>Presupuestos</span>
+        </button>
+        <ng-template ngbNavContent>
+          <div class="px-3 py-2">
+            <div class="row my-2">
+              <div class="col-8">
+                <h6 class="my-2">Presupuestos:</h6>
+              </div>
+              <div class="col-4 text-end">
+                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
+              </div>
+           </div> 
+           <div class="row">
+            <div class="col-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th width="120">Fecha</th>
+                    <th width="150">Creada por</th>
+                    <th>Descripción</th>
+                    <th width="80">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="budgets.length == 0">
+                    <th colspan="4">Sin presupuestos</th>
+                  </tr>
+                  <ng-container *ngFor="let row of budgets; let i = index;">
+                    <tr>
+                      <td>{{row.CreatedByName}}</td>
+                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
+                      <td>{{row.Description}}</td>
+                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
+                    </tr>
+                  </ng-container> 
+                </tbody>
+              </table> 
+            </div>
+           </div>
+          </div> 
+
         </ng-template>
       </li>      
     </ul>
-    
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
-
   </div>
 </div>

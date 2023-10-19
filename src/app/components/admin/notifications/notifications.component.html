@@ -34,9 +34,7 @@
 
 </app-modal-cmp>
 
-<app-page-header
-  [userName]="'Francisco'"
-  info="Bienvenido a tu Dashboard."></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Dashboard"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
   <div class="container">

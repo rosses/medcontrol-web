@@ -3,11 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import { HealthProviderComponent } from './health-provider/health-provider.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { BillingComponent } from './billing/billing.component';
 import { SettingComponent } from './setting/setting.component';
-import { SuperintendenciaComponent } from './superintendencia/superintendencia.component';
 import { PeopleComponent } from './people/people.component';
 import { PeopleManagementComponent } from './people-management/people-management.component';
 
@@ -25,10 +23,6 @@ const routes: Routes = [
         component: NotificationsComponent
       },
       {
-        path: 'health-provider',
-        component: HealthProviderComponent
-      },
-      {
         path: 'admin-users',
         component: AdminUsersComponent
       },
@@ -37,7 +31,7 @@ const routes: Routes = [
         component: PeopleComponent
       },
       {
-        path: 'people/:cardcode',
+        path: 'people/:id',
         component: PeopleManagementComponent
       },
       {
@@ -47,10 +41,6 @@ const routes: Routes = [
       {
         path: 'setting',
         component: SettingComponent
-      },
-      {
-        path: 'superintendencia',
-        component: SuperintendenciaComponent
       }
     ]
   }

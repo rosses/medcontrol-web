@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ModalCmpComponent implements OnInit {
 
+  @Input() fixWidth: boolean = false;
   @Input() toggle: boolean = true;
   @Input() title: string = '';
   @Input() close: boolean = false;

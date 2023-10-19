@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { faSpinner, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxRutService } from '@numetalsour/ngx-rut';
+import { Observable, lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
 import { DummyService } from 'src/app/dummy.service';
 import { MaskService } from 'src/app/mask.service';
@@ -14,30 +15,26 @@ import { MaskService } from 'src/app/mask.service';
 })
 export class PeopleNewComponent implements OnInit {
 
+  public healths: any[] = [];
   public data: any = {
-    cardcode:    '',
-    name:       '',
-    lastname:   '',
-    lastname2:  '',
-    phone:      '',
-    phone2:     '',
-    email:      '',
-    stage:      'enproceso',
-    stageName:  'CONSULTAS',
-    health:     '',
-    lastObs:    '',
-    dates: [{
-      date: '',
-      time: '',
-      confirmed: false,
-      triage: {
-        weight: 0,
-        height: 0,
-        sistolic: 0,
-        diastolic: 0,
-        temp: 0
-      }
-    }]
+    CardCode:    '',
+    Name:       '',
+    Lastname:   '',
+    Lastname2:  '',
+    Phone:      '',
+    Phone2:     '',
+    Email:      '',
+    Address:    '',
+    County:     '',
+    City:       '',
+    Health:     '',
+    Profession: '',
+    Obs:        '',
+    Mode:       'fast',
+    dates:      {
+        date: '',
+        time: ''
+    }
   };
   public loading: boolean = false;
   public faSpinner = faSpinner;
@@ -51,9 +48,23 @@ export class PeopleNewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.api.getHealths().subscribe((data:any) => {
+      this.healths = data;
+    });
   }
-  save() {
+  async save() {
     this.loading = true;
+    try {
+      const s:any = await lastValueFrom(this.api.addPeople(this.data));
+      this.api.toastOk("Creado correctamente");
+      this.modal.close({success: true});
+      this.loading = false;
+    } catch (err:any) {
+      this.api.toastError(err.error.message);
+      this.loading = false;
+    }
+
+    /*
     setTimeout (()=>{     
       console.log(this.data);
       if (
@@ -84,7 +95,7 @@ export class PeopleNewComponent implements OnInit {
         this.loading = false;
       }
     },1500);
-
+    */
 
   }
  
@@ -92,3 +103,7 @@ export class PeopleNewComponent implements OnInit {
     this.modal.dismiss();
   }
 }
+function lastFromValue(arg0: Observable<any>) {
+  throw new Error('Function not implemented.');
+}
+

@@ -1,6 +1,10 @@
-html, body {
+html {
   height: 100vh;
   background-color: #F6F9FC;
+}
+body {
+  --bs-body-font-size: 0.85rem;
+  font-size: 12px;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -12,6 +16,13 @@ h5,
 h6 {
   font-family: 'Rubik', sans-serif;
 }
+
+h1 { font-size: 24px; }
+h2 { font-size: 22px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+h5 { font-size: 16px; }
+h6 { font-size: 14px; }
 
 textarea {
   resize: none;
@@ -114,7 +125,7 @@ textarea {
 }
 
 .page-wrapper {
-  padding: 3em 0;
+  padding: 0;
 }
 
 .btn-mid {
@@ -126,6 +137,19 @@ textarea {
     background-color: transparent;
     color: #212529;
     border-color: #D0D0D0;
+  }
+}
+.fixWidth  {
+  .modal-dialog {
+    max-width: none !important;
+    width: 200px;
+  }
+  .modal-content {
+    border-radius: 50% !important;
+    width: 180px;
+    height: 180px;
+    text-align: center;
+    line-height: 120px;
   }
 }
 
@@ -234,5 +258,6 @@ textarea {
     }
   }
 }
-
-
+.table > :not(caption) > * > * {
+  padding: 0.2rem 0.2rem !important;
+}

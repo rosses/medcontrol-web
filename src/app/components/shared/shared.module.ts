@@ -18,6 +18,10 @@ import { InputMaskModule } from '@ngneat/input-mask';
 import { NgxRutModule } from '@numetalsour/ngx-rut';
 import { SchedulerConfirmationComponent } from './scheduler-confirmation/scheduler-confirmation.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { SessionCompleteComponent } from './session-complete/session-complete.component';
+import { MasterdataEditorComponent } from './masterdata-editor/masterdata-editor.component';
+import { OrderResultComponent } from './order-result/order-result.component';
+import { EvolutionAddComponent } from './evolution-add/evolution-add.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     ConfirmActionModalComponent,
     RadioBtnComponent,
     PeopleNewComponent,
-    SchedulerConfirmationComponent
+    SchedulerConfirmationComponent,
+    SessionCompleteComponent,
+    MasterdataEditorComponent,
+    OrderResultComponent,
+    EvolutionAddComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +63,11 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     ConfirmActionModalComponent,
     RadioBtnComponent,
     PeopleNewComponent,
-    SchedulerConfirmationComponent
+    SchedulerConfirmationComponent,
+    SessionCompleteComponent,
+    MasterdataEditorComponent,
+    OrderResultComponent,
+    EvolutionAddComponent
   ]
 })
 export class SharedModule { }

@@ -14,15 +14,12 @@ import { SchedulerConfirmationComponent } from '../../shared/scheduler-confirmat
 export class DashboardComponent implements OnInit {
 
   public loading: boolean = false;
-  public stats: any = {
-    customersList: 0,
-    shiftsCurrent: 0,
-    shiftsBefore: [],
-    periodCurrent: '',
-    usersByJobs: [],
-    usersByLocation: []
-  }
+  public dates: any[] = [];
   public faCheckCircle = faCheckCircle;
+  public filter: any = {
+    from: new Date().toISOString().substring(0,10),
+    to: new Date().toISOString().substring(0,10)
+  }
 
   constructor(
     public api: ApiService,
@@ -31,17 +28,17 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.reload();
+  }
+  reload() {
     this.loading = true;
-    setTimeout(()=> {
+    this.api.getDatesFilter(this.filter).subscribe((data:any) => {
+      this.dates = data;
       this.loading = false;
-    },1000);
-    /*
-    this.api.getSuperadminDashboard().subscribe((data:any) => {
-      this.stats = data;
+    },(err:any) => {
+      this.api.toastError(err.error.message);
       this.loading = false;
     });
-    */
   }
   addPeople() {
     const mdl = this.modal.open(PeopleNewComponent, {
@@ -49,20 +46,26 @@ export class DashboardComponent implements OnInit {
       keyboard: true,
       size: 'lg'
     });
+    mdl.componentInstance.data.Mode = 'fast';
     mdl.result.then((data) => {
-      console.log('then.data: ', data);
+      if (data.success) {
+        this.reload();
+      }
     },(err) => { console.log('dismiss:',err); });
   }
-  confirm(cardcode:string, name: string) {
+  confirm(dateid: number,cardcode:string, name: string) {
     const mdl = this.modal.open(SchedulerConfirmationComponent, {
       backdrop: false,
       keyboard: true,
       size: 'lg'
     });
+    mdl.componentInstance.data.DateID = dateid;
     mdl.componentInstance.data.name = name;
     mdl.componentInstance.data.cardcode = cardcode;
     mdl.result.then((data) => {
-      console.log('then.data: ', data);
+      if (data.success) {
+        this.reload();
+      }
     },(err) => { console.log('dismiss:',err); });
   }
 

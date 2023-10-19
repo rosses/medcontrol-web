@@ -8,25 +8,19 @@ import { DummyService } from 'src/app/dummy.service';
 import { MaskService } from 'src/app/mask.service';
 
 @Component({
-  selector: 'app-scheduler-confirmation',
-  templateUrl: './scheduler-confirmation.component.html',
-  styleUrls: ['./scheduler-confirmation.component.scss']
+  selector: 'app-evolution-add',
+  templateUrl: './evolution-add.component.html',
+  styleUrls: ['./evolution-add.component.scss']
 })
-export class SchedulerConfirmationComponent implements OnInit {
+export class EvolutionAddComponent implements OnInit {
 
   public data: any = {
-    DateID:     0,
-    cardcode:   '',
-    name:       '',
-    Weight:     0,
-    Height:     0,
-    Sistolic:   0,
-    Diastolic:  0,
-    Temperature:0
+    Description:  '',
+    DateAs:       new Date().toISOString().substring(0,10),
+    PeopleID:  ''
   };
   public loading: boolean = false;
-  public faSpinner = faSpinner;
-  @ViewChild("temp") tempField!: ElementRef;
+  public faSpinner = faSpinner; 
 
   constructor(
     private api: ApiService,
@@ -34,18 +28,16 @@ export class SchedulerConfirmationComponent implements OnInit {
     public dummy: DummyService,
     public rut: NgxRutService,
     public mask: MaskService
-  ) { }
+  ) {   
+  }
 
   ngOnInit(): void {
-  }
-  ngAfterViewInit() {
-    this.tempField.nativeElement.focus();
-  }
+  } 
 
   save() {
     this.loading = true;
-    this.api.addDatesConfirm(this.data).subscribe((data:any) => {
-      this.api.toastOk("Confirmado correctamente");
+    this.api.addEvolution(this.data).subscribe((data:any) => {
+      this.api.toastOk("Agregado correctamente");
       this.modal.close({
         success: true
       });

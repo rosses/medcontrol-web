@@ -19,7 +19,7 @@ export class PageHeaderComponent implements OnInit {
   constructor(public api: ApiService) { }
 
   ngOnInit(): void {
-    this.userName = this.api.getProfile('name') || '';
+    
   }
 
 }

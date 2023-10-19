@@ -1,13 +1,12 @@
-<div class="page-header">
+<div class="page-header mb-3">
   <div class="container">
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col">
-        <h5 class="fw-normal mb-0" [hidden]="userName==''">Hola {{ userName }},</h5>
-        <p class="mb-0">{{ info }}</p>
+        <h5 class="fw-normal mb-0">{{info}}</h5>
       </div>
       <div class="col text-end">
-        <p class="mb-0">{{ today | date:'dd \'de\' MMMM \',\' YYYY' }}</p>
-        <p class="mb-0">{{ today | date:'hh:mm a' }}</p>
+        <p class="m-0">{{ today | date:'dd \'de\' MMMM \',\' YYYY' }}, {{ today | date:'hh:mm a' }}</p>
+        <p class="m-0">Conectado como <b>{{userName}}</b></p>
       </div>
     </div>
   </div>
