@@ -22,6 +22,12 @@ import { SessionCompleteComponent } from './session-complete/session-complete.co
 import { MasterdataEditorComponent } from './masterdata-editor/masterdata-editor.component';
 import { OrderResultComponent } from './order-result/order-result.component';
 import { EvolutionAddComponent } from './evolution-add/evolution-add.component';
+import { AddMedicalExpressComponent } from './add-medical-express/add-medical-express.component';
+import { ChangeStatusComponent } from './change-status/change-status.component';
+import { ChangeDatesComponent } from './change-dates/change-dates.component';
+import { ChangeDates2Component } from './change-dates2/change-dates2.component';
+import { CopyFichaComponent } from './copy-ficha/copy-ficha.component';
+import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,13 @@ import { EvolutionAddComponent } from './evolution-add/evolution-add.component';
     SessionCompleteComponent,
     MasterdataEditorComponent,
     OrderResultComponent,
-    EvolutionAddComponent
+    EvolutionAddComponent,
+    AddMedicalExpressComponent,
+    ChangeStatusComponent,
+    ChangeDatesComponent,
+    CopyFichaComponent,
+    ChangeDates2Component,
+    WhatsAppShareComponent
   ],
   imports: [
     CommonModule,
@@ -67,7 +79,13 @@ import { EvolutionAddComponent } from './evolution-add/evolution-add.component';
     SessionCompleteComponent,
     MasterdataEditorComponent,
     OrderResultComponent,
-    EvolutionAddComponent
+    EvolutionAddComponent,
+    AddMedicalExpressComponent,
+    ChangeStatusComponent,
+    ChangeDatesComponent,
+    CopyFichaComponent,
+    ChangeDates2Component,
+    WhatsAppShareComponent
   ]
 })
 export class SharedModule { }

@@ -9,34 +9,18 @@ import { DummyService } from 'src/app/dummy.service';
 import { MaskService } from 'src/app/mask.service';
 
 @Component({
-  selector: 'app-people-new',
-  templateUrl: './people-new.component.html',
-  styleUrls: ['./people-new.component.scss']
+  selector: 'app-change-status',
+  templateUrl: './change-status.component.html',
+  styleUrls: ['./change-status.component.scss']
 })
-export class PeopleNewComponent implements OnInit {
+export class ChangeStatusComponent implements OnInit {
 
-  public healths: any[] = [];
+  public statuses: any[] = [];
   public data: any = {
-    CardCode:    '',
-    Name:       '',
-    Lastname:   '',
-    Lastname2:  '',
-    Phone:      '',
-    Phone2:     '',
-    Email:      '',
-    Address:    '',
-    County:     '',
-    City:       '',
-    HealthID:     '',
-    Profession: '',
-    Obs:        '',
-    Mode:       'fast',
-    dates:      {
-        date: new Date().toISOString().substring(0,10),
-        time: new Date().toISOString().substring(11,16)
-    }
+    StatusID: '',
+    PeopleID: ''
   };
-  public loading: boolean = false;
+  public loading: boolean = true;
   public faSpinner = faSpinner;
 
   constructor(
@@ -48,16 +32,17 @@ export class PeopleNewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.api.getHealths().subscribe((data:any) => {
-      this.healths = data;
+    this.api.getStatuses().subscribe((data:any) => {
+      this.statuses = data;
+      this.loading = false;
     });
   }
   async save() {
     this.loading = true;
     try {
-      const s:any = await lastValueFrom(this.api.addPeople(this.data));
-      this.api.toastOk("Creado correctamente");
-      this.modal.close({success: true, data: s.data, date: s.date});
+      const s:any = await lastValueFrom(this.api.changeStatusPeople(this.data));
+      this.api.toastOk("Guardado correctamente");
+      this.modal.close({success: true, data: this.statuses.filter((x:any) => { return x.StatusID == this.data.StatusID })[0] });
       this.loading = false;
     } catch (err:any) {
       this.api.toastError(err.error.message);

@@ -216,6 +216,9 @@ export class SettingComponent implements OnInit {
           if (this.master == 'ExamData') {
             const setup = await lastValueFrom(this.api.deleteExamData(o.ExamDataID));
           }
+          this.loading = false;
+          this.reloadMasterdata();
+          this.api.toastOk("Realizado correctamente");
         } catch (err:any) {
           this.loading = false;
           this.api.toastError(err.error.message);  

@@ -18,11 +18,12 @@ export class MenuSidebarComponent implements OnInit {
       name: "Dashboard",
       url: "dashboard"
     },
-/*     {
+    {
       icon: "icon-bell-bold",
       name: "Notificaciones",
       url: "notifications"
     }, 
+    /*
     {
       icon: "icon-prestador-de-salud",
       name: "Agenda",

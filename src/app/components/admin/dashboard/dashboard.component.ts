@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/api.service';
 import { PeopleNewComponent } from '../../shared/people-new/people-new.component';
 import { DummyService } from 'src/app/dummy.service';
 import { SchedulerConfirmationComponent } from '../../shared/scheduler-confirmation/scheduler-confirmation.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     public api: ApiService,
     public modal: NgbModal,
-    public dummy: DummyService
+    public router: Router
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +50,11 @@ export class DashboardComponent implements OnInit {
     mdl.componentInstance.data.Mode = 'fast';
     mdl.result.then((data) => {
       if (data.success) {
-        this.reload();
+        if (data.data.PeopleID) {
+          this.router.navigateByUrl('/admin/people/' + data.data.PeopleID);
+        } else {
+          this.reload();
+        }
       }
     },(err) => { console.log('dismiss:',err); });
   }

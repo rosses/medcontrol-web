@@ -1,0 +1,97 @@
+<div class="m-3">
+  <form (ngSubmit)="save()">
+    <h4>Control de fechas</h4>
+    
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Control Cirujano</label>
+          <input type="date" id="DatePost1" name="DatePost1" class="form-control" [(ngModel)]="data.DatePost1" />
+        </div>      
+      </div>     
+      <div class="col-6">
+        <div class="form-group">
+          <label>Comentario:</label>
+          <input type="text" id="DateMsg1" name="DateMsg1" class="form-control" [(ngModel)]="data.DateMsg1" />
+        </div>
+      </div>
+    </div> 
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Control 6 Meses</label>
+          <input type="date" id="DatePost2" name="DatePost2" class="form-control" [(ngModel)]="data.DatePost2" />
+        </div>      
+      </div>     
+      <div class="col-6">
+        <div class="form-group">
+          <label>Comentario:</label>
+          <input type="text" id="DateMsg2" name="DateMsg2" class="form-control" [(ngModel)]="data.DateMsg2" />
+        </div>
+      </div>
+    </div> 
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Control 1 Año</label>
+          <input type="date" id="DatePost3" name="DatePost3" class="form-control" [(ngModel)]="data.DatePost3" />
+        </div>      
+      </div>     
+      <div class="col-6">
+        <div class="form-group">
+          <label>Comentario:</label>
+          <input type="text" id="DateMsg3" name="DateMsg3" class="form-control" [(ngModel)]="data.DateMsg3" />
+        </div>
+      </div>
+    </div> 
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Nutriología</label>
+          <input type="date" id="DatePost4" name="DatePost4" class="form-control" [(ngModel)]="data.DatePost4" />
+        </div>      
+      </div>     
+      <div class="col-6">
+        <div class="form-group">
+          <label>Comentario:</label>
+          <input type="text" id="DateMsg4" name="DateMsg4" class="form-control" [(ngModel)]="data.DateMsg4" />
+        </div>
+      </div>
+    </div> 
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Nutricionista</label>
+          <input type="date" id="DatePost5" name="DatePost5" class="form-control" [(ngModel)]="data.DatePost5" />
+        </div>      
+      </div>     
+      <div class="col-6">
+        <div class="form-group">
+          <label>Comentario:</label>
+          <input type="text" id="DateMsg5" name="DateMsg5" class="form-control" [(ngModel)]="data.DateMsg5" />
+        </div>
+      </div>
+    </div>     
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Psicológico</label>
+          <input type="date" id="DatePost6" name="DatePost6" class="form-control" [(ngModel)]="data.DatePost6" />
+        </div>      
+      </div>     
+      <div class="col-6">
+        <div class="form-group">
+          <label>Comentario:</label>
+          <input type="text" id="DateMsg6" name="DateMsg6" class="form-control" [(ngModel)]="data.DateMsg6" />
+        </div>
+      </div>
+    </div> 
+  
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

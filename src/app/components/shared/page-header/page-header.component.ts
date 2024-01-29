@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class PageHeaderComponent implements OnInit {
   @Input() info: string = 'Info';
 
   today: number = Date.now();
+  faBell = faBell;
   todayDate : Date = new Date();
   todayString : string = new Date().toDateString();
   todayISOString : string = new Date().toISOString();

@@ -53,12 +53,12 @@
               <div class="col-2">{{p.Date | date: 'dd/MM/yyyy'}}</div>
               <div class="col-2">
                 <span *ngIf="p.Confirmed==1">{{p.Time | slice:0:5}}</span> 
-                <a *ngIf="p.Confirmed==0" [routerLink]="" class="confirm" (click)="confirm(p.DateID, p.CardCode, p.Name + ' ' + p.Lastname + ' ' + p.Lastname2)">{{p.Time | slice:0:5}}</a> 
+                <a *ngIf="p.Confirmed==0" [routerLink]="" class="confirm" (click)="confirm(p.DateID, p.CardCode, p.Name + ' ' + p.Lastname)">{{p.Time | slice:0:5}}</a> 
                 &nbsp;<fa-icon *ngIf="p.Confirmed==1" style="color:green;" [icon]="faCheckCircle"></fa-icon>
               </div>
               <div class="col-3"><a [routerLink]="['/admin/people/' + p.PeopleID]"><b>{{p.CardCode}}</b> {{p.Name}} {{p.Lastname}}</a></div>
               <div class="col-3"></div>
-              <div class="col-2"><span class="status-{{p.GroupName}}">{{p.GroupName}}</span></div>
+              <div class="col-2"><span class="status-{{p.GroupID}}">{{p.GroupName}}</span></div>
             </div>
           </div>  
   

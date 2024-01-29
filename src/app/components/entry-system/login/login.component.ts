@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     this.api.login(this.userData).subscribe(async (data:any) => { 
       await this.api.setProfile(data.user);
       await this.api.setToken(data.access_token);
-      this.router.navigateByUrl('/admin/dashboard');
+      this.router.navigateByUrl('/admin/people');
       this.loading = false;
     }, (err:any) => {
       console.log(err);

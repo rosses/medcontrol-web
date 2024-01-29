@@ -47,6 +47,7 @@
                   <th *ngIf="master == 'Medicine'">Laboratorio</th>
                   <th *ngIf="master == 'ExamData'">Nombre Examen</th>
                   <th width="60">Activo</th>
+                  <th *ngIf="master == 'ExamData'">Tipo de dato</th>
                   <th width="180">Opciones</th>
                 </tr>
               </thead>
@@ -64,6 +65,7 @@
                     <span *ngIf="row.Active == 1">SI</span>
                     <span *ngIf="row.Active == 0">NO</span>
                   </td>
+                  <td *ngIf="master == 'ExamData'">{{row.ExamDataType}}</td>
                   <td>
                     <button class="btn btn-sm btn-warning" (click)="editMasterdata(row)">editar</button>
                     <button class="btn btn-sm btn-danger" (click)="deleteMasterdata(row)">eliminar</button>

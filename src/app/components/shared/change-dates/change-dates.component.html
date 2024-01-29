@@ -1,0 +1,37 @@
+<div class="m-3">
+  <form (ngSubmit)="save()">
+    <h4>Control de fechas</h4>
+    
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Evaluación</label>
+          <input type="date" id="DateAsEvaluation" name="DateAsEvaluation" class="form-control" [(ngModel)]="data.DateAsEvaluation" />
+        </div>      
+      </div>     
+    </div> 
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Término</label>
+          <input type="date" id="DateAsFinish" name="DateAsFinish" class="form-control" [(ngModel)]="data.DateAsFinish" />
+        </div>      
+      </div>     
+    </div> 
+    <div class="row my-1">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Fecha Cirugía</label>
+          <input type="date" id="DateAsSurgery" name="DateAsSurgery" class="form-control" [(ngModel)]="data.DateAsSurgery" />
+        </div>      
+      </div>     
+    </div>     
+  
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

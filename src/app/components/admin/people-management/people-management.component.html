@@ -10,7 +10,7 @@
     
     <div class="row">
       <div class="col-8">
-        <h4 class="mb-3">{{data.Name}} {{data.Lastname}} {{data.Lastname2}} <span class="status-{{data.GroupName}}">{{data.GroupName}}</span></h4>
+        <h4 class="mb-3">{{data.Name}} {{data.Lastname}}<span class="status-{{data.GroupID}}">{{data.GroupName}} / {{data.StatusName}}</span> <a class="header-text-icon" href="javascript:;" (click)="changeStatus(data.PeopleID,data.StatusID)"><fa-icon [icon]="faEdit"></fa-icon></a></h4>
       </div>
       <div class="col-4">
 
@@ -31,15 +31,17 @@
               <h5>Información:</h5>
               <table class="table table-bordered">
                 <thead>
+                  <tr><th>Nombre</th><td>{{data?.Name}} {{data?.Lastname}}</td></tr>
                   <tr><th width="100">RUT</th><td>{{data?.CardCode}}</td></tr>
-                  <tr><th>Nombre</th><td>{{data?.Name}} {{data?.Lastname}} {{data?.Lastname2}}</td></tr>
                   <tr><th>Edad</th><td> {{ getBirthdayTime() }} </td></tr>
                   <tr><th>Fecha Nac.</th><td>{{data?.Birthday | date: 'dd/MM/yyyy'}}</td></tr>
                   <tr><th>Email</th><td>{{data?.Email}}</td></tr>
                   <tr><th>Teléfono</th><td>{{data?.Phone}} / {{data?.Phone2}}</td></tr>
-                  <tr><th>Dirección</th><td>{{data?.Address}}, {{data?.County}}, {{data?.City}}</td></tr>
+                  <tr><th>Dirección</th><td>{{data?.Address}}, {{data?.City}}</td></tr>
                   <tr><th>Profesión</th><td>{{data?.Profession}}</td></tr>
                   <tr><th>Previsión</th><td>{{data?.HealthName}}</td></tr>
+                  <tr><th>Estado ppto</th><td>{{data?.BudgetStatusName}}</td></tr>
+                  <tr><th>Lugar ppto</th><td>{{data?.BudgetPlace}}</td></tr>
                   <!--<tr><th>Observaciones:</th><td>{{data?.Obs}}</td></tr>-->
                 </thead>
               </table>
@@ -48,11 +50,13 @@
               <h5>Datos clinicos:</h5>
               <table class="table table-bordered">
                 <thead>
-                  <tr><th width="100">Peso</th><td>{{data?.Anthropometry?.Weight | number: '1.1-1'}}kgs</td></tr>
-                  <tr><th>Altura</th><td>{{data?.Anthropometry?.Height | number: '1.0-0'}}cms</td></tr>
-                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}}</td></tr>
-                  <tr><th>Temperatura</th><td>{{data?.Anthropometry?.Temperature | number: '1.1-1'}}&deg;</td></tr>
+                  <tr><th width="100">Peso (kg)</th><td>{{data?.Anthropometry?.Weight | number: '1.1-1'}}kgs</td></tr>
+                  <tr><th>Altura (cm)</th><td>{{data?.Anthropometry?.Height | number: '1.0-0'}}cms</td></tr>
+                  <!--
+                  <tr><th>Temp. (C&deg;)</th><td>{{data?.Anthropometry?.Temperature | number: '1.1-1'}}&deg;</td></tr>
                   <tr><th>Presión</th><td>{{data?.Anthropometry?.Sistolic}}/{{data?.Anthropometry?.Diastolic}}</td></tr>
+                  -->
+                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}}</td></tr>
                   <tr><th>Médicos</th><td>{{data?.Date?.AntMedical}}</td></tr>
                   <tr><th>Alergias</th><td>{{data?.Date?.AntAllergy}}</td></tr>
                   <tr><th>Quirúrgicos</th><td>{{data?.Date?.AntSurgical}}</td></tr>
@@ -79,10 +83,17 @@
                 </tbody>
               </table>
               </div>
+              <div class="form-group">
+                <div class="btn-group" style="width:100%;">
+                  <textarea class="form-control" placeholder="Agregar evolución..." style="resize:none;height: 40px;" [(ngModel)]="addText.message"></textarea>
+                  <button class="btn btn-sm btn-primary" (click)="addTexto()">+</button>
+                </div>
+              </div>
               <hr />
               <div class="text-end">
-                <button class="btn btn-sm btn-primary"><fa-icon [icon]="faPrint"></fa-icon> Imprimir ficha</button>&nbsp;&nbsp;
-                <button class="btn btn-sm btn-primary"><fa-icon [icon]="faChartLine"></fa-icon> Comparar examenes</button>
+                <button class="btn btn-sm btn-primary" (click)="copyFicha(data?.PeopleID)"><fa-icon [icon]="faCopy"></fa-icon> Copiar</button>&nbsp;&nbsp;
+                <button class="btn btn-sm btn-primary" (click)="printFicha(data?.PeopleID)"><fa-icon [icon]="faPrint"></fa-icon> Imprimir</button>&nbsp;&nbsp;
+                <button class="btn btn-sm btn-primary" (click)="compareOrders()"><fa-icon [icon]="faChartLine"></fa-icon> Comparar exámenes</button>
               </div>
             </div>
           </div> 
@@ -103,60 +114,60 @@
                         <b>Diagnóstico:</b> {{x.DiagnosisName}}<br />
                         <b>Observaciones:</b> {{x.Obs}}<br />
                         <b>Fecha Consulta:</b> {{x.Date | date: 'dd/MM/yyyy' }}<br />
-                        <b>Fecha Término:</b>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeCirugy()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Cirugía:</b>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeCirugy()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
+                        <b>Fecha Evaluación:</b>&nbsp;<span *ngIf="data.DateAsEvaluation">{{data.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Término:</b>&nbsp;<span *ngIf="data.DateAsFinish">{{data.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="data.DateAsSurgery">{{data.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
                       </div>
                       <div class="col-4">
-                        <h6>Autorizaciones:</h6>
+                        <h6>Autorizaciones :</h6> 
                         <div class="row">
                           <div class="col-12">
                             <div class="p-2" style="background-color:#d6d6d6;">
-                              <div class="row">
-                                <div class="col-4">
-                                  <h3>50%</h3>
-                                </div>
-                                <div class="col-8">
-                                  <table class="table table-bordered">
-                                    <thead>
-                                      <tr><th>Especialista</th><td>Nombre</td><td>OK</td></tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr><th>Cardíologo</th><td>Juan Torres</td><td><input type="checkbox" checked /></td></tr>
-                                      <tr><th>Nutricionista</th><td>Federico</td><td><input type="checkbox" /></td></tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
+                              <div class="bar0"><div class="progress" style="width: 50%;">(50%)</div></div>
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr><th>Especialista</th><td>Nombre</td><td>OK</td></tr>
+                                </thead>
+                                <tbody>
+                                  <tr><th>Cardíologo</th><td>Juan Torres</td><td><input type="checkbox" checked /></td></tr>
+                                  <tr><th>Nutricionista</th><td>Federico</td><td><input type="checkbox" /></td></tr>
+                                </tbody>
+                              </table>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="col-4">
-                        <h6>Exámenes:</h6>
+                        <h6>Exámenes </h6> 
                         <div class="row">
                           <div class="col-12">
                             <div class="p-2" style="background-color:#d6d6d6;">
-                              <div class="row">
-                                <div class="col-4">
-                                  <h3>62%</h3>
-                                </div>
-                                <div class="col-8">
-                                  <table class="table table-bordered">
-                                    <thead>
-                                      <tr><th>Examen</th><td>OK</td></tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr><th>Rx</th><td><input checked type="checkbox" /></td></tr>
-                                      <tr><th>Ecografia</th><td><input checked type="checkbox" /></td></tr>
-                                      <tr><th>Lab</th><td><input type="checkbox" /></td></tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
+                              <div class="bar0"><div class="progress" [ngStyle]="{'width' : getRequestedOrdersOk()+'%'}">({{ getRequestedOrdersOk() }}%) </div></div>
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr><th>Examen</th><td>OK</td></tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let x of data.RequestedOrders"><th>{{x.ExamTypeName}}</th><td><input type="checkbox" disabled [checked]="x.Value=='checked'" /></td></tr> 
+                                </tbody>
+                              </table>
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div class="mt-2 p-2" style="border: 1px solid rgb(255, 60, 0);">
+                    <div class="row">
+                      <div class="col-6">
+                        <h6>Post-Operatorio</h6>
+                        <b>Fecha Control Cirujano:</b>&nbsp;<span *ngIf="data.DatePost1">{{data.DatePost1 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Control 6 Meses:</b>&nbsp;<span *ngIf="data.DatePost2">{{data.DatePost2 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Control 1 año:</b>&nbsp;<span *ngIf="data.DatePost3">{{data.DatePost3 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Control Nutriología:</b>&nbsp;<span *ngIf="data.DatePost4">{{data.DatePost4 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Control Nutricionista:</b>&nbsp;<span *ngIf="data.DatePost5">{{data.DatePost5 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Control Psicológico:</b>&nbsp;<span *ngIf="data.DatePost6">{{data.DatePost6 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                      </div> 
                     </div>
                   </div>
                 </div>
@@ -178,82 +189,102 @@
           <h5 class="my-3">General</h5>
 
           <div class="row my-2">
-            <div class="col-4">
-              <label>RUT:</label>
-              <input type="text" class="form-control" ngxRut [(ngModel)]="data.CardCode" />
+            <div class="col-9">
+              <div class="row my-2">
+                <div class="col-4">
+                  <label>Nombre:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Name" />
+                </div>
+                <div class="col-4">
+                  <label>Apellidos:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Lastname" />
+                </div>
+              </div>
+    
+              <div class="row my-2">
+                <div class="col-4">
+                  <label>RUT:</label>
+                  <input type="text" class="form-control" ngxRut [(ngModel)]="data.CardCode" />
+                </div>
+                <div class="col-4">
+                  <label>Fecha Nac.:</label>
+                  <input type="date" class="form-control" [(ngModel)]="data.Birthday" />
+                </div>
+              </div>
+    
+              <!-- <h5 class="my-3">Datos de contacto</h5> -->
+            
+              <div class="row my-2">
+                <div class="col-4">
+                  <label>Email:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Email" />
+                </div>
+                <div class="col-4">
+                  <label>Teléfono:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Phone" />
+                </div>
+                <div class="col-4">
+                  <label>Teléfono 2:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Phone2" />
+                </div>
+              </div> 
+    
+              <!-- <h5 class="my-3">Localización</h5> -->
+    
+              <div class="row my-2">
+                <div class="col-4">
+                  <label>Dirección:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Address" />
+                </div>
+                <div class="col-4">
+                  <label>Comuna/Ciudad:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.City" />
+                </div>
+              </div> 
+    
+              <!-- <h5 class="my-3">Otros antecedentes</h5> --> 
+              <div class="row my-2">
+                <div class="col-4">
+                  <label>Previsión:</label>
+                  <select name="Health" [(ngModel)]="data.HealthID" class="form-control">
+                    <option [value]="h.HealthID" *ngFor="let h of Healts">{{h.Name}}</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <label>Profesión:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.Profession" />
+                </div> 
+              </div>
+              <div class="row my-2">
+                <div class="col-12">
+                  <label>Observaciones:</label>
+                  <textarea class="form-control" style="height: 80px; resize:none;" [(ngModel)]="data.Obs"></textarea>
+                </div> 
+              </div>  
             </div>
-            <div class="col-4">
-              <label>Fecha Nac.:</label>
-              <input type="date" class="form-control" [(ngModel)]="data.Birthday" />
+
+            <div class="col-3">
+              <div class="row my-2">
+                <div class="col-12">
+                  <label>Lugar ppto:</label>
+                  <input type="text" class="form-control" [(ngModel)]="data.BudgetPlace" />
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-12">
+                  <label>Estado ppto:</label>
+                  <select name="BudgetStatusID" [(ngModel)]="data.BudgetStatusID" class="form-control">
+                    <option [value]="b.BudgetStatusID" *ngFor="let b of budgetstatuses">{{b.Name}}</option>
+                  </select>
+                  <!--
+                  <input type="text" class="form-control" [(ngModel)]="data.BudgetStatus" />
+                  -->
+                </div> 
+              </div>
             </div>
+
           </div>
 
-          <div class="row my-2">
-            <div class="col-4">
-              <label>Nombre:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Name" />
-            </div>
-            <div class="col-4">
-              <label>Apellido Paterno:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Lastname" />
-            </div>
-            <div class="col-4">
-              <label>Apellido Materno:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Lastname2" />
-            </div>
-          </div>
-
-          <!-- <h5 class="my-3">Datos de contacto</h5> -->
-        
-          <div class="row my-2">
-            <div class="col-4">
-              <label>Email:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Email" />
-            </div>
-            <div class="col-4">
-              <label>Teléfono:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Phone" />
-            </div>
-            <div class="col-4">
-              <label>Teléfono 2:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Phone2" />
-            </div>
-          </div> 
-
-          <!-- <h5 class="my-3">Localización</h5> -->
-
-          <div class="row my-2">
-            <div class="col-4">
-              <label>Dirección:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Address" />
-            </div>
-            <div class="col-4">
-              <label>Comuna:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.County" />
-            </div>
-            <div class="col-4">
-              <label>Ciudad:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.City" />
-            </div>
-          </div> 
-
-          <!-- <h5 class="my-3">Otros antecedentes</h5> --> 
-          <div class="row my-2">
-            <div class="col-4">
-              <label>Previsión:</label>
-              <select name="Health" [(ngModel)]="data.HealthID" class="form-control">
-                <option [value]="h.HealthID" *ngFor="let h of Healts">{{h.Name}}</option>
-              </select>
-            </div>
-            <div class="col-4">
-              <label>Profesión:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Profession" />
-            </div> 
-            <div class="col-4">
-              <label>Observaciones:</label>
-              <input type="text" class="form-control" [(ngModel)]="data.Obs" />
-            </div> 
-          </div>  
           <div class="row my-2">
             <div class="col text-end">
               <button class="btn btn-success" (click)="savePeople()">Guardar perfil paciente</button>
@@ -269,6 +300,15 @@
           <span>Consultas</span>
         </button>
         <ng-template ngbNavContent>
+          <div class="px-3 py-1">
+            <div class="row">
+              <div class="col-8">
+              </div>
+              <div class="col-4 text-end">
+                <button class="btn btn-sm btn-success" (click)="addQuery(data?.CardCode)">Nueva Consulta</button>
+              </div>
+           </div>
+          </div>
           <div class="px-3 py-2">
             <div class="row my-2">
               <div class="col-12">
@@ -324,10 +364,12 @@
         <ng-template ngbNavContent>
           <div class="px-3 py-2">
             <div class="row my-2">
+              <!--
               <div class="col-8">
                 <h6 class="my-2">Evoluciones:</h6>
               </div>
-              <div class="col-4 text-end">
+              -->
+              <div class="col-12 text-end">
                 <button class="btn btn-success" (click)="addEvolution()">Ingresar evolución</button>
               </div>
            </div> 
@@ -369,13 +411,7 @@
           <span>Exámenes</span>
         </button>
         <ng-template ngbNavContent>
-          <div class="px-3 py-2">
-            <div class="row my-2">
-              <div class="col-12">
-                <h6 class="my-2">Exámenes:</h6>
-              </div>
-           </div>
-           <div class="row my-2">
+          <div class="row my-2">
             <div class="col">
               <table class="table table-striped table-mini table-bordered">
                 <tbody *ngIf="exams.length == 0">
@@ -404,15 +440,14 @@
                         <div *ngFor="let m of e.Exams">{{m}}</div>
                       </td>
                       <td class="text-center">
-                        <button type="button" class="btn btn-sm btn-primary" (click)="deployResults(o.DateID, e.ExamTypeID, e.ExamTypeName)">resultados</button>
+                        <button type="button" class="btn btn-sm btn-primary" (click)="deployResults(o.DateID, e.ExamTypeID, e.ExamTypeName, e.Exams)">resultados</button>
                       </td>
                     </tr>
                   </tbody>
                 </ng-container>
               </table>
             </div>
-           </div> 
-          </div> 
+          </div>   
         </ng-template>
       </li>
       <!-- Recetas -->
@@ -421,45 +456,43 @@
           <img src="assets/icon/prescription.png" />
           <span>Recetas</span>
         </button>
-        <ng-template ngbNavContent>
-          <div class="px-3 py-2">
-            <div class="row my-2">
-              <div class="col-8">
-                <h6 class="my-2">Recetas:</h6>
-              </div>
-              <div class="col-4 text-end">
-                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
-              </div>
-           </div> 
-           <div class="row">
-            <div class="col-12">
-              <table class="table table-bordered">
-                <thead>
+        <ng-template ngbNavContent> 
+          <div class="row my-2">
+            <div class="col">
+              <table class="table table-striped table-mini table-bordered">
+                <tbody *ngIf="recipes.length == 0">
                   <tr>
-                    <th width="120">Fecha</th>
-                    <th width="150">Creada por</th>
-                    <th>Descripción</th>
-                    <th width="80">Eliminar</th>
+                    <td colspan="4" class="text-start">Sin recetas en el paciente</td>
                   </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="recipes.length == 0">
-                    <th colspan="4">Sin recetas</th>
-                  </tr>
-                  <ng-container *ngFor="let row of recipes; let i = index;">
-                    <tr>
-                      <td>{{row.CreatedByName}}</td>
-                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
-                      <td>{{row.Description}}</td>
-                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
-                    </tr>
-                  </ng-container> 
                 </tbody>
-              </table> 
+                <ng-container *ngFor="let o of recipes; let ii = index;">
+                  <thead>
+                    <tr>
+                      <th style="background-color:#ffffa0;" colspan="3">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" class="text-end">
+                        <button type="button" class="btn btn-sm btn-success" (click)="verRecipePDF(o.DateID)">ver pdf</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsAppRecipe('Tu recetá está disponible',o.DateID)">whatsapp</button>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th>Medicamento</th>
+                      <th>Dosis</th>
+                      <th>Veces</th>
+                      <th>Días</th> 
+                    </tr>
+                  </thead> 
+                  <tbody>
+                    <tr *ngFor="let e of o.data; let iii = index;">
+                      <td>{{e.MedicineName}}</td>
+                      <td>{{e.Dose}}</td>
+                      <td>{{e.Period}}</td>
+                      <td>{{e.Periodicity}}</td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+              </table>
             </div>
-           </div>
-          </div> 
-
+          </div>   
         </ng-template>
       </li>
       <!-- Certificados -->
@@ -469,47 +502,38 @@
           <span>Certificados</span>
         </button>
         <ng-template ngbNavContent>
-          <div class="px-3 py-2">
-            <div class="row my-2">
-              <div class="col-8">
-                <h6 class="my-2">Certificados:</h6>
-              </div>
-              <div class="col-4 text-end">
-                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
-              </div>
-           </div> 
-           <div class="row">
-            <div class="col-12">
-              <table class="table table-bordered">
-                <thead>
+          <div class="row my-2">
+            <div class="col">
+              <table class="table table-striped table-mini table-bordered">
+                <tbody *ngIf="certificates.length == 0">
                   <tr>
-                    <th width="120">Fecha</th>
-                    <th width="150">Creada por</th>
-                    <th>Descripción</th>
-                    <th width="80">Eliminar</th>
+                    <td colspan="2" class="text-start">Sin certificados en el paciente</td>
                   </tr>
-                </thead>
-                <tbody>
-                  <tr *ngIf="certificates.length == 0">
-                    <th colspan="4">Sin certificados</th>
-                  </tr>
-                  <ng-container *ngFor="let row of certificates; let i = index;">
-                    <tr>
-                      <td>{{row.CreatedByName}}</td>
-                      <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
-                      <td>{{row.Description}}</td>
-                      <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
-                    </tr>
-                  </ng-container> 
                 </tbody>
-              </table> 
+                <ng-container *ngFor="let o of certificates; let ii = index;">
+                  <thead>
+                    <tr>
+                      <th style="background-color:#ffffa0;" colspan="1">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" class="text-center"><button type="button" class="btn btn-sm btn-success" (click)="verCertsPDF(o.DateID)">ver pdf</button></th>
+                    </tr>
+                    <tr>
+                      <th>Tipo Certificado</th>
+                      <th>Descripción</th>
+                    </tr>
+                  </thead> 
+                  <tbody>
+                    <tr *ngFor="let e of o.data; let iii = index;">
+                      <td>{{e.CertificateTypeName}}</td>
+                      <td>{{e.Description}}</td> 
+                    </tr>
+                  </tbody>
+                </ng-container>
+              </table>
             </div>
-           </div>
-          </div> 
-
+          </div>   
         </ng-template>
       </li>
-      <!-- Interconsultas -->
+      <!-- Interconsultas  -->
       <li [ngbNavItem]="7" [class.active]="active == 7">
         <button class="nav-icon" ngbNavLink (click)="setActive(7)">
           <img src="assets/icon/doctor.png" />
@@ -522,7 +546,6 @@
                 <h6 class="my-2">Interconsultas:</h6>
               </div>
               <div class="col-4 text-end">
-                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
               </div>
            </div> 
            <div class="row">
@@ -556,8 +579,9 @@
 
         </ng-template>
       </li>   
-      <!-- Presupuestos -->
-      <li [ngbNavItem]="8" [class.active]="active == 8">
+      <!--
+      Presupuestos 
+      <li [ngbNavItem]="8" hidden [class.active]="active == 8">
         <button class="nav-icon" ngbNavLink (click)="setActive(8)">
           <img src="assets/icon/bill.png" />
           <span>Presupuestos</span>
@@ -569,7 +593,6 @@
                 <h6 class="my-2">Presupuestos:</h6>
               </div>
               <div class="col-4 text-end">
-                <!--<button class="btn btn-success" (click)="addReceta()">Ingresar receta</button>-->
               </div>
            </div> 
            <div class="row">
@@ -603,6 +626,7 @@
 
         </ng-template>
       </li>      
+      -->
     </ul>
     <div [ngbNavOutlet]="nav" class="mt-2"></div>
   </div>

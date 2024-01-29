@@ -1,23 +1,10 @@
 <div class="m-3">
   <form (ngSubmit)="save()">
-    <h4>Nuevo paciente</h4>
+    <h4 *ngIf="data.Mode != 'newdate'">Nuevo paciente</h4>
+    <h4 *ngIf="data.Mode == 'newdate'">Nueva consulta</h4>
     <hr />
-    <h5 class="my-4">Datos generales</h5>
-    <div class="row my-1">
-      <div class="col-4">
-        <div class="form-group">
-          <label>RUT (*):</label>
-          <input type="text" class="form-control" name="CardCode" ngxRut [(ngModel)]="data.CardCode" [readonly]="loading" />
-        </div>      
-      </div>
-      <div class="col-4" *ngIf="data.Mode == 'full'">
-        <div class="form-group">
-          <label>Fecha nacimiento:</label>
-          <input type="date" class="form-control" name="Birthday" [(ngModel)]="data.Birthday" [disabled]="loading" />
-        </div>      
-      </div>
-    </div>
-    <div class="row my-1">
+    <h5 class="my-4" *ngIf="data.Mode != 'newdate'">Datos generales</h5>
+    <div class="row my-1" *ngIf="data.Mode != 'newdate'">
       <div class="col">
         <div class="form-group">
           <label>Nombre (*):</label>
@@ -26,18 +13,24 @@
       </div>
       <div class="col">
         <div class="form-group">
-          <label>Apellido paterno (*):</label>
+          <label>Apellidos (*):</label>
           <input type="text" name="Lastname" class="form-control" [(ngModel)]="data.Lastname" [disabled]="loading" />
         </div>      
       </div>
-      <div class="col">
+      <div class="col-4">
         <div class="form-group">
-          <label>Apellido materno:</label>
-          <input type="text" name="Lastname2" class="form-control" [(ngModel)]="data.Lastname2" [disabled]="loading" />
+          <label>RUT (*):</label>
+          <input type="text" class="form-control" name="CardCode" ngxRut [(ngModel)]="data.CardCode" [readonly]="loading" />
         </div>      
       </div>
     </div>  
-    <div class="row my-1">
+    <div class="row my-1" *ngIf="data.Mode != 'newdate'">
+      <div class="col" *ngIf="data.Mode == 'full'">
+        <div class="form-group">
+          <label>Fecha nacimiento:</label>
+          <input type="date" class="form-control" name="Birthday" [(ngModel)]="data.Birthday" [disabled]="loading" />
+        </div>      
+      </div>
       <div class="col">
         <div class="form-group">
           <label>Teléfono:</label>
@@ -64,15 +57,17 @@
            <input type="text" name="Address" class="form-control" [(ngModel)]="data.Address" [disabled]="loading" />
         </div>      
       </div>
+      <!--
       <div class="col">
         <div class="form-group">
           <label>Comuna:</label>
           <input type="text" name="County" class="form-control" [(ngModel)]="data.County" [disabled]="loading" />
         </div>      
       </div>
+      -->
       <div class="col">
         <div class="form-group">
-          <label>Ciudad:</label>
+          <label>Comuna/Ciudad:</label>
           <input type="text" name="City" class="form-control" [(ngModel)]="data.City" [disabled]="loading" />
         </div>      
       </div>
@@ -81,7 +76,7 @@
       <div class="col">
         <div class="form-group">
           <label>Salud:</label>
-          <select class="form-control">
+          <select class="form-control" name="health-id" [(ngModel)]="data.HealthID">
             <option [value]="h.HealthID" *ngFor="let h of healths">{{h.Name}}</option>
           </select>
         </div>      
@@ -93,8 +88,8 @@
         </div>      
       </div> 
     </div> 
-    <div *ngIf="data.Mode == 'fast'">
-      <h5 class="my-4">Consulta</h5>
+    <div *ngIf="data.Mode == 'fast' || data.Mode == 'newdate'">
+      <h5 class="my-4" *ngIf="data.Mode != 'newdate'">Consulta</h5>
       <div class="row my-1">
         <div class="col">
           <div class="form-group">

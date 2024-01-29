@@ -37,6 +37,10 @@ export class ApiService {
   getShifttypes() {
     return this.get('/v1/shifttype');
   }
+  
+  getBudgetStatus() {
+    return this.get('/v1/budget-status');
+  }
 
 
   /* Customer manager */
@@ -140,8 +144,10 @@ export class ApiService {
   deleteEvolution(id: string){
     return this.delete('/v1/evolution/' + id);
   }
-  getStatuses() {
-    return this.get('/v1/status');
+  getStatuses(data?:any){
+    let d = '';
+    if (data) { d = new URLSearchParams(data).toString(); }
+    return this.get('/v1/status?' + d);
   }
   /* Groups */
   getGroups(){
@@ -160,8 +166,10 @@ export class ApiService {
     return this.delete('/v1/group/' + id);
   }
   /* People */
-  getPeoples(){
-    return this.get('/v1/people');
+  getPeoples(data:any){
+    let d = '';
+    if (data) { d = new URLSearchParams(data).toString(); }
+    return this.get('/v1/people?' + d);
   }
   addPeople(data: any){
     return this.post('/v1/people', data);
@@ -181,8 +189,26 @@ export class ApiService {
   getPeopleExams(id: string){
     return this.get('/v1/people/'+id+'/exams');
   }
+  getPeopleRecipes(id: string) {
+    return this.get('/v1/people/'+id+'/recipes');
+  }
+  getPeopleCertificates(id: string) {
+    return this.get('/v1/people/'+id+'/certificates');
+  }
   getPeopleEvolutions(id: string){
     return this.get('/v1/people/'+id+'/evolutions');
+  }
+  getPeopleFicha(id: string) {
+    return this.get('/v1/people/'+id+'/text');
+  }
+  changeStatusPeople(data:any) {
+    return this.post('/v1/people/'+data.PeopleID+'/change-status', data);
+  }
+  changeDatesPeople(data:any) {
+    return this.post('/v1/people/'+data.PeopleID+'/change-dates', data);
+  }
+  changeDatesPeople2(data:any) {
+    return this.post('/v1/people/'+data.PeopleID+'/change-dates2', data);
   }
   /* Health */
   getHealths(){

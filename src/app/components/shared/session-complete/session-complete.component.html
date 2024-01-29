@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
   </app-modal-cmp>
   <form *ngIf="render">
-    <h4>Consulta [{{dataPeople?.CardCode}} | {{dataPeople?.Name}} {{dataPeople?.Lastname}} {{dataPeople?.Lastname2}}]</h4>
+    <h4>Consulta [{{dataPeople?.CardCode}} | {{dataPeople?.Name}} {{dataPeople?.Lastname}}]</h4>
     <hr />
      
     <ul ngbNav #nav2="ngbNav" [(activeId)]="subactive" class="nav-tabs">
@@ -16,10 +16,12 @@
             <div class="col-4">
               <div class="py-1">
                 <h5 class="my-1">Antropometría</h5>
+                <!--
                 <div class="form-group mt-2">
                   <label>Temperatura (C)</label>
                   <input name="Temperature" type="number" class="form-control" [(ngModel)]="data.anthropometry.Temperature">
                 </div>
+                -->
                 <div class="form-group mt-2">
                   <label>Peso (kg)</label>
                   <input name="Weight" type="number" class="form-control" [(ngModel)]="data.anthropometry.Weight">
@@ -28,6 +30,7 @@
                   <label>Estatura (cms)</label>
                   <input name="Height" type="number" class="form-control" [(ngModel)]="data.anthropometry.Height">
                 </div>
+                <!--
                 <div class="form-group mt-2">
                   <label>Presión Sistólica</label>
                   <input name="Sistolic" type="number" class="form-control" [(ngModel)]="data.anthropometry.Sistolic">
@@ -36,6 +39,7 @@
                   <label>Presión Diastólica</label>
                   <input name="Diastolic" type="number" class="form-control" [(ngModel)]="data.anthropometry.Diastolic">
                 </div>
+                -->
                 <div class="form-group mt-2">
                   <label>IMC</label>
                   <input name="IMC" type="number" class="form-control" [value]="getIMC()" disabled>
@@ -63,7 +67,7 @@
             </div>
             <div class="col-4">
               <h5 class="my-1">Diagnóstico</h5>
- 
+              <!--
               <div class="form-group mt-2">
                 <label>Cambiar Etapa:</label>
                 <select name="DestinationGroupID" class="form-control" [(ngModel)]="data.DestinationGroupID">
@@ -76,20 +80,21 @@
                   <option [value]="g.StatusID" *ngFor="let g of Statuses">{{g.Name}}</option>
                 </select>
               </div>
-              <div class="form-group mt-2" [hidden]="">
+              -->
+              <div class="form-group mt-2">
                 <label>Diagnostico:</label> 
                 <select name="DiagnosisID" class="form-control" [(ngModel)]="data.DiagnosisID">
                   <option value="">No aplica</option>
                   <option [value]="d.DiagnosisID" *ngFor="let d of Diagnosis">{{d.Name}}</option>
                 </select>          
               </div>
-              <div class="form-group mt-2">
+              <div class="form-group mt-2" [hidden]="!data.DiagnosisID || data.DiagnosisID == ''">
                 <label>Cirugía:</label>
                 <select name="DestinationGroupID" class="form-control" [(ngModel)]="data.SurgeryID">
                   <option value="">No aplica</option>
                   <option [value]="s.SurgeryID" *ngFor="let s of Surgerys">{{s.Name}}</option>
                 </select>
-                <button class="btn btn-sm btn-info btn-cargaplantilla" (click)="searchTemplate()">cargar plantilla de exámenes</button>
+                <button type="button" class="btn btn-sm btn-info btn-cargaplantilla" (click)="searchTemplate()">cargar plantilla de exámenes</button>
               </div>
               <div class="form-group mt-2">
                 <label>Observaciones:</label>
@@ -199,8 +204,9 @@
                 </tr>
                 <tr *ngFor="let o of data.recipes; let ii = index;">
                   <td>
-                    <select class="form-control" name="type_of_examen_{{ii}}" [(ngModel)]="o.MedicineID">
+                    <select class="form-control" name="type_of_recipe_{{ii}}" [(ngModel)]="o.MedicineID" (change)="testTypeOfRecipe(o.MedicineID, ii)">
                       <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
+                      <option value="99999999">agregar medicamento...</option>
                     </select>
                   </td>
                   <td>
@@ -222,6 +228,7 @@
         </div> 
         </ng-template>
       </li>
+   
       <li [ngbNavItem]="5" [class.active]="subactive == 5">
         <button type="button" class="nav-icon" ngbNavLink (click)="subactive=5">
           <span>Interconsultas</span>
@@ -272,6 +279,7 @@
           </div> 
           </ng-template>
       </li>
+      
       <li [ngbNavItem]="6" [class.active]="subactive == 6">
         <button type="button" class="nav-icon" ngbNavLink (click)="subactive=6">
           <span>Certificados</span>
@@ -299,7 +307,7 @@
                   <tr *ngIf="data.certificates.length == 0">
                     <td colspan="3">Sin certificados en esta consulta</td>
                   </tr>
-                  <tr *ngFor="let o of data.recipes; let ii = index;">
+                  <tr *ngFor="let o of data.certificates; let ii = index;">
                     <td>
                       <select class="form-control" name="specialists_{{ii}}" [(ngModel)]="o.CertificateTypeID">
                         <option [value]="c.CertificateTypeID" *ngFor="let c of CertificateTypes">{{c.Name}}</option>
@@ -324,9 +332,14 @@
 
 
     <div class="row my-3">
-      <div class="col text-end">
+      <div class="col text-start">
         <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
-        <button type="button" (click)="save()" class="btn btn-success" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+      <div class="col text-center">
+        <button type="button" (click)="save(true)" class="btn btn-success" [disabled]="loading">Terminar consulta <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+      <div class="col text-end">
+        <button type="button" (click)="save(false)" class="btn btn-primary" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
       </div>
     </div>
   </form>

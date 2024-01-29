@@ -21,6 +21,7 @@ export class OrderResultComponent implements OnInit {
 
   public ExamsData: any[] = []; 
   public rows: any[] = [];
+  public Exams: any[] = [];
   @Input() DateID: string = '';
   @Input() ExamTypeID: string = '';
   @Input() ExamTypeName: string = '';
@@ -40,7 +41,8 @@ export class OrderResultComponent implements OnInit {
     console.log('ExamTypeID', this.ExamTypeID);
     this.api.getExamDatas().subscribe((data:any)=>{ 
       this.ExamsData = data; 
-      this.rows = this.ExamsData.filter((x) => { return x.ExamTypeID == this.ExamTypeID});
+      console.log(this.ExamsData);
+      this.rows = this.ExamsData.filter((x) => { return x.ExamTypeID == this.ExamTypeID && this.Exams.indexOf(x.ExamName) > -1});
       this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
         for (let i = 0; i < this.rows.length; i++) {
           for (let j = 0; j < data.length; j++) {

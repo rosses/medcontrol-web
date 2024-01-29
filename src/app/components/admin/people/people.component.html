@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
-<app-page-header [userName]="api.getProfile('Name')" info="Mantenedor de pacientes"></app-page-header>
+<app-page-header [userName]="api.getProfile('Name')" info="Pacientes"></app-page-header>
 
 <div class="page-wrapper animate__animated animate__fadeIn">
 
@@ -13,59 +13,54 @@
         <button class="btn btn-sm btn-success" (click)="addPeople()">nuevo paciente</button>
       </div>
       <div class="col-2 text-end">
-        <input type="text" class="form-control" placeholder="Rut / Nombre" (ngModelChange)="filterbox()" [(ngModel)]="filter.search" />
+        <input type="text" class="form-control" (keyup.enter)="loadPeople()" placeholder="Rut / Nombre"[(ngModel)]="filter.Search" />
       </div>
       <div class="col-2 text-end">
-        <select class="form-control" [(ngModel)]="filter.prevision">
-          <option value="">Previsión (todas)</option>
+        <select class="form-control" [(ngModel)]="filter.HealthID">
+          <option value="">Previsión</option>
+          <option [value]="h.HealthID" *ngFor="let h of healths">{{h.Name}}</option>
         </select>
       </div>
       <div class="col-2 text-end">
-        <select class="form-control" [(ngModel)]="filter.stage">
-          <option value="">Etapa (todas)</option>
+        <select class="form-control" [(ngModel)]="filter.StatusID">
+          <option value="">Etapa / Estado</option>
+          <option [value]="s.StatusID" *ngFor="let s of statuses">{{s.GroupName}} / {{s.Name}}</option>
         </select>
       </div>
       <div class="col-1 text-end">
-        <button class="btn btn-primary">Filtrar</button>
+        <button class="btn btn-primary" (click)="loadPeople()">Filtrar</button>
       </div>
     </div> 
 
     <div class="row">
       <div class="col">
 
-        <div class="table-cmp table-cmp--toggable">
-          <div class="table-cmp__header">
-            <div class="table-cmp__row">
-              <div class="table-cmp__col"></div>
-              <div class="table-cmp__col">Rut</div>
-              <div class="table-cmp__col">Nombre</div>
-              <div class="table-cmp__col">Previsión</div>
-              <div class="table-cmp__col">Etapa</div>
-              <div class="table-cmp__col">Opciones</div>
-            </div>
-          </div>
-
-          <div class="table-cmp__body">
-            <div class="table-cmp__toggable-row" *ngIf="peoples.length == 0">
-              <div class="row">
-                <div class="col-12 text-center mt-3 mb-3">Sin pacientes</div>
-              </div>
-            </div>
-            <div class="table-cmp__toggable-row" *ngFor="let item of peoples">
-              <div class="table-cmp__row">
-                <div class="table-cmp__col"></div>
-                <div class="table-cmp__col">{{item.CardCode}}</div>
-                <div class="table-cmp__col">{{item.Name}} {{item.Lastname}} {{item.Lastname2}}</div>
-                <div class="table-cmp__col">{{item.Health}}</div>
-                <div class="table-cmp__col"><span class="status-{{item.GroupName}}">{{item.GroupName}}</span></div>
-                <div class="table-cmp__col">
-                  <a [routerLink]="['/admin/people/' + item.PeopleID]"><fa-icon [icon]="faEdit"></fa-icon></a>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
+        <table class="table table-striped table-hover table-mini table-bordered">
+          <thead>
+            <tr>
+              <th>RUT</th>
+              <th>Nombre</th>
+              <th>Previsión</th>
+              <th>Teléfono</th>
+              <th class="text-center">Etapa / Estado</th>
+              <th class="text-center">Opciones</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of peoples; let i = index">
+            <tr>
+              <td>{{item.Name}} {{item.Lastname}}</td>
+              <td>{{item.CardCode}}</td>
+              <td>{{item.HealthName}}</td>
+              <td>{{item.Phone}}</td>
+              <td class="text-center"><span class="status-{{item.GroupID}}">{{item.GroupName}} / {{item.StatusName}}</span></td>
+              <td class="text-center">
+                <a [routerLink]="['/admin/people/' + item.PeopleID]"><fa-icon [icon]="faEdit"></fa-icon></a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:;" (click)="deletePeople(item.PeopleID, i, item.Name + ' ' + item.Lastname)"><fa-icon [icon]="faTimes"></fa-icon></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
       </div>
     </div>

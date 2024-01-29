@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { faAngleUp, faAngleDown, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faAngleDown, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/api.service';
 import { DummyService } from 'src/app/dummy.service';
 import { PeopleNewComponent } from '../../shared/people-new/people-new.component';
 import { lastValueFrom } from 'rxjs';
+import { SweetAlertResult } from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,55 +23,45 @@ export class PeopleComponent implements OnInit {
   faAngleUp = faAngleUp;
   faAngleDown = faAngleDown;
   faEdit = faEdit;
+  faTimes = faTimes;
 
   peoples: any[] = [];
   loading: boolean = false;
   public filter: any = {
-    search: '',
-    stage: ''
+    Search: '',
+    StatusID: '',
+    HealthID: ''
   }
+  healths: any[] = [];
+  groups: any[] = [];
+  statuses: any[] = [];
 
   constructor(
     public api: ApiService,
     public modal: NgbModal,
-    public dummy: DummyService
-  ) { }
+    public router: Router
+  ) { 
+    this.master();
+  }
 
   ngOnInit(): void {
-    this.loadPeople();
-    /*
-    this.api.getCustomers().subscribe((customers: any[]) => {
-      this.api.getUsers({
-        isSuperAdmin: true
-      }).subscribe((users: any[]) => {
-        this.loading = false;
-        this.adminList = customers.map((customer: any) => {
-          customer.open = false;
-          return {
-            ...customer,
-            admin: users.map((user: {admins: any[]}) => {
-              const item = user.admins.find(item => item.customer === customer._id);
-              return item ? user : undefined;
-            }).filter(item => item)
-          }
-        });
-      });
-    });*/
+    this.loadPeople(); 
+  }
+  async master() {
+    this.statuses = await lastValueFrom(this.api.getStatuses());
+    this.healths = await lastValueFrom(this.api.getHealths());
   }
   async loadPeople() {
     try {
       this.loading = true;
-      const data = await lastValueFrom(this.api.getPeoples());
+      const data = await lastValueFrom(this.api.getPeoples(this.filter));
       this.peoples = data;
       this.loading = false;
     } catch (err:any) {
       this.api.toastError(err.error.message);
       this.loading = false;
     }
-  }
-  filterbox() {
-
-  }
+  } 
   addPeople() {
     const mdl = this.modal.open(PeopleNewComponent, {
       backdrop: false,
@@ -79,7 +71,26 @@ export class PeopleComponent implements OnInit {
     mdl.componentInstance.data.Mode = 'full';
     mdl.result.then((data) => {
       console.log('then.data: ', data);
+      if (data.data.PeopleID) {
+        this.router.navigateByUrl('/admin/people/' + data.data.PeopleID);
+      }
     },(err) => { console.log('dismiss:',err); });
   } 
+
+  deletePeople(id:string, idx:number,name:string) {
+    this.api.confirmModal("Eliminar a " + name,"Eliminará toda la información del paciente del sistema").then((d:SweetAlertResult) => {
+      if (d.isConfirmed) {
+        this.loading = true;
+        this.api.deletePeople(id).subscribe((data:any) => {
+          this.loading = false;
+          this.peoples.splice(idx,1);
+          this.api.toastOk("Eliminado correctamente");
+        },(err:any) => {
+          this.loading = false;
+          this.api.toastError(err.error.error);
+        });
+      }
+    })
+  }
 
 }
