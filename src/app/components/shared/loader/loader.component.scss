@@ -1,4 +1,6 @@
 .rotate {
+  max-width: 120px;
+  max-height: 120px;
   animation: loading 1s linear infinite;
   @keyframes loading {
     0% {

@@ -91,9 +91,9 @@
               </div>
               <hr />
               <div class="text-end">
-                <button class="btn btn-sm btn-primary" (click)="copyFicha(data?.PeopleID)"><fa-icon [icon]="faCopy"></fa-icon> Copiar</button>&nbsp;&nbsp;
-                <button class="btn btn-sm btn-primary" (click)="printFicha(data?.PeopleID)"><fa-icon [icon]="faPrint"></fa-icon> Imprimir</button>&nbsp;&nbsp;
-                <button class="btn btn-sm btn-primary" (click)="compareOrders()"><fa-icon [icon]="faChartLine"></fa-icon> Comparar exámenes</button>
+                <button class="btn btn-sm btn-primary mb-1" (click)="copyFicha(data?.PeopleID)"><fa-icon [icon]="faCopy"></fa-icon> Copiar</button>&nbsp;&nbsp;
+                <button class="btn btn-sm btn-primary mb-1" (click)="printFicha(data?.PeopleID)"><fa-icon [icon]="faPrint"></fa-icon> Imprimir</button>&nbsp;&nbsp;
+                <button class="btn btn-sm btn-primary mb-1" (click)="compareOrders()"><fa-icon [icon]="faChartLine"></fa-icon> Comparar exámenes</button>
               </div>
             </div>
           </div> 
@@ -114,7 +114,7 @@
                         <b>Diagnóstico:</b> {{x.DiagnosisName}}<br />
                         <b>Observaciones:</b> {{x.Obs}}<br />
                         <b>Fecha Consulta:</b> {{x.Date | date: 'dd/MM/yyyy' }}<br />
-                        <b>Fecha Evaluación:</b>&nbsp;<span *ngIf="data.DateAsEvaluation">{{data.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="data.DateAsEvaluation">{{data.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
                         <b>Fecha Término:</b>&nbsp;<span *ngIf="data.DateAsFinish">{{data.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
                         <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="data.DateAsSurgery">{{data.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
                       </div>
@@ -129,8 +129,8 @@
                                   <tr><th>Especialista</th><td>Nombre</td><td>OK</td></tr>
                                 </thead>
                                 <tbody>
-                                  <tr><th>Cardíologo</th><td>Juan Torres</td><td><input type="checkbox" checked /></td></tr>
-                                  <tr><th>Nutricionista</th><td>Federico</td><td><input type="checkbox" /></td></tr>
+                                  <tr><th>Cardíologo</th><td>Juan Torres</td><td><input type="checkbox" checked disabled /></td></tr>
+                                  <tr><th>Nutricionista</th><td>Federico</td><td><input type="checkbox" disabled /></td></tr>
                                 </tbody>
                               </table>
                             </div>
@@ -142,7 +142,9 @@
                         <div class="row">
                           <div class="col-12">
                             <div class="p-2" style="background-color:#d6d6d6;">
-                              <div class="bar0"><div class="progress" [ngStyle]="{'width' : getRequestedOrdersOk()+'%'}">({{ getRequestedOrdersOk() }}%) </div></div>
+                              <div class="bar0" *ngIf="getRequestedOrdersOk()">
+                                <div class="progress" [ngStyle]="{'width' : getRequestedOrdersOk()+'%'}">({{ getRequestedOrdersOk() }}%) </div>
+                              </div>
                               <table class="table table-bordered">
                                 <thead>
                                   <tr><th>Examen</th><td>OK</td></tr>
