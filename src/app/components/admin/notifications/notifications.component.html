@@ -44,12 +44,7 @@
         <h5>Notificaciones</h5>
       </div>
       <div class="col d-flex justify-content-end">
-        <button
-          type="button"
-          (click)="deleteModal = true"
-          class="btn btn-outline-dark btn-mid">
-            Marcar todo como leido
-        </button>
+        <button type="button" (click)="deleteModal = true" class="btn btn-outline-dark btn-mid" disabled>Marcar todo como leido</button>
       </div>
     </div>
 
@@ -68,7 +63,13 @@
           </div>
 
           <div class="table-cmp__body">
-            <div class="table-cmp__row" >
+            <div class="table-cmp__row">
+              <div class="table-cmp__col">
+                Sin notificaciones
+              </div>
+            </div>
+            <!-- 
+            <div class="table-cmp__row">
               <div class="table-cmp__col">
 
                 <app-checkbox-cmp></app-checkbox-cmp>
@@ -90,6 +91,7 @@
               <div class="table-cmp__col">02-01-2024</div>
               <div class="table-cmp__col">Examenes pendientes de ingreso</div>
             </div>
+            -->
           </div>
         </div>
 

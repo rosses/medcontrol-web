@@ -129,8 +129,7 @@
                                   <tr><th>Especialista</th><td>Nombre</td><td>OK</td></tr>
                                 </thead>
                                 <tbody>
-                                  <tr><th>Cardíologo</th><td>Juan Torres</td><td><input type="checkbox" checked disabled /></td></tr>
-                                  <tr><th>Nutricionista</th><td>Federico</td><td><input type="checkbox" disabled /></td></tr>
+                                  <tr *ngIf="data.RequestedExam && data.RequestedExam.length == 0"><td colspan="2">sin información</td></tr>
                                 </tbody>
                               </table>
                             </div>
@@ -150,6 +149,7 @@
                                   <tr><th>Examen</th><td>OK</td></tr>
                                 </thead>
                                 <tbody>
+                                  <tr *ngIf="data.RequestedOrders && data.RequestedOrders.length == 0"><td colspan="2">sin información</td></tr>
                                   <tr *ngFor="let x of data.RequestedOrders"><th>{{x.ExamTypeName}}</th><td><input type="checkbox" disabled [checked]="x.Value=='checked'" /></td></tr> 
                                 </tbody>
                               </table>
@@ -413,6 +413,11 @@
           <span>Exámenes</span>
         </button>
         <ng-template ngbNavContent>
+          <div class="row my-1">
+            <div class="col text-end">
+              <button class="btn btn-success">+ nueva orden examenes</button>
+            </div>
+          </div>
           <div class="row my-2">
             <div class="col">
               <table class="table table-striped table-mini table-bordered">
@@ -459,6 +464,11 @@
           <span>Recetas</span>
         </button>
         <ng-template ngbNavContent> 
+          <div class="row my-1">
+            <div class="col text-end">
+              <button class="btn btn-success">+ nueva receta</button>
+            </div>
+          </div>
           <div class="row my-2">
             <div class="col">
               <table class="table table-striped table-mini table-bordered">
