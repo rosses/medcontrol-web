@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PeopleComponent } from './people/people.component';
 import { PeopleManagementComponent } from './people-management/people-management.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     AdminRoutingModule,
     FormsModule,
     GooglePlaceModule,
-    NgbNavModule
+    NgbNavModule,
+    NgbPaginationModule
   ],
 })
 export class AdminModule { }

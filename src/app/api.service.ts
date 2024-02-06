@@ -144,6 +144,15 @@ export class ApiService {
   deleteEvolution(id: string){
     return this.delete('/v1/evolution/' + id);
   }
+  deleteRecipe(id: string){
+    return this.delete('/v1/recipe/' + id);
+  }
+  deleteInterview(id: string){
+    return this.delete('/v1/interview/' + id);
+  }
+  okInterview(id: string){
+    return this.get('/v1/interview/' + id + '/vb');
+  }
   getStatuses(data?:any){
     let d = '';
     if (data) { d = new URLSearchParams(data).toString(); }
@@ -194,6 +203,9 @@ export class ApiService {
   }
   getPeopleCertificates(id: string) {
     return this.get('/v1/people/'+id+'/certificates');
+  }
+  getPeopleInterviews(id: string) {
+    return this.get('/v1/people/'+id+'/interviews');
   }
   getPeopleEvolutions(id: string){
     return this.get('/v1/people/'+id+'/evolutions');

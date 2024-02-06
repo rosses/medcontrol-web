@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faAngleUp, faAngleDown, faEdit, faPrint, faChartLine, faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faAngleDown, faEdit, faPrint, faChartLine, faCopy, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/api.service';
 import { DummyService } from 'src/app/dummy.service';
@@ -44,6 +44,7 @@ export class PeopleManagementComponent implements OnInit {
   public faPrint = faPrint;
   public faCopy = faCopy;
   public faChartLine = faChartLine;
+  public faCheckCircle = faCheckCircle;
   public addText: any = {
     message: ''
   }
@@ -149,6 +150,11 @@ export class PeopleManagementComponent implements OnInit {
       this.router.navigateByUrl('/admin/people');
     }
   }
+  getRequestedInterviewsOk() {
+    let t = this.data.RequestedInterviews.length;
+    let ok = this.data.RequestedInterviews.filter((x:any)=>{return x.VB_Check==1}).length;
+    return Math.round( (ok * 100 / t) * 100 ) / 100;
+  }
   getRequestedOrdersOk() {
     let t = this.data.RequestedOrders.length;
     let ok = this.data.RequestedOrders.filter((x:any)=>{return x.Value=='checked'}).length;
@@ -213,7 +219,10 @@ export class PeopleManagementComponent implements OnInit {
     });
   }
   verCertsPDF(DateID:string) {
-    window.open(environment.url + '/v1/pdf-render/certs/'+DateID,'_blank');
+    window.open(environment.url + '/v1/pdf-render/certificates/'+DateID,'_blank');
+  }
+  verCertsPDFSingle(CertificateID:string) {
+    window.open(environment.url + '/v1/pdf-render/certs-single/'+CertificateID,'_blank');
   }
   filterbox() {
 
@@ -283,9 +292,37 @@ export class PeopleManagementComponent implements OnInit {
     this.api.confirmModal("Eliminar receta","Desea eliminar la receta?").then((status:SweetAlertResult) => {
       if (status.isConfirmed) {
         this.loading = true;
-        this.api.deleteEvolution(this.recipes[num].RecepID).subscribe((data:any) => {
+        this.api.deleteRecipe(this.recipes[num].RecepID).subscribe((data:any) => {
           this.api.toastOk("Eliminado con éxito");
           this.setActive(3);
+        },(err:any) => {
+          this.api.toastError(err.error.error);
+          this.loading = false;
+        })
+      }
+    });
+  }
+  deleteInterview(num:number) {
+    this.api.confirmModal("Eliminar interconsulta","Desea eliminar la interconsulta?").then((status:SweetAlertResult) => {
+      if (status.isConfirmed) {
+        this.loading = true;
+        this.api.deleteInterview(this.interviews[num].InterviewID).subscribe((data:any) => {
+          this.api.toastOk("Eliminado con éxito");
+          this.setActive(7);
+        },(err:any) => {
+          this.api.toastError(err.error.error);
+          this.loading = false;
+        })
+      }
+    });
+  }
+  VBInterview(num:number) {
+    this.api.confirmModal("Dar VB","¿Desea dar el VB a la interconsulta?").then((status:SweetAlertResult) => {
+      if (status.isConfirmed) {
+        this.loading = true;
+        this.api.okInterview(this.interviews[num].InterviewID).subscribe((data:any) => {
+          this.api.toastOk("Realizado con éxito");
+          this.setActive(7);
         },(err:any) => {
           this.api.toastError(err.error.error);
           this.loading = false;
@@ -327,6 +364,10 @@ export class PeopleManagementComponent implements OnInit {
     }
     else if (num == 6) {
       this.certificates = await lastValueFrom(this.api.getPeopleCertificates(this.id));
+      this.loading = false;
+    }
+    else if (num == 7) {
+      this.interviews = await lastValueFrom(this.api.getPeopleInterviews(this.id));
       this.loading = false;
     }
     else if (num == 3) {

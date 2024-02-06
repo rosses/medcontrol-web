@@ -199,12 +199,13 @@
                       <th width="60">Fila</th>
                       <th>Especialista</th>
                       <th>Descripción</th>
-                      <th>Se desea</th>
+                      <th>Descripción 2</th>
+                      <th>Es un VB</th>
                       <th width="60">Quitar</th>
                     </tr>
                   </thead>
                   <tbody> 
-                    <tr *ngIf="template.Interviews.length == 0"><td colspan="5">Sin elementos</td></tr>
+                    <tr *ngIf="template.Interviews.length == 0"><td colspan="6">Sin elementos</td></tr>
                     <tr *ngFor="let o of template.Interviews; let i = index">
                       <td>{{(i+1)}}</td>
                       <td>
@@ -217,6 +218,9 @@
                       </td>
                       <td>
                         <input type="text" class="form-control" name="WantText_{{i}}" [(ngModel)]="o.WantText">
+                      </td>
+                      <td class="text-center">
+                        <input type="checkbox" name="VB_{{i}}" [(ngModel)]="o.VB">
                       </td>
                       <td>
                         <button class="btn btn-sm btn-danger" (click)="deleteTemplate('Interviews',i)">X</button>

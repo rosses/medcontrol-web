@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 //import { RutModule } from 'rut-chileno';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
-import { NgbModalModule, NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule, NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { InputMaskModule } from '@ngneat/input-mask';
 import { NgxRutModule } from '@numetalsour/ngx-rut';
 
@@ -29,6 +29,7 @@ import { NgxRutModule } from '@numetalsour/ngx-rut';
     NgbModule,
     NgbModalModule,
     NgbNavModule,
+    NgbPaginationModule,
     InputMaskModule,
     NgxRutModule
   ],

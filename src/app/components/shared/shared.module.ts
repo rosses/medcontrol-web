@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { InputMaskModule } from '@ngneat/input-mask';
 import { NgxRutModule } from '@numetalsour/ngx-rut';
 import { SchedulerConfirmationComponent } from './scheduler-confirmation/scheduler-confirmation.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { SessionCompleteComponent } from './session-complete/session-complete.component';
 import { MasterdataEditorComponent } from './masterdata-editor/masterdata-editor.component';
 import { OrderResultComponent } from './order-result/order-result.component';
@@ -61,7 +61,8 @@ import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.componen
     FormsModule,
     InputMaskModule,
     NgxRutModule,
-    NgbNavModule
+    NgbNavModule,
+    NgbPaginationModule
   ],
   exports: [
     FontAwesomeModule,

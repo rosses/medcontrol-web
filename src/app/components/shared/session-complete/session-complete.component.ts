@@ -101,6 +101,7 @@ export class SessionCompleteComponent implements OnInit {
           Description: data.Interviews[i].Description,
           DiagnosisID: data.Interviews[i].DiagnosisID,
           WantText: data.Interviews[i].WantText,
+          VB: (data.Interviews[i].VB && data.Interviews[i].VB == 1 ? true : false),
           PeopleID: 0,
           DateID: 0
         });
@@ -220,6 +221,7 @@ export class SessionCompleteComponent implements OnInit {
       Description: '',
       DiagnosisID: '',
       WantText: '',
+      VB: false,
       PeopleID: 0,
       DateID: 0
     });

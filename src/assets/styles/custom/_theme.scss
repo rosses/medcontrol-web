@@ -1,6 +1,6 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
 
 $primary: #142748;
 $primary-light: #1473E6;
@@ -19,4 +19,4 @@ $theme-colors:map-merge($theme-colors, (
 $body-color: #727D91;
 $headings-color: $primary;
 
-@import "~bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap/scss/bootstrap";

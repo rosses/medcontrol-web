@@ -25,12 +25,16 @@ export class PeopleComponent implements OnInit {
   faEdit = faEdit;
   faTimes = faTimes;
 
-  peoples: any[] = [];
+  peoples: any = {
+    total: 0,
+    data: []
+  };
   loading: boolean = false;
   public filter: any = {
     Search: '',
     StatusID: '',
-    HealthID: ''
+    HealthID: '',
+    page: 0
   }
   healths: any[] = [];
   groups: any[] = [];
@@ -45,13 +49,16 @@ export class PeopleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadPeople(); 
+    this.loadPeople(true); 
   }
   async master() {
     this.statuses = await lastValueFrom(this.api.getStatuses());
     this.healths = await lastValueFrom(this.api.getHealths());
   }
-  async loadPeople() {
+  async loadPeople(filter?:boolean) {
+    if (filter){
+      this.filter.page = 1;
+    }
     try {
       this.loading = true;
       const data = await lastValueFrom(this.api.getPeoples(this.filter));
@@ -83,7 +90,7 @@ export class PeopleComponent implements OnInit {
         this.loading = true;
         this.api.deletePeople(id).subscribe((data:any) => {
           this.loading = false;
-          this.peoples.splice(idx,1);
+          this.peoples.data.splice(idx,1);
           this.api.toastOk("Eliminado correctamente");
         },(err:any) => {
           this.loading = false;

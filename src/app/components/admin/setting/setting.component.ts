@@ -293,7 +293,8 @@ export class SettingComponent implements OnInit {
       SpecialistID: '',
       Description: '',
       DiagnosisID: '',
-      WantText: ''
+      WantText: '',
+      VB: false
     });
   }
   addRecipe() {
