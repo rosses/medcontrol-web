@@ -42,6 +42,7 @@
                   <tr><th>Previsión</th><td>{{data?.HealthName}}</td></tr>
                   <tr><th>Estado ppto</th><td>{{data?.BudgetStatusName}}</td></tr>
                   <tr><th>Lugar ppto</th><td>{{data?.BudgetPlace}}</td></tr>
+                  <tr><th>Género</th><td>{{(data.Genre=='M' ? 'Masculino' : 'Femenino')}}</td></tr>
                   <!--<tr><th>Observaciones:</th><td>{{data?.Obs}}</td></tr>-->
                 </thead>
               </table>
@@ -241,6 +242,13 @@
               <!-- <h5 class="my-3">Localización</h5> -->
     
               <div class="row my-2">
+                <div class="col-4">
+                  <label>Género:</label>
+                  <select name="genre" class="form-control" [(ngModel)]="data.Genre">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
+                </div>
                 <div class="col-4">
                   <label>Dirección:</label>
                   <input type="text" class="form-control" [(ngModel)]="data.Address" />
@@ -583,12 +591,13 @@
                     <th width="120">¿Tiene VB?</th>
                     <th width="120">Creada por</th>
                     <th>Descripción</th>
+                    <th width="80">PDF</th>
                     <th width="80">Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngIf="interviews.length == 0">
-                    <th colspan="7">Sin interconsultas</th>
+                    <th colspan="8">Sin interconsultas</th>
                   </tr>
                   <ng-container *ngFor="let row of interviews; let i = index;">
                     <tr>
@@ -598,6 +607,9 @@
                       <td>{{(row.VB_Check == 1 ? 'SI' : 'NO')}} <button class="btn btn-sm btn-success" *ngIf="row.VB_Check == 0" (click)="VBInterview(i)">OK</button></td>
                       <td>{{row.CreatedByName}}</td>
                       <td>{{row.Description}}</td>
+                      <td>
+                        <button class="btn btn-sm btn-success" (click)="PDFInterview(row.InterviewID)">PDF</button>
+                      </td> 
                       <td>
                         <button class="btn btn-sm btn-danger" (click)="deleteInterview(i)">X</button>
                       </td>

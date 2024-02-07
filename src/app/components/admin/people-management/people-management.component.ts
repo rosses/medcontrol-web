@@ -302,6 +302,9 @@ export class PeopleManagementComponent implements OnInit {
       }
     });
   }
+  PDFInterview(id:string) {
+    window.open(environment.url + '/v1/pdf-render/certs-interview/'+id,'_blank'); 
+  }
   deleteInterview(num:number) {
     this.api.confirmModal("Eliminar interconsulta","Desea eliminar la interconsulta?").then((status:SweetAlertResult) => {
       if (status.isConfirmed) {
