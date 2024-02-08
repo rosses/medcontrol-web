@@ -16,6 +16,7 @@ import { ChangeDatesComponent } from '../../shared/change-dates/change-dates.com
 import { CopyFichaComponent } from '../../shared/copy-ficha/copy-ficha.component';
 import { ChangeDates2Component } from '../../shared/change-dates2/change-dates2.component';
 import { WhatsAppShareComponent } from '../../shared/whatsapp-share/whatsapp-share.component';
+import { ImcComponent } from '../../shared/imc/imc.component';
 
 
 @Component({
@@ -131,6 +132,21 @@ export class PeopleManagementComponent implements OnInit {
         this.data.DateAsSurgery = data.data.DateAsSurgery;
         this.data.DateAsFinish = data.data.DateAsFinish;
       }
+    },(err) => { 
+      
+    });
+  }
+  imc(w:number, h:number, t: number) {
+    const mdl = this.modal.open(ImcComponent, {
+      backdrop: false,
+      keyboard: true,
+      size: 'lg'
+    }); 
+    mdl.componentInstance.w = w;
+    mdl.componentInstance.h = h;
+    mdl.componentInstance.t = t;
+    mdl.result.then((data) => {
+      
     },(err) => { 
       
     });
@@ -391,7 +407,7 @@ export class PeopleManagementComponent implements OnInit {
       let calc = Math.round( (Weight / m2) * 100 ) / 100;
       return calc;
     }
-    return '';
+    return 0;
   }
   editar(sessionId:string) {
 

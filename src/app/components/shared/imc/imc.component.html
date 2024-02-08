@@ -1,0 +1,123 @@
+<div class="m-3">
+  <form (ngSubmit)="cancel()">
+    <h4>Calculadora IMC</h4>
+    
+    <div class="row my-1">
+      <div class="col-6">
+        <table class="table table-bordered">
+          <tbody>
+          <tr>
+            <td>Peso:</td>
+            <td>{{w}} kgs</td>
+          </tr>
+          <tr>
+            <td>Talla:</td>
+            <td>{{h}} cms</td>
+          </tr>
+          <tr>
+            <td [class.imc1]="t <= 25" [class.imc2]="t > 25 && t <= 30"  [class.imc3]="t > 30 && t <= 34" [class.imc4]="t > 35">IMC:</td>
+            <td [class.imc1]="t <= 25" [class.imc2]="t > 25 && t <= 30"  [class.imc3]="t > 30 && t <= 34" [class.imc4]="t > 35">{{t}}</td>
+          </tr>
+          <tr>
+            <td>Peso Ideal:</td>
+            <td>{{mr((h*h/10000)*25)}} kg</td>
+          </tr>
+          <tr>
+            <td>Exceso peso:</td>
+            <td>{{exceso()}} kg</td>
+          </tr>
+          <tr>
+            <td>%:</td>
+            <td>{{porcentaje()}}%</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-6">
+        <table class="table table-bordered">
+          <tbody>
+          <tr>
+            <td><b>IMC</b></td>
+            <td><b>Categoría</b></td>
+          </tr>
+          <tr>
+            <td style="background-color:yellow;">20 - 25</td>
+            <td style="background-color:yellow;">Normal</td>
+          </tr>
+          <tr>
+            <td style="background-color:rgb(255, 184, 30);">25 - 30</td>
+            <td style="background-color:rgb(255, 184, 30);">Sobrepeso</td>
+          </tr>
+          <tr>
+            <td style="background-color:rgb(255, 149, 202);">30 - 35</td>
+            <td style="background-color:rgb(255, 149, 202);">Obesidad tipo "I"</td>
+          </tr>
+          <tr>
+            <td style="background-color:red; color:#FFF;">35 - 40 ></td>
+            <td style="background-color:red; color:#FFF;">Obesidad Mórbida</td>
+          </tr>
+          <tr>
+            <td style="background-color:red; color:#FFF;">> 50</td>
+            <td style="background-color:red; color:#FFF;">Superobesidad</td>
+          </tr>
+          <tr>
+            <td style="background-color:red; color:#FFF;">> 60</td>
+            <td style="background-color:red; color:#FFF;">Super-Superobesidad</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
+    <div class="row mt-2">
+      <div class="col-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Intervención</th>
+              <th>Tipo pérdida</th>
+              <th>% pérdida</th>
+              <th>kg resultado</th>
+              <th>IMC resultado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Balón</td>
+              <td>Peso</td>
+              <td>-10%</td>
+              <td>{{mr(w * 0.9)}}</td>
+              <td [class.imc1]="getIMC(w * 0.9, h) <= 25" [class.imc2]="getIMC(w * 0.9, h) > 25 && getIMC(w * 0.9, h) <= 30"  [class.imc3]="getIMC(w * 0.9, h) > 30 && getIMC(w * 0.9, h) <= 34" [class.imc4]="getIMC(w * 0.9, h) > 35">{{getIMC(w * 0.9, h)}}</td>
+            </tr>
+            <tr>
+              <td>Balón</td>
+              <td>Peso</td>
+              <td>-15%</td>
+              <td>{{mr(w * 0.85)}}</td>
+              <td [class.imc1]="getIMC(w * 0.85, h) <= 25" [class.imc2]="getIMC(w * 0.85, h) > 25 && getIMC(w * 0.85, h) <= 30"  [class.imc3]="getIMC(w * 0.85, h) > 30 && getIMC(w * 0.85, h) <= 34" [class.imc4]="getIMC(w * 0.85, h) > 35">{{getIMC(w * 0.85, h)}}</td>
+            </tr>
+            <tr *ngFor="let c of cg">
+              <td>Cirugía</td>
+              <td>Exceso</td>
+              <td>-{{(c*100)}}%</td>
+              <td>{{mr(w - (exceso() * c))}}</td>
+              <td 
+                [class.imc1]="getIMC((w - (exceso() * c)), h) <= 25" 
+                [class.imc2]="getIMC((w - (exceso() * c)), h) > 25 && getIMC((w - (exceso() * c)), h) <= 30"  
+                [class.imc3]="getIMC((w - (exceso() * c)), h) > 30 && getIMC((w - (exceso() * c)), h) <= 34" 
+                [class.imc4]="getIMC((w - (exceso() * c)), h) > 35"
+              >{{getIMC((w - (exceso() * c)), h)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    
+  
+    <div class="row my-3">
+      <div class="col text-end">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cerrar</button>
+      </div>
+    </div>
+  </form>
+</div>

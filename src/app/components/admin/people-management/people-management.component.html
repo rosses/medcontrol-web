@@ -57,13 +57,20 @@
                   <tr><th>Temp. (C&deg;)</th><td>{{data?.Anthropometry?.Temperature | number: '1.1-1'}}&deg;</td></tr>
                   <tr><th>Presión</th><td>{{data?.Anthropometry?.Sistolic}}/{{data?.Anthropometry?.Diastolic}}</td></tr>
                   -->
-                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}}</td></tr>
+                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}} <a  class="showmeimc" (click)="imc(data?.Anthropometry?.Weight,data?.Anthropometry?.Height,getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height))">Ver más</a></td></tr>
                   <tr><th>Médicos</th><td>{{data?.Date?.AntMedical}}</td></tr>
                   <tr><th>Alergias</th><td>{{data?.Date?.AntAllergy}}</td></tr>
                   <tr><th>Quirúrgicos</th><td>{{data?.Date?.AntSurgical}}</td></tr>
                   <tr><th>Fármacos</th><td>{{data?.Date?.AntDrugs}}</td></tr>
                 </thead>
               </table>
+
+              <table class="table table-bordered">
+                <thead>
+                  <tr><th>Fecha Ingreso</th><td> {{data?.CreatedAt | date: 'dd/MM/yyyy' }}</td></tr>
+                </thead>
+              </table>
+
             </div>
             <div class="col-4">
               <h5>Evoluciones:</h5>

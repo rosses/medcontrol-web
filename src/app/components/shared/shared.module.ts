@@ -28,6 +28,7 @@ import { ChangeDatesComponent } from './change-dates/change-dates.component';
 import { ChangeDates2Component } from './change-dates2/change-dates2.component';
 import { CopyFichaComponent } from './copy-ficha/copy-ficha.component';
 import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.component';
+import { ImcComponent } from './imc/imc.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.componen
     ChangeDatesComponent,
     CopyFichaComponent,
     ChangeDates2Component,
-    WhatsAppShareComponent
+    WhatsAppShareComponent,
+    ImcComponent
   ],
   imports: [
     CommonModule,
@@ -86,7 +88,8 @@ import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.componen
     ChangeDatesComponent,
     CopyFichaComponent,
     ChangeDates2Component,
-    WhatsAppShareComponent
+    WhatsAppShareComponent,
+    ImcComponent
   ]
 })
 export class SharedModule { }
