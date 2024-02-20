@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/api.service';
 import { DummyService } from 'src/app/dummy.service';
 import { MaskService } from 'src/app/mask.service';
 import { AddMedicalExpressComponent } from '../add-medical-express/add-medical-express.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-session-complete',
@@ -41,10 +42,7 @@ export class SessionCompleteComponent implements OnInit {
     public mask: MaskService
   ) { }
 
-  ngOnInit(): void {
-    //this.addReceta();
-    //this.addExamen();
-    //this.addInterconsulta();
+  ngOnInit(): void { 
     console.log(this.data);
     this.api.getExamTypes().subscribe((data:any)=>{ this.ExamTypes = data; });
     this.api.getExams().subscribe((data:any)=>{ this.Exams = data; });
@@ -54,7 +52,6 @@ export class SessionCompleteComponent implements OnInit {
     this.api.getCertificateTypes().subscribe((data:any)=>{ this.CertificateTypes = data; });
     this.api.getSurgerys().subscribe((data:any)=>{ this.Surgerys = data; });
     this.api.getGroups().subscribe((data:any)=>{ this.Groups = data; });
-    
     this.api.getStatuses({GroupID: this.data.CreatedGroupID}).subscribe((data:any)=>{ this.Statuses = data; });
 
     if (this.data.DiagnosisID=='' || !this.data.DiagnosisID || this.data.DiagnosisID == 0 || this.data.DiagnosisID == '0') {
@@ -67,7 +64,7 @@ export class SessionCompleteComponent implements OnInit {
       this.api.toastError("No se ha ingresado cirugía");
       return false;
     }
-    if (this.data.orders.length > 0 || this.data.interviews.length > 0 || this.data.certificates.length > 0) {
+    if (this.data.orders.length > 0 || this.data.interviews.length > 0 || this.data.certificates.length > 0 || this.data.recipes.length) {
       this.api.confirmModal("Importante","Se reemplazará la información de examenes, interconsultas, recetas y certificados con la información de la plantilla").then((data) => {
         if (data.isConfirmed) {
           this.replaceDataFromService();
@@ -80,11 +77,40 @@ export class SessionCompleteComponent implements OnInit {
   replaceDataFromService() {
     this.loading = true;
     this.api.loadTemplate(this.data.SurgeryID).subscribe((data:any) => {
-      this.data.interviews = [];
-      this.data.certificates = [];
-      this.data.recipes = [];
-      this.data.orders = [];
-      
+
+      // this.data.interviews = [];
+      // this.data.certificates = [];
+      // this.data.recipes = [];
+      // this.data.orders = [];
+
+      // Mark as droppable (no clean because no drop on backend)
+
+      for (let i = 0; i < this.data.interviews.length; i++) {
+        if (this.data.interviews[i].InterviewID || (parseInt(this.data.interviews[i].InterviewID) || 0) > 0) {
+          this.data.dropInterviews.push(this.data.interviews[i].InterviewID);
+        }
+        this.data.interviews.splice(i,1); 
+      }
+      for (let i = 0; i < this.data.orders.length; i++) {
+        if (this.data.orders[i].OrderID || (parseInt(this.data.orders[i].OrderID) || 0) > 0) {
+          this.data.dropOrders.push(this.data.orders[i].OrderID);
+        }
+        this.data.orders.splice(i,1); 
+      }
+      for (let i = 0; i < this.data.recipes.length; i++) {
+        if (this.data.recipes[i].RecipeID || (parseInt(this.data.recipes[i].RecipeID) || 0) > 0) {
+          this.data.dropRecipes.push(this.data.recipes[i].RecipeID);
+        }
+        this.data.recipes.splice(i,1); 
+      }
+      for (let i = 0; i < this.data.certificates.length; i++) {
+        if (this.data.certificates[i].CertificateID || (parseInt(this.data.certificates[i].CertificateID) || 0) > 0) {
+          this.data.dropCertificates.push(this.data.certificates[i].CertificateID);
+        }
+        this.data.certificates.splice(i,1);
+      } 
+
+
       for (let i = 0; i < data.Certificates.length; i++) {
         this.data.certificates.push({
           CertificateID: 0,
@@ -155,6 +181,30 @@ export class SessionCompleteComponent implements OnInit {
     }
     return '';
   }
+  getIdeal() {
+    let Height = parseFloat(this.data.anthropometry.Height) || 0;
+    if (Height!=0) {
+      return Math.round(Height*Height/10000)*25;
+    }
+  }
+  getExceso() {
+    let Weight = parseFloat(this.data.anthropometry.Weight) || 0;
+    let ideal:any = this.getIdeal();
+    if (Weight - ideal <= 0) {
+      return 0;
+    } else {
+      return Math.round((Weight - ideal)*10)/10;
+    }
+  }
+  getPorcentajeExceso() {
+    let Weight = parseFloat(this.data.anthropometry.Weight) || 0;
+    let exceso = this.getExceso(); 
+    if (exceso > 0) {
+      return Math.round((exceso * 100 / Weight) * 10) / 10 + "%";
+    } else {
+      return '0%';
+    }
+  }
   ngAfterViewInit() { 
     setTimeout(() => {
       this.render = true;
@@ -168,25 +218,25 @@ export class SessionCompleteComponent implements OnInit {
   }
   borrar(topic:any, index:number) {
     if (topic=="orders") {
-      if (this.data.orders[index].OrderID || (parseInt(this.data.orders[index].OrderID) || 0)) {
+      if (this.data.orders[index].OrderID || (parseInt(this.data.orders[index].OrderID) || 0) > 0) {
         this.data.dropOrders.push(this.data.orders[index].OrderID);
       }
       this.data.orders.splice(index,1); 
     }
     if (topic=="interviews") {
-      if (this.data.interviews[index].InterviewID || (parseInt(this.data.interviews[index].InterviewID) || 0)) {
+      if (this.data.interviews[index].InterviewID || (parseInt(this.data.interviews[index].InterviewID) || 0) > 0) {
         this.data.dropInterviews.push(this.data.interviews[index].InterviewID);
       }
       this.data.interviews.splice(index,1); 
     }
     if (topic=="recipes") {
-      if (this.data.recipes[index].RecipeID || (parseInt(this.data.recipes[index].RecipeID) || 0)) {
+      if (this.data.recipes[index].RecipeID || (parseInt(this.data.recipes[index].RecipeID) || 0) > 0) {
         this.data.dropRecipes.push(this.data.recipes[index].RecipeID);
       }
       this.data.recipes.splice(index,1); 
     }
     if (topic=='certificates') {
-      if (this.data.certificates[index].CertificateID || (parseInt(this.data.certificates[index].CertificateID) || 0)) {
+      if (this.data.certificates[index].CertificateID || (parseInt(this.data.certificates[index].CertificateID) || 0) > 0) {
         this.data.dropCertificates.push(this.data.certificates[index].CertificateID);
       }
       this.data.certificates.splice(index,1);
@@ -194,6 +244,7 @@ export class SessionCompleteComponent implements OnInit {
   } 
   testTypeOfRecipe(medicineID:string, ii: number) {
     if (medicineID=='99999999') {
+      /*
       const mdl = this.mdl.open(AddMedicalExpressComponent, {
         backdrop: false,
         keyboard: true,
@@ -205,6 +256,8 @@ export class SessionCompleteComponent implements OnInit {
           this.data.recipes[ii].MedicineID = data.MedicineID;
         }
       },(err) => { console.log('dismiss:',err); });
+      */
+     //this.data.recipes[ii].isNew = true;
     }
   }
   addCertificate() {
@@ -236,12 +289,20 @@ export class SessionCompleteComponent implements OnInit {
       DateID: 0
     });
   }
-  save(withClose:boolean) {
+  save(withClose:boolean, options?:any) {
     this.loading = true;
+    let w:any = null;
+    if (options && options.orders) { 
+      w = window.open('', 'w2','width=700,height=500');
+      w.document.write("<h4>Preparando PDF... no cierres esta ventana hasta que aparezca tu PDF, espere por favor</h4>");
+    }
     this.api.saveSession(this.data).subscribe((data:any) => {
       this.api.toastOk("Guardado correctamente");
       if (withClose){ 
-        this.modal.close(data);
+        if (options && options.orders) {
+          w.location.href = environment.url + '/v1/pdf-render/data-orders/'+this.data.DateID;
+        }
+        this.modal.close({...data, ...options});
       }
       else {
         this.data.orders = data.orders;

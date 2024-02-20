@@ -8,6 +8,7 @@ import { createMask } from '@ngneat/input-mask';
 export class MaskService {
 
   public timeMask: any = createMask('99:99');
+  public numMask: any = createMask('{{numeric}}');
   constructor(
     
   ) {  

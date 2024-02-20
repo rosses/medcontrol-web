@@ -78,7 +78,7 @@ export class SettingComponent implements OnInit {
     this.loading = false;
   }
   getCols() : number {
-    if (this.master == 'Exam' || this.master == 'Medicine' || this.master == 'ExamData') { return 5; }
+    if (this.master == 'Exam' || this.master == 'Medicine' || this.master == 'ExamData' || this.master == 'Diagnosis') { return 5; }
     return 4;
   }
   deleteTemplate(element:string, num:number) {

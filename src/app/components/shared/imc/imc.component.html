@@ -69,8 +69,67 @@
       </div>
     </div> 
     <div class="row mt-2">
+      <h4>Baja de peso estimada</h4>
       <div class="col-12">
         <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>Baja en KG</th>
+              <th>KG</th>
+              <th>IMC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4">Balón</td>
+            </tr>
+            <tr>
+              <td>-10% peso corporal</td>
+              <td>{{mr(w * 0.1)}}</td>
+              <td>{{mr(w * 0.9)}}</td>
+              <td [class.imc1]="getIMC(w * 0.9, h) <= 25" 
+                  [class.imc2]="getIMC(w * 0.9, h) > 25 && getIMC(w * 0.9, h) <= 30" 
+                  [class.imc3]="getIMC(w * 0.9, h) > 30 && getIMC(w * 0.9, h) <= 34" 
+                  [class.imc4]="getIMC(w * 0.9, h) > 35"
+              >
+                {{getIMC(w * 0.9, h)}}
+              </td>
+            </tr>
+            <tr>
+              <td>-20% peso corporal</td>
+              <td>{{mr(w * 0.2)}}</td>
+              <td>{{mr(w * 0.8)}}</td>
+              <td [class.imc1]="getIMC(w * 0.8, h) <= 25" 
+                  [class.imc2]="getIMC(w * 0.8, h) > 25 && getIMC(w * 0.8, h) <= 30" 
+                  [class.imc3]="getIMC(w * 0.8, h) > 30 && getIMC(w * 0.8, h) <= 34" 
+                  [class.imc4]="getIMC(w * 0.8, h) > 35"
+              >
+                {{getIMC(w * 0.8, h)}}
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="4">Cirugía</td>
+            </tr>
+            <tr *ngFor="let c of cg">
+              <td>-{{(c*100)}}%</td>
+              <td>-{{mr(exceso() * c)}}</td>
+              <td>{{mr(w - (exceso() * c))}}</td>
+              <td 
+                [class.imc1]="getIMC((w - (exceso() * c)), h) <= 25" 
+                [class.imc2]="getIMC((w - (exceso() * c)), h) > 25 && getIMC((w - (exceso() * c)), h) <= 30"  
+                [class.imc3]="getIMC((w - (exceso() * c)), h) > 30 && getIMC((w - (exceso() * c)), h) <= 34" 
+                [class.imc4]="getIMC((w - (exceso() * c)), h) > 35"
+              >{{getIMC((w - (exceso() * c)), h)}}</td>
+            </tr>
+          </tbody>
+          <!--
           <thead>
             <tr>
               <th>Intervención</th>
@@ -108,6 +167,7 @@
               >{{getIMC((w - (exceso() * c)), h)}}</td>
             </tr>
           </tbody>
+          -->
         </table>
       </div>
     </div>

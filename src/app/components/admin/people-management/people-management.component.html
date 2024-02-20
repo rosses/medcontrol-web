@@ -59,9 +59,9 @@
                   -->
                   <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}} <a  class="showmeimc" (click)="imc(data?.Anthropometry?.Weight,data?.Anthropometry?.Height,getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height))">Ver más</a></td></tr>
                   <tr><th>Médicos</th><td>{{data?.Date?.AntMedical}}</td></tr>
-                  <tr><th>Alergias</th><td>{{data?.Date?.AntAllergy}}</td></tr>
-                  <tr><th>Quirúrgicos</th><td>{{data?.Date?.AntSurgical}}</td></tr>
                   <tr><th>Fármacos</th><td>{{data?.Date?.AntDrugs}}</td></tr>
+                  <tr><th>Quirúrgicos</th><td>{{data?.Date?.AntSurgical}}</td></tr>
+                  <tr><th>Alergias</th><td>{{data?.Date?.AntAllergy}}</td></tr>
                 </thead>
               </table>
 
@@ -437,7 +437,7 @@
         <ng-template ngbNavContent>
           <div class="row my-1">
             <div class="col text-end">
-              <button class="btn btn-success">+ nueva orden examenes</button>
+              <button class="btn btn-info btn-sm">+ nueva orden examenes</button>
             </div>
           </div>
           <div class="row my-2">
@@ -452,10 +452,13 @@
                   <thead>
                     <tr>
                       <th style="background-color:#ffffa0;" colspan="2">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
-                      <th style="background-color:#ffffa0;" class="text-center"><button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button></th>
+                      <th style="background-color:#ffffa0;" class="text-end">
+                        <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders','Tu orden de exámenes',o.DateID)">whatsapp</button>
+                      </th>
                     </tr>
                     <tr>
-                      <th width="200">Tipo</th>
+                      <th width="350">Tipo</th>
                       <th>Examenes</th>
                       <th width="120">Opciones</th>
                     </tr>
@@ -502,25 +505,23 @@
                 <ng-container *ngFor="let o of recipes; let ii = index;">
                   <thead>
                     <tr>
-                      <th style="background-color:#ffffa0;" colspan="3">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" colspan="1">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
                         <button type="button" class="btn btn-sm btn-success" (click)="verRecipePDF(o.DateID)">ver pdf</button>
-                        <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsAppRecipe('Tu recetá está disponible',o.DateID)">whatsapp</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('recipe','Tu recetá está disponible',o.DateID)">whatsapp</button>
                       </th>
                     </tr>
                     <tr>
                       <th>Medicamento</th>
                       <th>Dosis</th>
-                      <th>Veces</th>
-                      <th>Días</th> 
                     </tr>
                   </thead> 
                   <tbody>
                     <tr *ngFor="let e of o.data; let iii = index;">
                       <td>{{e.MedicineName}}</td>
                       <td>{{e.Dose}}</td>
-                      <td>{{e.Period}}</td>
-                      <td>{{e.Periodicity}}</td>
+                      <!-- <td>{{e.Period}}</td>
+                      <td>{{e.Periodicity}}</td> -->
                     </tr>
                   </tbody>
                 </ng-container>

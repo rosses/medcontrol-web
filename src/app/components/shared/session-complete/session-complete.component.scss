@@ -34,3 +34,12 @@
     margin-top: 5px;
     color: #FFF;
   }
+  .buttons-with-mr {
+    button {
+      display: inline-block;
+      margin-left: 10px;
+      &:first-child {
+        margin-left: 0px;
+      }
+    }
+  }

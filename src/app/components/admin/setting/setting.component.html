@@ -48,6 +48,7 @@
                   <th *ngIf="master == 'ExamData'">Nombre Examen</th>
                   <th width="60">Activo</th>
                   <th *ngIf="master == 'ExamData'">Tipo de dato</th>
+                  <th *ngIf="master == 'Diagnosis'">Orden</th>
                   <th width="180">Opciones</th>
                 </tr>
               </thead>
@@ -66,6 +67,7 @@
                     <span *ngIf="row.Active == 0">NO</span>
                   </td>
                   <td *ngIf="master == 'ExamData'">{{row.ExamDataType}}</td>
+                  <td *ngIf="master == 'Diagnosis'">{{row.Orden}}</td>
                   <td>
                     <button class="btn btn-sm btn-warning" (click)="editMasterdata(row)">editar</button>
                     <button class="btn btn-sm btn-danger" (click)="deleteMasterdata(row)">eliminar</button>
@@ -115,13 +117,13 @@
                       <th width="60">Fila</th>
                       <th>Medicamento</th>
                       <th>Dosis</th>
-                      <th>Veces</th>
-                      <th>Dias</th>
+                      <!-- <th>Veces</th>
+                      <th>Dias</th> -->
                       <th width="60">Quitar</th>
                     </tr>
                   </thead>
                   <tbody> 
-                    <tr *ngIf="template.Recipes.length == 0"><td colspan="6">Sin elementos</td></tr>
+                    <tr *ngIf="template.Recipes.length == 0"><td colspan="4">Sin elementos</td></tr>
                     <tr *ngFor="let o of template.Recipes; let i = index">
                       <td>{{(i+1)}}</td>
                       <td>
@@ -132,12 +134,12 @@
                       <td>
                         <input type="text" class="form-control" name="dose_{{i}}" [(ngModel)]="o.Dose">
                       </td>
-                      <td>
+                      <!-- <td>
                         <input type="text" class="form-control" name="period_{{i}}" [(ngModel)]="o.Period">
                       </td>
                       <td>
                         <input type="text" class="form-control" name="periodicity_{{i}}" [(ngModel)]="o.Periodicity">
-                      </td>
+                      </td> -->
                       <td>
                         <button class="btn btn-sm btn-danger" (click)="deleteTemplate('Recipes',i)">X</button>
                       </td>

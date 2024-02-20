@@ -41,7 +41,7 @@ export class ImcComponent implements OnInit {
   
   }
   exceso() {
-    return (this.w - this.mr((this.h*this.h/10000)*25));
+    return this.mr(this.w - this.mr((this.h*this.h/10000)*25));
   }
   cancel() {
     this.modal.dismiss();

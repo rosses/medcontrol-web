@@ -24,11 +24,11 @@
                 -->
                 <div class="form-group mt-2">
                   <label>Peso (kg)</label>
-                  <input name="Weight" type="number" class="form-control" [(ngModel)]="data.anthropometry.Weight">
+                  <input name="Weight" type="text" [inputMask]="mask.numMask" class="form-control" [(ngModel)]="data.anthropometry.Weight">
                 </div>
                 <div class="form-group mt-2">
                   <label>Estatura (cms)</label>
-                  <input name="Height" type="number" class="form-control" [(ngModel)]="data.anthropometry.Height">
+                  <input name="Height" type="text" [inputMask]="mask.numMask" class="form-control" [(ngModel)]="data.anthropometry.Height">
                 </div>
                 <!--
                 <div class="form-group mt-2">
@@ -42,7 +42,19 @@
                 -->
                 <div class="form-group mt-2">
                   <label>IMC</label>
-                  <input name="IMC" type="number" class="form-control" [value]="getIMC()" disabled>
+                  <input name="IMC" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getIMC()" disabled>
+                </div>
+                <div class="form-group mt-2">
+                  <label>Peso ideal</label>
+                  <input name="PesoIdeal" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getIdeal()" disabled>
+                </div>
+                <div class="form-group mt-2">
+                  <label>Exceso Peso</label>
+                  <input name="PesoExceso" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getExceso()" disabled>
+                </div>
+                <div class="form-group mt-2">
+                  <label>% Exceso</label>
+                  <input name="PorcExceso" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getPorcentajeExceso()" disabled>
                 </div>
               </div> 
             </div>
@@ -53,16 +65,16 @@
                 <textarea name="AntMedical" class="form-control" [(ngModel)]="data.AntMedical" style="height: 80px;"></textarea>
               </div>
               <div class="form-group mt-2">
-                <label>Alergías:</label>
-                <textarea name="AntAllergy" class="form-control" [(ngModel)]="data.AntAllergy" style="height: 80px;"></textarea>
-              </div>
-              <div class="form-group mt-2">
                 <label>Fármacos:</label>
                 <textarea name="AntDrugs" class="form-control" [(ngModel)]="data.AntDrugs" style="height: 80px;"></textarea>
               </div>
               <div class="form-group mt-2">
-                <label>Cirugías:</label>
+                <label>Quirúrgicos:</label>
                 <textarea name="AntSurgical" class="form-control" [(ngModel)]="data.AntSurgical" style="height: 80px;"></textarea>
+              </div>
+              <div class="form-group mt-2">
+                <label>Alergías:</label>
+                <textarea name="AntAllergy" class="form-control" [(ngModel)]="data.AntAllergy" style="height: 80px;"></textarea>
               </div>
             </div>
             <div class="col-4">
@@ -86,7 +98,10 @@
                 <select name="DiagnosisID" class="form-control" [(ngModel)]="data.DiagnosisID">
                   <option value="">No aplica</option>
                   <option [value]="d.DiagnosisID" *ngFor="let d of Diagnosis">{{d.Name}}</option>
+                  <option value="99999999">agregar diagnóstico</option>
                 </select>          
+                <label *ngIf="data.DiagnosisID == '99999999'">Nuevo Diagnóstico:</label>
+                <input type="text" class="form-control" *ngIf="data.DiagnosisID == '99999999'" [(ngModel)]="data.DiagnosisNew" placeholder="nombre..." />
               </div>
               <div class="form-group mt-2" [hidden]="!data.DiagnosisID || data.DiagnosisID == ''">
                 <label>Cirugía:</label>
@@ -98,7 +113,7 @@
               </div>
               <div class="form-group mt-2">
                 <label>Observaciones:</label>
-                <textarea name="Obs" class="form-control" [(ngModel)]="data.Obs" style="height: 80px;"></textarea>
+                <textarea name="Obs" class="form-control" [(ngModel)]="data.Obs" style="height: 140px;"></textarea>
               </div>
 
             </div>
@@ -192,15 +207,15 @@
               <thead>
                 <tr>
                   <th width="180">Medicamento</th>
-                  <th width="220">Dosis</th>
-                  <th>Veces</th>
-                  <th>Días</th>
+                  <th>Dosis</th>
+                  <!-- <th>Veces</th>
+                  <th>Días</th> -->
                   <th width="180">Opciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngIf="data.recipes.length == 0">
-                  <td colspan="5">Sin recetas en esta consulta</td>
+                  <td colspan="3">Sin recetas en esta consulta</td>
                 </tr>
                 <tr *ngFor="let o of data.recipes; let ii = index;">
                   <td>
@@ -208,16 +223,17 @@
                       <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
                       <option value="99999999">agregar medicamento...</option>
                     </select>
+                    <input type="text" class="form-control" *ngIf="o.MedicineID == '99999999'" placeholder="Nuevo..." />
                   </td>
                   <td>
                     <input type="text" class="form-control" name="dose_{{ii}}" [(ngModel)]="o.Dose">
-                  </td>
+                  <!-- </td>
                   <td>
                     <input type="text" class="form-control" name="period_{{ii}}" [(ngModel)]="o.Period">
                   </td>
                   <td>
                     <input type="text" class="form-control" name="periodicity_{{ii}}" [(ngModel)]="o.Periodicity">
-                  </td>
+                  </td> -->
                   <td class="text-center">
                     <button type="button" class="btn btn-sm btn-danger" (click)="borrar('recipes',ii)">X</button>
                   </td>
@@ -339,11 +355,11 @@
       <div class="col text-start">
         <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
       </div>
-      <div class="col text-center">
-        <button type="button" (click)="save(true)" class="btn btn-success" [disabled]="loading">Terminar consulta <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
-      </div>
-      <div class="col text-end">
-        <button type="button" (click)="save(false)" class="btn btn-primary" [disabled]="loading">Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      <div class="col text-end buttons-with-mr">
+        <!--<button type="button" (click)="save(false)" class="btn btn-success" [disabled]="loading">Sólo Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>-->
+        <button type="button" (click)="save(true)" class="btn btn-success" [disabled]="loading">Guardar y Cerrar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+        <button type="button" (click)="save(true,{whatsapp:true})" class="btn btn-success" [disabled]="loading || data.orders.length == 0">Guardar + WhatsApp Ex. <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+        <button type="button" (click)="save(true,{orders:true})" class="btn btn-success" [disabled]="loading || data.orders.length == 0">Guardar + PDF Ex. <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
       </div>
     </div>
   </form>

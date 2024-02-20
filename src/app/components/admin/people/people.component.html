@@ -42,7 +42,7 @@
               <th>Nombre</th>
               <th>Previsión</th>
               <th>Teléfono</th>
-              <th>Fecha Ult. Consulta</th>
+              <th>Fecha Ingreso</th>
               <th class="text-center">Etapa / Estado</th>
               <th class="text-center">Opciones</th>
             </tr>
@@ -53,7 +53,7 @@
               <td>{{item.Name}} {{item.Lastname}}</td>
               <td>{{item.HealthName}}</td>
               <td>{{item.Phone}}</td>
-              <td>{{item.LastDate}}</td>
+              <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
               <td class="text-center"><span class="status-{{item.GroupID}}">{{item.GroupName}} / {{item.StatusName}}</span></td>
               <td class="text-center">
                 <a [routerLink]="['/admin/people/' + item.PeopleID]"><fa-icon [icon]="faEdit"></fa-icon></a>

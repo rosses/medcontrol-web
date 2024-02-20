@@ -220,14 +220,21 @@ export class PeopleManagementComponent implements OnInit {
   verRecipePDF(DateID:string) {
     window.open(environment.url + '/v1/pdf-render/recipes/'+DateID,'_blank');
   }
-  sendWhatsAppRecipe(text:string, DateID: string){
+  sendWhatsApp(type: string,text:string, DateID: string){
     const mdl = this.modal.open(WhatsAppShareComponent, {
       backdrop: false,
       keyboard: true,
       size: 'lg'
     }); 
+    let url = "";
+    if (type=="recipe") {
+      url = (environment.url + '/v1/pdf-render/recipes/'+DateID);
+    }
+    else if (type=="orders") {
+      url = (environment.url + '/v1/pdf-render/data-orders/'+DateID);
+    }
     mdl.componentInstance.PhoneNumber = ""+(this.data.Phone.length <= 9 ? this.data.Phone : this.data.Phone.substring(this.data.Phone.length - 9));
-    mdl.componentInstance.Text = text + ", click para ver: \n" + (environment.url + '/v1/pdf-render/recipes/'+DateID);
+    mdl.componentInstance.Text = text + ", click para ver: \n" + url;
     mdl.result.then((data) => {
       
     },(err) => { 
@@ -453,6 +460,9 @@ export class PeopleManagementComponent implements OnInit {
               this.dates[i].certificates = data.certificates.length;
               break;
             }
+          }
+          if (data.options && data.options.whatsapp) {
+            this.sendWhatsApp('orders','Tu orden de exámenes',DateID)
           }
         }
       },(err) => { console.log('dismiss:',err); });

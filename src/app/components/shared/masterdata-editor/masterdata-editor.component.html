@@ -10,6 +10,14 @@
         </div>      
       </div>
     </div>
+    <div class="row mt-2" *ngIf="master == 'Diagnosis'">
+      <div class="col-6">
+        <div class="form-group">
+          <label>Num Orden:</label>
+          <input type="text" class="form-control" name="ordenField" [(ngModel)]="data.Orden" [disabled]="loading" />
+        </div>      
+      </div>
+    </div>
     <div class="row mt-3" *ngIf="master == 'Exam'">
       <div class="col">
         <div class="form-group">

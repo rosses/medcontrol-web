@@ -66,6 +66,8 @@ import { ImcComponent } from './imc/imc.component';
     NgbNavModule,
     NgbPaginationModule
   ],
+  providers: [
+  ],
   exports: [
     FontAwesomeModule,
     MenuHeaderComponent,

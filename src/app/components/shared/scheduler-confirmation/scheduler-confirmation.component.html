@@ -32,13 +32,13 @@
       <div class="col">
         <div class="form-group">
           <label>Peso (KG):</label>
-          <input type="number" name="weight" class="form-control" [(ngModel)]="data.Weight" [disabled]="loading" />
+          <input type="text" [inputMask]="mask.numMask" name="weight" class="form-control" [(ngModel)]="data.Weight" [disabled]="loading" />
         </div>      
       </div>
       <div class="col">
         <div class="form-group">
           <label>Altura (CM):</label>
-          <input type="number" name="height" class="form-control" [(ngModel)]="data.Height" [disabled]="loading" />
+          <input type="text" [inputMask]="mask.numMask" name="height" class="form-control" [(ngModel)]="data.Height" [disabled]="loading" />
         </div>      
       </div>
       <!--
