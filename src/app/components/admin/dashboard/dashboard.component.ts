@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
       size: 'lg'
     });
     mdl.componentInstance.data.Mode = 'fast';
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       if (data.success) {
         if (data.data.PeopleID) {
           this.router.navigateByUrl('/admin/people/' + data.data.PeopleID);
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
           this.reload();
         }
       }
-    },(err) => { console.log('dismiss:',err); });
+    },(err:any) => { console.log('dismiss:',err); });
   }
   confirm(dateid: number,cardcode:string, name: string) {
     const mdl = this.modal.open(SchedulerConfirmationComponent, {
@@ -67,11 +67,11 @@ export class DashboardComponent implements OnInit {
     mdl.componentInstance.data.DateID = dateid;
     mdl.componentInstance.data.name = name;
     mdl.componentInstance.data.cardcode = cardcode;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       if (data.success) {
         this.reload();
       }
-    },(err) => { console.log('dismiss:',err); });
+    },(err:any) => { console.log('dismiss:',err); });
   }
 
 }

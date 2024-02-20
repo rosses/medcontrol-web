@@ -100,7 +100,7 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.DatePost5 = (this.data.DatePost5);
     mdl.componentInstance.data.DatePost6 = (this.data.DatePost6);
     mdl.componentInstance.data.PeopleID = this.data.PeopleID;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       console.log(data);
       if (data.success) {
         this.data.DatePost1 = data.data.DatePost1;
@@ -110,7 +110,7 @@ export class PeopleManagementComponent implements OnInit {
         this.data.DatePost5 = data.data.DatePost5;
         this.data.DatePost6 = data.data.DatePost6;
       }
-    },(err) => { 
+    },(err:any) => { 
       
     });    
   }
@@ -125,14 +125,14 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.DateAsSurgery = (DateAsSurgery);
     mdl.componentInstance.data.DateAsFinish = (DateAsFinish);
     mdl.componentInstance.data.PeopleID = PeopleID;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       console.log(data);
       if (data.success) {
         this.data.DateAsEvaluation = data.data.DateAsEvaluation;
         this.data.DateAsSurgery = data.data.DateAsSurgery;
         this.data.DateAsFinish = data.data.DateAsFinish;
       }
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
@@ -145,9 +145,9 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.w = w;
     mdl.componentInstance.h = h;
     mdl.componentInstance.t = t;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
@@ -185,7 +185,7 @@ export class PeopleManagementComponent implements OnInit {
     }); 
     mdl.componentInstance.data.StatusID = parseInt(StatusID);
     mdl.componentInstance.data.PeopleID = PeopleID;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       console.log(data);
       if (data.success) {
         this.data.GroupID = data.data.GroupID;
@@ -193,12 +193,21 @@ export class PeopleManagementComponent implements OnInit {
         this.data.StatusID = data.data.StatusID;
         this.data.StatusName = data.data.Name;
       }
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
-  deployResults(DateID:string, ExamTypeID: string, ExamTypeName: string, Exams: string[] ) {
-    console.log('deployResults ('+DateID+','+ExamTypeID+','+ExamTypeName+', '+Exams.join(',')+')');
+  deployResults(DateID:string, ExamTypeID?: string, ExamTypeName?: string, Exams?: string[] ) {
+
+    if (!Exams) {
+      Exams = [];
+      for (let i = 0; i < this.exams.length; i++) {
+        for (let j = 0; j < this.exams[i].data.length; j++) {
+          Exams = [ ...Exams, ...this.exams[i].data[j].Exams ];
+        }
+      }
+    }
+    console.log(Exams);
     const mdl = this.modal.open(OrderResultComponent, {
       backdrop: false,
       keyboard: true,
@@ -208,9 +217,9 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.ExamTypeName = ExamTypeName;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
     mdl.componentInstance.Exams = Exams;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
@@ -235,9 +244,9 @@ export class PeopleManagementComponent implements OnInit {
     }
     mdl.componentInstance.PhoneNumber = ""+(this.data.Phone.length <= 9 ? this.data.Phone : this.data.Phone.substring(this.data.Phone.length - 9));
     mdl.componentInstance.Text = text + ", click para ver: \n" + url;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
@@ -260,14 +269,14 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.CardCode = CardCode;
     mdl.componentInstance.data.dates.date = new Date().toISOString().substring(0,10);
     mdl.componentInstance.data.dates.time = new Date().toISOString().substring(11,16);
-    mdl.result.then(async (data) => {
+    mdl.result.then(async (data:any) => {
       if (data.date) {
         if (parseInt(data.date.DateID)>0) {
           this.session(data.date.DateID);
         }
       }
       this.dates = await lastValueFrom(this.api.getPeopleDates(this.id));
-    },(err) => { console.log('dismiss:',err); });
+    },(err:any) => { console.log('dismiss:',err); });
   }
   compareOrders() {
     this.api.toastError("Not implemented");
@@ -279,9 +288,9 @@ export class PeopleManagementComponent implements OnInit {
       size: 'lg'
     });  
     mdl.componentInstance.PeopleID = PeopleID;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
 
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
@@ -295,7 +304,7 @@ export class PeopleManagementComponent implements OnInit {
       size: 'lg'
     });  
     mdl.componentInstance.data.PeopleID = this.id;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       if (data.success) {
         this.loading = true;
         this.api.getPeopleEvolutions(this.id).subscribe((data:any) => {
@@ -307,7 +316,7 @@ export class PeopleManagementComponent implements OnInit {
         });
 
       }
-    },(err) => { 
+    },(err:any) => { 
       
     });
   }
@@ -450,7 +459,7 @@ export class PeopleManagementComponent implements OnInit {
       mdl.componentInstance.data.dropInterviews = [];
       mdl.componentInstance.data.dropRecipes = [];
       mdl.componentInstance.dataPeople = this.data;
-      mdl.result.then((data) => {
+      mdl.result.then((data:any) => {
         if (data.success) {
           for (let i = 0 ; i < this.dates.length; i++) {
             if (this.dates[i].DateID == DateID) {
@@ -465,7 +474,7 @@ export class PeopleManagementComponent implements OnInit {
             this.sendWhatsApp('orders','Tu orden de exámenes',DateID)
           }
         }
-      },(err) => { console.log('dismiss:',err); });
+      },(err:any) => { console.log('dismiss:',err); });
       this.loading = false;
     })
   }

@@ -42,7 +42,13 @@ export class OrderResultComponent implements OnInit {
     this.api.getExamDatas().subscribe((data:any)=>{ 
       this.ExamsData = data; 
       console.log(this.ExamsData);
-      this.rows = this.ExamsData.filter((x) => { return x.ExamTypeID == this.ExamTypeID && this.Exams.indexOf(x.ExamName) > -1});
+      if (this.ExamTypeID) {
+        this.rows = this.ExamsData.filter((x) => { return x.ExamTypeID == this.ExamTypeID && this.Exams.indexOf(x.ExamName) > -1});
+      }
+      else {
+        this.rows = this.ExamsData.filter((x) => { return this.Exams.indexOf(x.ExamName) > -1});
+      }
+      
       this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
         for (let i = 0; i < this.rows.length; i++) {
           for (let j = 0; j < data.length; j++) {

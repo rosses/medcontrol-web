@@ -76,12 +76,12 @@ export class PeopleComponent implements OnInit {
       size: 'lg'
     });
     mdl.componentInstance.data.Mode = 'full';
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       console.log('then.data: ', data);
       if (data.data.PeopleID) {
         this.router.navigateByUrl('/admin/people/' + data.data.PeopleID);
       }
-    },(err) => { console.log('dismiss:',err); });
+    },(err:any) => { console.log('dismiss:',err); });
   } 
 
   deletePeople(id:string, idx:number,name:string) {

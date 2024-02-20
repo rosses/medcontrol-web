@@ -1,4 +1,4 @@
-<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+<app-modal-cmp [toggle]="loading">
   <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
 </app-modal-cmp>
 
@@ -437,7 +437,7 @@
         <ng-template ngbNavContent>
           <div class="row my-1">
             <div class="col text-end">
-              <button class="btn btn-info btn-sm">+ nueva orden examenes</button>
+              <button class="btn btn-warning btn-sm">+ nueva orden examenes</button>
             </div>
           </div>
           <div class="row my-2">
@@ -451,16 +451,17 @@
                 <ng-container *ngFor="let o of exams; let ii = index;">
                   <thead>
                     <tr>
-                      <th style="background-color:#ffffa0;" colspan="2">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
                         <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders','Tu orden de exámenes',o.DateID)">whatsapp</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="deployResults(o.DateID)">cargar resultados</button>
                       </th>
                     </tr>
                     <tr>
                       <th width="350">Tipo</th>
                       <th>Examenes</th>
-                      <th width="120">Opciones</th>
+                      <!--<th width="180" class="text-center">Opciones</th>-->
                     </tr>
                   </thead> 
                   <tbody>
@@ -471,9 +472,11 @@
                       <td>
                         <div *ngFor="let m of e.Exams">{{m}}</div>
                       </td>
+                      <!--
                       <td class="text-center">
                         <button type="button" class="btn btn-sm btn-primary" (click)="deployResults(o.DateID, e.ExamTypeID, e.ExamTypeName, e.Exams)">resultados</button>
                       </td>
+                      -->
                     </tr>
                   </tbody>
                 </ng-container>
@@ -491,7 +494,7 @@
         <ng-template ngbNavContent> 
           <div class="row my-1">
             <div class="col text-end">
-              <button class="btn btn-success">+ nueva receta</button>
+              <button class="btn btn-warning btn-sm">+ nueva receta</button>
             </div>
           </div>
           <div class="row my-2">

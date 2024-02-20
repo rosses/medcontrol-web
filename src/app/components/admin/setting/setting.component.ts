@@ -142,9 +142,9 @@ export class SettingComponent implements OnInit {
     mdl.componentInstance.data = { Name: '', Active: 1 };
     mdl.componentInstance.mode = 'add';
     mdl.componentInstance.master = this.master;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       if (data.success) { this.reloadMasterdata(); }
-    },(err) => { 
+    },(err:any) => { 
       console.log('dismiss:',err); 
     });
   } 
@@ -174,9 +174,9 @@ export class SettingComponent implements OnInit {
     mdl.componentInstance.data = o;
     mdl.componentInstance.mode = 'edit';
     mdl.componentInstance.master = this.master;
-    mdl.result.then((data) => {
+    mdl.result.then((data:any) => {
       if (data.success) { this.reloadMasterdata(); }
-    },(err) => { 
+    },(err:any) => { 
       console.log('dismiss:',err); 
     });
   }

@@ -10,6 +10,7 @@
         <table class="mt-4 table table-striped table-mini table-bordered">
           <thead>
             <tr>
+              <th width="150">Grupo</th>
               <th width="150">Examen</th>
               <th width="150">Campo</th>
               <th>Valor</th>
@@ -17,9 +18,12 @@
           </thead>
           <tbody>
             <tr *ngIf="rows.length == 0">
-              <td colspan="3">No hay campos para completar</td>
+              <td colspan="4">No hay campos para completar</td>
             </tr>
             <tr *ngFor="let o of rows; let ii = index;">
+              <td>
+                {{o.ExamTypeName}}
+              </td>
               <td>
                 {{o.ExamName}}
               </td>

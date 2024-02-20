@@ -65,7 +65,7 @@ export class SessionCompleteComponent implements OnInit {
       return false;
     }
     if (this.data.orders.length > 0 || this.data.interviews.length > 0 || this.data.certificates.length > 0 || this.data.recipes.length) {
-      this.api.confirmModal("Importante","Se reemplazará la información de examenes, interconsultas, recetas y certificados con la información de la plantilla").then((data) => {
+      this.api.confirmModal("Importante","Se reemplazará la información de examenes, interconsultas, recetas y certificados con la información de la plantilla").then((data:any) => {
         if (data.isConfirmed) {
           this.replaceDataFromService();
         }
@@ -250,12 +250,12 @@ export class SessionCompleteComponent implements OnInit {
         keyboard: true,
         size: 'md'
       }); 
-      mdl.result.then((data) => {
+      mdl.result.then((data:any) => {
         if (data.MedicineID && parseInt(data.MedicineID) > 0) {
           this.Medicines.push(data);
           this.data.recipes[ii].MedicineID = data.MedicineID;
         }
-      },(err) => { console.log('dismiss:',err); });
+      },(err:any) => { console.log('dismiss:',err); });
       */
      //this.data.recipes[ii].isNew = true;
     }
