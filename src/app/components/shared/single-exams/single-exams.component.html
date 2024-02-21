@@ -1,0 +1,80 @@
+<app-modal-cmp [toggle]="loading" [fixWidth]="false">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
+</app-modal-cmp>
+<div class="m-3">
+  <form *ngIf="render">
+    <h4>Orden de examenes</h4>
+    <hr />
+    <div class="row mb-2">
+      <div class="col-8">
+          
+      </div>
+      <div class="col-4 text-end">
+        <button class="btn btn-sm btn-success" (click)="addOrder()">Agregar exámen</button>
+      </div>
+    </div> 
+    <div class="row mb-2">
+      <div class="col-12">
+        <table class="mt-4 table table-striped table-mini table-bordered">
+          <thead>
+            <tr>
+              <th width="220">Tipo</th>
+              <th>Nombre Exámen</th>
+              <th width="100">Opciones</th>
+              <th width="220">Tipo</th>
+              <th>Nombre Exámen</th>
+              <th width="100">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="data.orders.length == 0">
+              <td colspan="6">Sin examenes en esta orden</td>
+            </tr>
+            <ng-container *ngFor="let ii of pareo(data.orders);">
+            <tr>
+              <td>
+                <select class="form-control" name="type_of_examen_{{ii}}" [(ngModel)]="data.orders[ii].ExamTypeID" (change)="examEvaluate(ii)">
+                  <option [value]="t.ExamTypeID" *ngFor="let t of ExamTypes">{{t.Name}}</option>
+                </select>
+              </td>
+              <td>
+                <select class="form-control" name="examen_{{ii}}" [(ngModel)]="data.orders[ii].ExamID">
+                  <option [value]="t.ExamID" *ngFor="let t of getExams(ii)">{{t.Name}}</option>
+                </select>
+              </td>
+              <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" (click)="borrar('orders',ii)">X</button>
+              </td>
+              <td *ngIf="data.orders[ii+1]">
+                <select class="form-control" name="type_of_examen_{{(ii+1)}}" [(ngModel)]="data.orders[ii+1].ExamTypeID" (change)="examEvaluate((ii+1))">
+                  <option [value]="t.ExamTypeID" *ngFor="let t of ExamTypes">{{t.Name}}</option>
+                </select>
+              </td>
+              <td *ngIf="data.orders[ii+1]">
+                <select class="form-control" name="examen_{{(ii+1)}}" [(ngModel)]="data.orders[ii+1].ExamID">
+                  <option [value]="t.ExamID" *ngFor="let t of getExams( (ii + 1) )">{{t.Name}}</option>
+                </select>
+              </td>
+              <td *ngIf="data.orders[ii+1]" class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" (click)="borrar('orders',(ii+1))">X</button>
+              </td>
+            </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row my-3">
+      <div class="col text-start">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+      </div>
+      <div class="col text-end buttons-with-mr">
+        <!--<button type="button" (click)="save(false)" class="btn btn-success" [disabled]="loading">Sólo Guardar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>-->
+        <button type="button" (click)="save(true)" class="btn btn-success" [disabled]="loading">Guardar y Cerrar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+        <button type="button" (click)="save(true,{whatsapp:true})" class="btn btn-success" [disabled]="loading || data.orders.length == 0">Guardar + WhatsApp Ex. <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+        <button type="button" (click)="save(true,{orders:true})" class="btn btn-success" [disabled]="loading || data.orders.length == 0">Guardar + PDF Ex. <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>

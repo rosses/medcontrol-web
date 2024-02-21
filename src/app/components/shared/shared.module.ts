@@ -29,6 +29,7 @@ import { ChangeDates2Component } from './change-dates2/change-dates2.component';
 import { CopyFichaComponent } from './copy-ficha/copy-ficha.component';
 import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.component';
 import { ImcComponent } from './imc/imc.component';
+import { SingleExamsComponent } from './single-exams/single-exams.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ImcComponent } from './imc/imc.component';
     CopyFichaComponent,
     ChangeDates2Component,
     WhatsAppShareComponent,
-    ImcComponent
+    ImcComponent,
+    SingleExamsComponent
   ],
   imports: [
     CommonModule,
@@ -91,7 +93,8 @@ import { ImcComponent } from './imc/imc.component';
     CopyFichaComponent,
     ChangeDates2Component,
     WhatsAppShareComponent,
-    ImcComponent
+    ImcComponent,
+    SingleExamsComponent
   ]
 })
 export class SharedModule { }

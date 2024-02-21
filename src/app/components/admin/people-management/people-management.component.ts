@@ -17,6 +17,7 @@ import { CopyFichaComponent } from '../../shared/copy-ficha/copy-ficha.component
 import { ChangeDates2Component } from '../../shared/change-dates2/change-dates2.component';
 import { WhatsAppShareComponent } from '../../shared/whatsapp-share/whatsapp-share.component';
 import { ImcComponent } from '../../shared/imc/imc.component';
+import { SingleExamsComponent } from '../../shared/single-exams/single-exams.component';
 
 
 @Component({
@@ -193,6 +194,19 @@ export class PeopleManagementComponent implements OnInit {
         this.data.StatusID = data.data.StatusID;
         this.data.StatusName = data.data.Name;
       }
+    },(err:any) => { 
+      
+    });
+  }
+  addOrdenExamenesManual() {
+    console.log('addOrdenExamenesManual()');
+    const mdl = this.modal.open(SingleExamsComponent, {
+      backdrop: false,
+      keyboard: true,
+      size: 'lg'
+    });  
+    mdl.result.then((data:any) => {
+      console.log(data);
     },(err:any) => { 
       
     });

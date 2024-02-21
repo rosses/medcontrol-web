@@ -57,7 +57,7 @@
                   <tr><th>Temp. (C&deg;)</th><td>{{data?.Anthropometry?.Temperature | number: '1.1-1'}}&deg;</td></tr>
                   <tr><th>Presión</th><td>{{data?.Anthropometry?.Sistolic}}/{{data?.Anthropometry?.Diastolic}}</td></tr>
                   -->
-                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}} <a  class="showmeimc" (click)="imc(data?.Anthropometry?.Weight,data?.Anthropometry?.Height,getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height))">Ver más</a></td></tr>
+                  <tr><th>IMC</th><td>{{getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height)}} <a class="showmeimc" (click)="imc(data?.Anthropometry?.Weight,data?.Anthropometry?.Height,getIMC(data?.Anthropometry?.Weight,data?.Anthropometry?.Height))">VER IMC</a></td></tr>
                   <tr><th>Médicos</th><td>{{data?.Date?.AntMedical}}</td></tr>
                   <tr><th>Fármacos</th><td>{{data?.Date?.AntDrugs}}</td></tr>
                   <tr><th>Quirúrgicos</th><td>{{data?.Date?.AntSurgical}}</td></tr>
@@ -437,7 +437,7 @@
         <ng-template ngbNavContent>
           <div class="row my-1">
             <div class="col text-end">
-              <button class="btn btn-warning btn-sm">+ nueva orden examenes</button>
+              <button class="btn btn-warning btn-sm" (click)="addOrdenExamenesManual()">+ nueva orden examenes</button>
             </div>
           </div>
           <div class="row my-2">

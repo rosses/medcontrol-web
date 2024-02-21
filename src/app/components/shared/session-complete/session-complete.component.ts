@@ -8,6 +8,7 @@ import { DummyService } from 'src/app/dummy.service';
 import { MaskService } from 'src/app/mask.service';
 import { AddMedicalExpressComponent } from '../add-medical-express/add-medical-express.component';
 import { environment } from 'src/environments/environment';
+import { ImcComponent } from '../imc/imc.component';
 
 @Component({
   selector: 'app-session-complete',
@@ -53,6 +54,8 @@ export class SessionCompleteComponent implements OnInit {
     this.api.getSurgerys().subscribe((data:any)=>{ this.Surgerys = data; });
     this.api.getGroups().subscribe((data:any)=>{ this.Groups = data; });
     this.api.getStatuses({GroupID: this.data.CreatedGroupID}).subscribe((data:any)=>{ this.Statuses = data; });
+
+    this.render = true;
 
     if (this.data.DiagnosisID=='' || !this.data.DiagnosisID || this.data.DiagnosisID == 0 || this.data.DiagnosisID == '0') {
       this.data.DiagnosisID = '';
@@ -205,10 +208,23 @@ export class SessionCompleteComponent implements OnInit {
       return '0%';
     }
   }
+  imc(w:number, h:number, t: number|string) {
+    const mdl = this.mdl.open(ImcComponent, {
+      backdrop: false,
+      keyboard: true,
+      size: 'lg'
+    }); 
+    mdl.componentInstance.w = w;
+    mdl.componentInstance.h = h;
+    mdl.componentInstance.t = t;
+    mdl.result.then((data:any) => {
+      
+    },(err:any) => { 
+      
+    });
+  }
   ngAfterViewInit() { 
-    setTimeout(() => {
-      this.render = true;
-    },1000);
+
   }
   examEvaluate(index:number) {
     

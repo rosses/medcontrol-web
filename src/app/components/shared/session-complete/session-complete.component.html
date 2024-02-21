@@ -24,11 +24,11 @@
                 -->
                 <div class="form-group mt-2">
                   <label>Peso (kg)</label>
-                  <input name="Weight" type="text" [inputMask]="mask.numMask" class="form-control" [(ngModel)]="data.anthropometry.Weight">
+                  <input name="Weight" type="text" class="form-control" [(ngModel)]="data.anthropometry.Weight">
                 </div>
                 <div class="form-group mt-2">
                   <label>Estatura (cms)</label>
-                  <input name="Height" type="text" [inputMask]="mask.numMask" class="form-control" [(ngModel)]="data.anthropometry.Height">
+                  <input name="Height" type="text" class="form-control" [(ngModel)]="data.anthropometry.Height">
                 </div>
                 <!--
                 <div class="form-group mt-2">
@@ -42,19 +42,23 @@
                 -->
                 <div class="form-group mt-2">
                   <label>IMC</label>
-                  <input name="IMC" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getIMC()" disabled>
+                  <div class="input-group">
+                    <input name="IMC" type="text" class="form-control" [value]="getIMC()" disabled>
+                    <button class="showmeimc" (click)="imc(data.anthropometry.Weight,data.anthropometry.Height,getIMC())">VER IMC</button>
+                  </div>                 
+                  
                 </div>
                 <div class="form-group mt-2">
                   <label>Peso ideal</label>
-                  <input name="PesoIdeal" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getIdeal()" disabled>
+                  <input name="PesoIdeal" type="text" class="form-control" [value]="getIdeal()" disabled>
                 </div>
                 <div class="form-group mt-2">
                   <label>Exceso Peso</label>
-                  <input name="PesoExceso" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getExceso()" disabled>
+                  <input name="PesoExceso" type="text" class="form-control" [value]="getExceso()" disabled>
                 </div>
                 <div class="form-group mt-2">
                   <label>% Exceso</label>
-                  <input name="PorcExceso" type="text" [inputMask]="mask.numMask" class="form-control" [value]="getPorcentajeExceso()" disabled>
+                  <input name="PorcExceso" type="text" class="form-control" [value]="getPorcentajeExceso()" disabled>
                 </div>
               </div> 
             </div>
