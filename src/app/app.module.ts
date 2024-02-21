@@ -15,7 +15,7 @@ import { NgxRutModule } from '@numetalsour/ngx-rut';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

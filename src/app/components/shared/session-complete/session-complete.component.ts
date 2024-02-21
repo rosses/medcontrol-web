@@ -54,13 +54,18 @@ export class SessionCompleteComponent implements OnInit {
     this.api.getSurgerys().subscribe((data:any)=>{ this.Surgerys = data; });
     this.api.getGroups().subscribe((data:any)=>{ this.Groups = data; });
     this.api.getStatuses({GroupID: this.data.CreatedGroupID}).subscribe((data:any)=>{ this.Statuses = data; });
-
     this.render = true;
-
     if (this.data.DiagnosisID=='' || !this.data.DiagnosisID || this.data.DiagnosisID == 0 || this.data.DiagnosisID == '0') {
       this.data.DiagnosisID = '';
+    } 
+  }
+  numberOnly(event:any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
     }
-    
+    return true;
+
   }
   searchTemplate() {
     if (!this.data.SurgeryID || this.data.SurgeryID == '' || this.data.SurgeryID == 0) {

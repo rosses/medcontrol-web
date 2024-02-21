@@ -24,11 +24,11 @@
                 -->
                 <div class="form-group mt-2">
                   <label>Peso (kg)</label>
-                  <input name="Weight" type="text" class="form-control" [(ngModel)]="data.anthropometry.Weight">
+                  <input name="Weight" type="text" (keypress)="numberOnly($event)" class="form-control" [(ngModel)]="data.anthropometry.Weight">
                 </div>
                 <div class="form-group mt-2">
                   <label>Estatura (cms)</label>
-                  <input name="Height" type="text" class="form-control" [(ngModel)]="data.anthropometry.Height">
+                  <input name="Height" type="text" (keypress)="numberOnly($event)" class="form-control" [(ngModel)]="data.anthropometry.Height">
                 </div>
                 <!--
                 <div class="form-group mt-2">
@@ -231,7 +231,7 @@
                       <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
                       <option value="99999999">agregar medicamento...</option>
                     </select>
-                    <input type="text" class="form-control" [(ngModel)]="o.MedicineNew" *ngIf="o.MedicineID == '99999999'" placeholder="Nuevo..." />
+                    <input type="text" class="form-control" name="MedicineNew" [(ngModel)]="o.MedicineNew" *ngIf="o.MedicineID == '99999999'" placeholder="Nuevo..." />
                   </td>
                   <td>
                     <input type="text" class="form-control" name="dose_{{ii}}" [(ngModel)]="o.Dose">
