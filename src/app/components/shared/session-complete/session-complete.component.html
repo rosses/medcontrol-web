@@ -1,7 +1,7 @@
+<app-modal-cmp [toggle]="loading" [fixWidth]="false">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
+</app-modal-cmp>
 <div class="m-3">
-  <app-modal-cmp [toggle]="loading" [fixWidth]="false">
-    <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
-  </app-modal-cmp>
   <form *ngIf="render">
     <h4>Consulta [{{dataPeople?.CardCode}} | {{dataPeople?.Name}} {{dataPeople?.Lastname}}]</h4>
     <hr />
