@@ -175,38 +175,31 @@ export class SessionCompleteComponent implements OnInit {
     });
   }
   getIMC() {
-    let Weight = parseFloat(this.data.anthropometry.Weight) || 0;
-    let Height = parseFloat(this.data.anthropometry.Height) || 0;
-    if (Weight != 0 && this.data.anthropometry.Height != 0) {
-      let m2 = (Height/100) * (Height/100);
-      let calc = Math.round( (Weight / m2) * 100 ) / 100;
+    let w = parseFloat(this.data.anthropometry.Weight) || 0;
+    let h = parseFloat(this.data.anthropometry.Height) || 0;
+    if (w != 0 && h != 0) {
+      let m2 = (h/100) * (h/100);
+      let calc = Math.round( (w / m2) * 100 ) / 100;
       return calc;
     }
-    return '';
+    return 0;
+  }
+  mr(n:number) {  
+    return Math.round(n * 10) / 10;
   }
   getIdeal() {
-    let Height = parseFloat(this.data.anthropometry.Height) || 0;
-    if (Height!=0) {
-      return Math.round(Height*Height/10000)*25;
-    }
+    let h = parseFloat(this.data.anthropometry.Height) || 0;
+    return this.mr((h*h/10000)*25);
   }
   getExceso() {
-    let Weight = parseFloat(this.data.anthropometry.Weight) || 0;
-    let ideal:any = this.getIdeal();
-    if (Weight - ideal <= 0) {
-      return 0;
-    } else {
-      return Math.round((Weight - ideal)*10)/10;
-    }
+    let h = parseFloat(this.data.anthropometry.Height) || 0;
+    let w = parseFloat(this.data.anthropometry.Weight) || 0;
+    return this.mr(w - this.mr((h*h/10000)*25));
   }
   getPorcentajeExceso() {
-    let Weight = parseFloat(this.data.anthropometry.Weight) || 0;
-    let exceso = this.getExceso(); 
-    if (exceso > 0) {
-      return Math.round((exceso * 100 / Weight) * 10) / 10 + "%";
-    } else {
-      return '0%';
-    }
+    let h = parseFloat(this.data.anthropometry.Height) || 0;
+    let w = parseFloat(this.data.anthropometry.Weight) || 0;
+    return this.mr((w - this.mr((h*h/10000)*25)) * 100 / w) + "%";
   }
   imc(w:number, h:number, t: number|string) {
     const mdl = this.mdl.open(ImcComponent, {

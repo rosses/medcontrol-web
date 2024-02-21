@@ -38,7 +38,6 @@ export class ImcComponent implements OnInit {
     return Math.round(n * 10) / 10;
   }
   async enviar() {
-  
   }
   exceso() {
     return this.mr(this.w - this.mr((this.h*this.h/10000)*25));
