@@ -30,6 +30,7 @@ import { CopyFichaComponent } from './copy-ficha/copy-ficha.component';
 import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.component';
 import { ImcComponent } from './imc/imc.component';
 import { SingleExamsComponent } from './single-exams/single-exams.component';
+import { SingleRecipeComponent } from './single-recipe/single-recipe.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { SingleExamsComponent } from './single-exams/single-exams.component';
     ChangeDates2Component,
     WhatsAppShareComponent,
     ImcComponent,
-    SingleExamsComponent
+    SingleExamsComponent,
+    SingleRecipeComponent
   ],
   imports: [
     CommonModule,
@@ -94,7 +96,8 @@ import { SingleExamsComponent } from './single-exams/single-exams.component';
     ChangeDates2Component,
     WhatsAppShareComponent,
     ImcComponent,
-    SingleExamsComponent
+    SingleExamsComponent,
+    SingleRecipeComponent
   ]
 })
 export class SharedModule { }

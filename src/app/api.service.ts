@@ -414,6 +414,12 @@ export class ApiService {
   saveSession(data:any) {
     return this.post("/v1/date/"+data.DateID, data);
   }
+  saveSingleOrder(data:any) {
+    return this.post("/v1/singles/order", data);
+  }
+  saveSingleRecipe(data:any) {
+    return this.post("/v1/singles/recipe", data);
+  }
   saveExamData(data:any) {
     return this.post("/v1/examdata/save", data);
   }

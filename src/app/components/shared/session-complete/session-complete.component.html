@@ -206,7 +206,7 @@
              
           </div>
           <div class="col-4 text-end">
-            <button class="btn btn-sm btn-success" (click)="addRecipe()">Agregar receta</button>
+            <button class="btn btn-sm btn-success" (click)="addRecipe()">Agregar medicamento</button>
           </div>
         </div> 
         <div class="row mb-2">
@@ -223,7 +223,7 @@
               </thead>
               <tbody>
                 <tr *ngIf="data.recipes.length == 0">
-                  <td colspan="3">Sin recetas en esta consulta</td>
+                  <td colspan="3">Sin medicamentos en esta consulta</td>
                 </tr>
                 <tr *ngFor="let o of data.recipes; let ii = index;">
                   <td>

@@ -10,21 +10,20 @@ import { AddMedicalExpressComponent } from '../add-medical-express/add-medical-e
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-single-exams',
-  templateUrl: './single-exams.component.html',
-  styleUrls: ['./single-exams.component.scss']
+  selector: 'app-single-recipe',
+  templateUrl: './single-recipe.component.html',
+  styleUrls: ['./single-recipe.component.scss']
 })
-export class SingleExamsComponent implements OnInit {
+export class SingleRecipeComponent implements OnInit {
 
-  public orders: any = [];
-  public dropOrders: any = [];
+  public dropRecipes: any = [];
   public PeopleID: string = '';
   public loading: boolean = false;
   public render: boolean = false;
   public faSpinner = faSpinner; 
 
-  public ExamTypes: any[] = [];
-  public Exams: any[] = [];
+  public Medicines: any[] = [];
+  public recipes: any[] = [];
 
   constructor(
     private api: ApiService,
@@ -37,35 +36,29 @@ export class SingleExamsComponent implements OnInit {
 
   ngOnInit(): void { 
     this.loading = true;
-    this.api.getExamTypes().subscribe((data:any)=>{ this.ExamTypes = data; });
-    this.api.getExams().subscribe((data:any)=>{ this.Exams = data; });
+    this.api.getMedicines().subscribe((data:any)=>{ this.Medicines = data; });
     this.render = true;
     this.loading = false;
   }
-  addOrder() {
-    this.orders.push({
-      OrderID: 0,
-      ExamTypeID: 0,
-      ExamID: 0,
+  addRecipe() {
+    this.recipes.push({
+      MedicineID: 0,
+      Dose: '',
+      Period: '',
+      Periodicity: '',
       PeopleID: 0,
-      DateID: 0,
-      Description: '',
-      CreatedUserID: 0,
-      CreatedAt: ''
+      DateID: 0
     });
   }
   examEvaluate(index:number) {
     
-  }
-  getExams(index:number) { 
-    return this.Exams.filter((x:any) => { return parseInt(x.ExamTypeID) == parseInt(this.orders[index].ExamTypeID) });
-  }
+  } 
   borrar(topic:any, index:number) {
-    if (topic=="orders") {
-      if (this.orders[index].OrderID || (parseInt(this.orders[index].OrderID) || 0) > 0) {
-        this.dropOrders.push(this.orders[index].OrderID);
+    if (topic=="recipes") {
+      if (this.recipes[index].RecipeID || (parseInt(this.recipes[index].RecipeID) || 0) > 0) {
+        this.dropRecipes.push(this.recipes[index].RecipeID);
       }
-      this.orders.splice(index,1); 
+      this.recipes.splice(index,1); 
     }
   } 
 
@@ -76,15 +69,15 @@ export class SingleExamsComponent implements OnInit {
       w = window.open('', 'w2','width=700,height=500');
       w.document.write("<h4>Preparando PDF... no cierres esta ventana hasta que aparezca tu PDF, espere por favor</h4>");
     }
-    this.api.saveSingleOrder({
+    this.api.saveSingleRecipe({
       PeopleID: this.PeopleID,
-      data: this.orders,
-      drop: this.dropOrders
+      data: this.recipes,
+      drop: this.dropRecipes
     }).subscribe((data:any) => {
       this.api.toastOk("Guardado correctamente");
       if (withClose){ 
         if (options && options.orders) {
-          w.location.href = environment.url + '/v1/pdf-render/data-single-orders/'+data.SingleOrderID;
+          w.location.href = environment.url + '/v1/pdf-render/single-recipes/'+data.SingleOrderID;
         }
         this.modal.close({...data, ...options});
       }

@@ -18,6 +18,7 @@ import { ChangeDates2Component } from '../../shared/change-dates2/change-dates2.
 import { WhatsAppShareComponent } from '../../shared/whatsapp-share/whatsapp-share.component';
 import { ImcComponent } from '../../shared/imc/imc.component';
 import { SingleExamsComponent } from '../../shared/single-exams/single-exams.component';
+import { SingleRecipeComponent } from '../../shared/single-recipe/single-recipe.component';
 
 
 @Component({
@@ -203,14 +204,39 @@ export class PeopleManagementComponent implements OnInit {
     const mdl = this.modal.open(SingleExamsComponent, {
       backdrop: false,
       keyboard: true,
-      size: 'lg'
+      size: 'lg',
+      windowClass: 'session-modal'
     });  
+    mdl.componentInstance.PeopleID = this.id;
     mdl.result.then((data:any) => {
       console.log(data);
+      if (data.options && data.options.whatsapp) {
+        this.sendWhatsApp('orders-single','Tu orden de exámenes',data.GroupSingleID)
+      }
     },(err:any) => { 
       
     });
   }
+
+  addRecipeManual() {
+    console.log('addRecipeManual()');
+    const mdl = this.modal.open(SingleRecipeComponent, {
+      backdrop: false,
+      keyboard: true,
+      size: 'lg',
+      windowClass: 'session-modal'
+    });  
+    mdl.componentInstance.PeopleID = this.id;
+    mdl.result.then((data:any) => {
+      console.log(data);
+      if (data.options && data.options.whatsapp) {
+        this.sendWhatsApp('recipe-single','Tu recetá está disponible',data.GroupSingleID)
+      }
+    },(err:any) => { 
+      
+    });
+  }
+
   deployResults(DateID:string, ExamTypeID?: string, ExamTypeName?: string, Exams?: string[] ) {
 
     if (!Exams) {
@@ -243,7 +269,7 @@ export class PeopleManagementComponent implements OnInit {
   verRecipePDF(DateID:string) {
     window.open(environment.url + '/v1/pdf-render/recipes/'+DateID,'_blank');
   }
-  sendWhatsApp(type: string,text:string, DateID: string){
+  sendWhatsApp(type: string,text:string, ID: string){
     const mdl = this.modal.open(WhatsAppShareComponent, {
       backdrop: false,
       keyboard: true,
@@ -251,10 +277,16 @@ export class PeopleManagementComponent implements OnInit {
     }); 
     let url = "";
     if (type=="recipe") {
-      url = (environment.url + '/v1/pdf-render/recipes/'+DateID);
+      url = (environment.url + '/v1/pdf-render/recipes/'+ID);
     }
     else if (type=="orders") {
-      url = (environment.url + '/v1/pdf-render/data-orders/'+DateID);
+      url = (environment.url + '/v1/pdf-render/data-orders/'+ID);
+    }
+    else if (type=="recipe-single") {
+      url = (environment.url + '/v1/pdf-render/single-recipes/'+ID);
+    }
+    else if (type=="orders-single") {
+      url = (environment.url + '/v1/pdf-render/data-single-orders/'+ID);
     }
     mdl.componentInstance.PhoneNumber = ""+(this.data.Phone.length <= 9 ? this.data.Phone : this.data.Phone.substring(this.data.Phone.length - 9));
     mdl.componentInstance.Text = text + ", click para ver: \n" + url;

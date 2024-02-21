@@ -1,0 +1,69 @@
+<app-modal-cmp [toggle]="loading" [fixWidth]="false">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
+</app-modal-cmp>
+<div class="m-3">
+  <form *ngIf="render">
+    <h4>Receta</h4>
+    <hr />
+    <div class="row mb-2">
+      <div class="col-8">
+         
+      </div>
+      <div class="col-4 text-end">
+        <button class="btn btn-sm btn-success" (click)="addRecipe()">Agregar medicamento</button>
+      </div>
+    </div> 
+    <div class="row mb-2">
+      <div class="col-12">
+        <table class="mt-4 table table-striped table-mini table-bordered">
+          <thead>
+            <tr>
+              <th width="180">Medicamento</th>
+              <th>Dosis</th>
+              <!-- <th>Veces</th>
+              <th>Días</th> -->
+              <th width="180">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="recipes.length == 0">
+              <td colspan="3">Sin medicamentos</td>
+            </tr>
+            <tr *ngFor="let o of recipes; let ii = index;">
+              <td>
+                <select class="form-control" name="type_of_recipe_{{ii}}" [(ngModel)]="o.MedicineID">
+                  <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
+                  <option value="99999999">agregar medicamento...</option>
+                </select>
+                <input type="text" class="form-control" name="MedicineNew" [(ngModel)]="o.MedicineNew" *ngIf="o.MedicineID == '99999999'" placeholder="Nuevo..." />
+              </td>
+              <td>
+                <input type="text" class="form-control" name="dose_{{ii}}" [(ngModel)]="o.Dose">
+              <!-- </td>
+              <td>
+                <input type="text" class="form-control" name="period_{{ii}}" [(ngModel)]="o.Period">
+              </td>
+              <td>
+                <input type="text" class="form-control" name="periodicity_{{ii}}" [(ngModel)]="o.Periodicity">
+              </td> -->
+              <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" (click)="borrar('recipes',ii)">X</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
+
+    <div class="row my-3">
+      <div class="col-3 text-start">
+        <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>
+      </div>
+      <div class="col-9 text-end buttons-with-mr">
+        <button type="button" (click)="save(true)" class="btn btn-success" [disabled]="loading">Guardar y Cerrar <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+        <button type="button" (click)="save(true,{whatsapp:true})" class="btn btn-success" [disabled]="loading || recipes.length == 0">Guardar + WhatsApp <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+        <button type="button" (click)="save(true,{orders:true})" class="btn btn-success" [disabled]="loading || recipes.length == 0">Guardar + PDF <fa-icon [hidden]="!loading" [icon]="faSpinner" [spin]="true"></fa-icon></button>
+      </div>
+    </div>
+  </form>
+</div>
