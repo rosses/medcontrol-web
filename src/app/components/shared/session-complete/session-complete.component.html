@@ -231,7 +231,7 @@
                       <option [value]="m.MedicineID" *ngFor="let m of Medicines">{{m.Name}}</option>
                       <option value="99999999">agregar medicamento...</option>
                     </select>
-                    <input type="text" class="form-control" *ngIf="o.MedicineID == '99999999'" placeholder="Nuevo..." />
+                    <input type="text" class="form-control" [(ngModel)]="o.MedicineNew" *ngIf="o.MedicineID == '99999999'" placeholder="Nuevo..." />
                   </td>
                   <td>
                     <input type="text" class="form-control" name="dose_{{ii}}" [(ngModel)]="o.Dose">
