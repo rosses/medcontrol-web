@@ -31,7 +31,7 @@
                 {{o.Name}}
               </td>
               <td>
-                <input *ngIf="o.ExamDataType == 'number'" type="text" [inputMask]="mask.numMask" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
+                <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
                 <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
                 <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{ii}}" [(ngModel)]="o.Value" /> confirma</div>
               </td>

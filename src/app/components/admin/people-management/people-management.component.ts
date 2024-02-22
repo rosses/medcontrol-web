@@ -208,11 +208,13 @@ export class PeopleManagementComponent implements OnInit {
       windowClass: 'session-modal'
     });  
     mdl.componentInstance.PeopleID = this.id;
-    mdl.result.then((data:any) => {
+    mdl.result.then(async (data:any) => {
       console.log(data);
-      if (data.options && data.options.whatsapp) {
+      if (data.whatsapp) {
         this.sendWhatsApp('orders-single','Tu orden de exámenes',data.GroupSingleID)
-      }
+      }      
+      this.exams = await lastValueFrom(this.api.getPeopleExams(this.id));
+      this.loading = false;
     },(err:any) => { 
       
     });
@@ -227,11 +229,13 @@ export class PeopleManagementComponent implements OnInit {
       windowClass: 'session-modal'
     });  
     mdl.componentInstance.PeopleID = this.id;
-    mdl.result.then((data:any) => {
+    mdl.result.then(async (data:any) => {
       console.log(data);
-      if (data.options && data.options.whatsapp) {
-        this.sendWhatsApp('recipe-single','Tu recetá está disponible',data.GroupSingleID)
+      if (data.whatsapp) {
+        this.sendWhatsApp('recipe-single','Tu recetá está disponible',data.GroupSingleID);
       }
+      this.recipes = await lastValueFrom(this.api.getPeopleRecipes(this.id));
+      this.loading = false;
     },(err:any) => { 
       
     });
@@ -243,7 +247,9 @@ export class PeopleManagementComponent implements OnInit {
       Exams = [];
       for (let i = 0; i < this.exams.length; i++) {
         for (let j = 0; j < this.exams[i].data.length; j++) {
-          Exams = [ ...Exams, ...this.exams[i].data[j].Exams ];
+          if (this.exams[i].DateID == DateID) {
+            Exams = [ ...Exams, ...this.exams[i].data[j].Exams ];
+          }
         }
       }
     }
@@ -263,11 +269,48 @@ export class PeopleManagementComponent implements OnInit {
       
     });
   }
-  verOrdenPDF(DateID:string) {
-    window.open(environment.url + '/v1/pdf-render/data-orders/'+DateID,'_blank');
+
+  deployResultsSingle(SingleID:string, ExamTypeID?: string, ExamTypeName?: string, Exams?: string[] ) {
+
+    if (!Exams) {
+      Exams = [];
+      for (let i = 0; i < this.exams.length; i++) {
+        for (let j = 0; j < this.exams[i].data.length; j++) {
+          if (this.exams[i].DateID == SingleID) {
+            Exams = [ ...Exams, ...this.exams[i].data[j].Exams ];
+          }
+        }
+      }
+    }
+    console.log(Exams);
+    const mdl = this.modal.open(OrderResultComponent, {
+      backdrop: false,
+      keyboard: true,
+      size: 'lg'
+    }); 
+    mdl.componentInstance.SingleID = SingleID;
+    mdl.componentInstance.ExamTypeName = ExamTypeName;
+    mdl.componentInstance.ExamTypeID = ExamTypeID;
+    mdl.componentInstance.Exams = Exams;
+    mdl.result.then((data:any) => {
+      
+    },(err:any) => { 
+      
+    });
   }
-  verRecipePDF(DateID:string) {
-    window.open(environment.url + '/v1/pdf-render/recipes/'+DateID,'_blank');
+  verOrdenPDF(DateID:string,single?:boolean) {
+    if (single) {
+      window.open(environment.url + '/v1/pdf-render/data-single-orders/'+DateID,'_blank');
+    } else {
+      window.open(environment.url + '/v1/pdf-render/data-orders/'+DateID,'_blank');
+    }
+  }
+  verRecipePDF(DateID:string,single?:boolean) {
+    if (single) {
+      window.open(environment.url + '/v1/pdf-render/single-recipes/'+DateID,'_blank');
+    } else {
+      window.open(environment.url + '/v1/pdf-render/recipes/'+DateID,'_blank');
+    }
   }
   sendWhatsApp(type: string,text:string, ID: string){
     const mdl = this.modal.open(WhatsAppShareComponent, {
@@ -366,8 +409,36 @@ export class PeopleManagementComponent implements OnInit {
       
     });
   }
+  deleteFreeOrder(id:string) {
+    this.api.confirmModal("Eliminar orden","¿Desea eliminar la orden?").then((status:SweetAlertResult) => {
+      if (status.isConfirmed) {
+        this.loading = true;
+        this.api.deleteFreeOrder(id).subscribe((data:any) => {
+          this.api.toastOk("Eliminado con éxito");
+          this.setActive(4);
+        },(err:any) => {
+          this.api.toastError(err.error.error);
+          this.loading = false;
+        })
+      }
+    });
+  }
+  deleteFreeRecipe(id:string) {
+    this.api.confirmModal("Eliminar receta","¿Desea eliminar la receta?").then((status:SweetAlertResult) => {
+      if (status.isConfirmed) {
+        this.loading = true;
+        this.api.deleteFreeRecipe(id).subscribe((data:any) => {
+          this.api.toastOk("Eliminado con éxito");
+          this.setActive(5);
+        },(err:any) => {
+          this.api.toastError(err.error.error);
+          this.loading = false;
+        })
+      }
+    });
+  }
   deleteRecipes(num:number) {
-    this.api.confirmModal("Eliminar receta","Desea eliminar la receta?").then((status:SweetAlertResult) => {
+    this.api.confirmModal("Eliminar receta","¿Desea eliminar la receta?").then((status:SweetAlertResult) => {
       if (status.isConfirmed) {
         this.loading = true;
         this.api.deleteRecipe(this.recipes[num].RecepID).subscribe((data:any) => {
@@ -384,7 +455,7 @@ export class PeopleManagementComponent implements OnInit {
     window.open(environment.url + '/v1/pdf-render/certs-interview/'+id,'_blank'); 
   }
   deleteInterview(num:number) {
-    this.api.confirmModal("Eliminar interconsulta","Desea eliminar la interconsulta?").then((status:SweetAlertResult) => {
+    this.api.confirmModal("Eliminar interconsulta","¿Desea eliminar la interconsulta?").then((status:SweetAlertResult) => {
       if (status.isConfirmed) {
         this.loading = true;
         this.api.deleteInterview(this.interviews[num].InterviewID).subscribe((data:any) => {
@@ -412,7 +483,7 @@ export class PeopleManagementComponent implements OnInit {
     });
   }
   deleteEvolutions(num:number) {
-    this.api.confirmModal("Eliminar evolución","Desea eliminar la evolución?").then((status:SweetAlertResult) => {
+    this.api.confirmModal("Eliminar evolución","¿Desea eliminar la evolución?").then((status:SweetAlertResult) => {
       if (status.isConfirmed) {
         this.loading = true;
         this.api.deleteEvolution(this.evolutions[num].EvolutionID).subscribe((data:any) => {

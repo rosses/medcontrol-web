@@ -426,7 +426,15 @@ export class ApiService {
   getExamValuesByDate(DateID:string) {
     return this.get("/v1/examdata/get-by-date/"+DateID);
   }
-  
+  getExamValuesByGroup(SingleID:string) {
+    return this.get("/v1/examdata/get-by-group/"+SingleID);
+  }
+  deleteFreeRecipe(id:string) {
+    return this.delete("/v1/singles/recipe/"+id);
+  }
+  deleteFreeOrder(id:string) {
+    return this.delete("/v1/singles/order/"+id);
+  }
 
   /* Auth services */
   login(data:any) {

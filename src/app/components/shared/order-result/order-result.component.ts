@@ -23,6 +23,7 @@ export class OrderResultComponent implements OnInit {
   public rows: any[] = [];
   public Exams: any[] = [];
   @Input() DateID: string = '';
+  @Input() SingleID: string = '';
   @Input() ExamTypeID: string = '';
   @Input() ExamTypeName: string = '';
 
@@ -38,6 +39,7 @@ export class OrderResultComponent implements OnInit {
     
     this.loading = true;
     console.log('DateID', this.DateID);
+    console.log('SingleID', this.SingleID);
     console.log('ExamTypeID', this.ExamTypeID);
     this.api.getExamDatas().subscribe((data:any)=>{ 
       this.ExamsData = data; 
@@ -48,31 +50,56 @@ export class OrderResultComponent implements OnInit {
       else {
         this.rows = this.ExamsData.filter((x) => { return this.Exams.indexOf(x.ExamName) > -1});
       }
-      
-      this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
-        for (let i = 0; i < this.rows.length; i++) {
-          for (let j = 0; j < data.length; j++) {
-            if (this.rows[i].ExamDataID == data[j].ExamDataID) {
-              this.rows[i].Value = data[j].Value;
-              this.rows[i].ExamDataValueID = data[j].ExamDataValueID;
+      console.log('Exams', this.Exams);
+
+      if (this.DateID!='') {
+        this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
+          for (let i = 0; i < this.rows.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+              if (this.rows[i].ExamDataID == data[j].ExamDataID) {
+                this.rows[i].Value = data[j].Value;
+                this.rows[i].ExamDataValueID = data[j].ExamDataValueID;
+              }
             }
           }
-        }
-        this.render = true; 
-        this.loading = false; 
-      });
+          this.render = true; 
+          this.loading = false; 
+        });
+      }
+      else if (this.SingleID!='') {
+        this.api.getExamValuesByGroup(this.SingleID).subscribe((data:any) => {
+          for (let i = 0; i < this.rows.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+              if (this.rows[i].ExamDataID == data[j].ExamDataID) {
+                this.rows[i].Value = data[j].Value;
+                this.rows[i].ExamDataValueID = data[j].ExamDataValueID;
+              }
+            }
+          }
+          this.render = true; 
+          this.loading = false; 
+        });
+      }
     });
   }
   ngAfterViewInit() { 
     
   }
-  
+  numberOnly(event:any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
   save() {
     this.loading = true;
     
     this.api.saveExamData({
       data: this.rows,
-      DateID: this.DateID
+      DateID: this.DateID,
+      SingleID: this.SingleID
     }).subscribe((data:any) => {
       this.api.toastOk("Guardado correctamente");
       this.modal.close({ success: true });

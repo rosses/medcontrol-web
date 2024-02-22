@@ -451,14 +451,26 @@
                 </tbody>
                 <ng-container *ngFor="let o of exams; let ii = index;">
                   <thead>
-                    <tr>
-                      <th style="background-color:#ffffa0;">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                    <tr *ngIf="o.OrderType=='GS'">
+                      <th style="background-color:#ffffa0;" colspan="1">Orden manual el {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" class="text-end">
+                        <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID,true)">ver pdf</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders-single','Tu orden de exámenes',o.DateID)">whatsapp</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="deployResultsSingle(o.DateID)">cargar resultados</button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteFreeOrder(o.DateID)">eliminar</button>
+                      </th>
+                    </tr>
+
+                    <tr *ngIf="o.OrderType=='DT'">
+                      <th style="background-color:#ffffa0;" colspan="1">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
                         <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders','Tu orden de exámenes',o.DateID)">whatsapp</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="deployResults(o.DateID)">cargar resultados</button>
                       </th>
                     </tr>
+
+
                     <tr>
                       <th width="350">Tipo</th>
                       <th>Examenes</th>
@@ -508,7 +520,16 @@
                 </tbody>
                 <ng-container *ngFor="let o of recipes; let ii = index;">
                   <thead>
-                    <tr>
+                    <tr *ngIf="o.OrderType=='GS'">
+                      <th style="background-color:#ffffa0;" colspan="1">Orden manual el {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" class="text-end">
+                        <button type="button" class="btn btn-sm btn-success" (click)="verRecipePDF(o.DateID,true)">ver pdf</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('recipe-single','Tu recetá está disponible',o.DateID)">whatsapp</button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteFreeRecipe(o.DateID)">eliminar</button>
+                      </th>
+                    </tr>
+
+                    <tr *ngIf="o.OrderType=='DT'">
                       <th style="background-color:#ffffa0;" colspan="1">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
                         <button type="button" class="btn btn-sm btn-success" (click)="verRecipePDF(o.DateID)">ver pdf</button>
