@@ -87,11 +87,10 @@ export class OrderResultComponent implements OnInit {
   }
   numberOnly(event:any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 188 && charCode != 190 && charCode != 110) {
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46 && charCode != 48 && charCode != 44) {
       return false;
     }
     return true;
-
   }
   save() {
     this.loading = true;
