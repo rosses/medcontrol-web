@@ -189,6 +189,9 @@ export class ApiService {
   getPeople(id: string){
     return this.get('/v1/people/' + id);
   }
+  getPeoplePost(id: string){
+    return this.get('/v1/people/' + id + '/post');
+  }
   deletePeople(id: string){
     return this.delete('/v1/people/' + id);
   }
