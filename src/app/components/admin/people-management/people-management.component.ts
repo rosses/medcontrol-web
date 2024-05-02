@@ -29,6 +29,7 @@ import { SingleRecipeComponent } from '../../shared/single-recipe/single-recipe.
 export class PeopleManagementComponent implements OnInit {
 
   public data: any = {};
+  public dataPost: any = {};
   public loading: boolean = false;
   public active:number = 0;
   public dates: any[] = [];
@@ -95,22 +96,34 @@ export class PeopleManagementComponent implements OnInit {
       keyboard: true,
       size: 'lg'
     }); 
-    mdl.componentInstance.data.DatePost1 = (this.data.DatePost1);
-    mdl.componentInstance.data.DatePost2 = (this.data.DatePost2);
-    mdl.componentInstance.data.DatePost3 = (this.data.DatePost3);
-    mdl.componentInstance.data.DatePost4 = (this.data.DatePost4);
-    mdl.componentInstance.data.DatePost5 = (this.data.DatePost5);
-    mdl.componentInstance.data.DatePost6 = (this.data.DatePost6);
-    mdl.componentInstance.data.PeopleID = this.data.PeopleID;
+    mdl.componentInstance.data.DatePost1 = (this.dataPost.DatePost1);
+    mdl.componentInstance.data.DatePost2 = (this.dataPost.DatePost2);
+    mdl.componentInstance.data.DatePost3 = (this.dataPost.DatePost3);
+    mdl.componentInstance.data.DatePost4 = (this.dataPost.DatePost4);
+    mdl.componentInstance.data.DatePost5 = (this.dataPost.DatePost5);
+    mdl.componentInstance.data.DatePost6 = (this.dataPost.DatePost6);
+    mdl.componentInstance.data.DateMsg1 = (this.dataPost.DateMsg1);
+    mdl.componentInstance.data.DateMsg2 = (this.dataPost.DateMsg2);
+    mdl.componentInstance.data.DateMsg3 = (this.dataPost.DateMsg3);
+    mdl.componentInstance.data.DateMsg4 = (this.dataPost.DateMsg4);
+    mdl.componentInstance.data.DateMsg5 = (this.dataPost.DateMsg5);
+    mdl.componentInstance.data.DateMsg6 = (this.dataPost.DateMsg6);
+    mdl.componentInstance.data.PeopleID = this.dataPost.PeopleID;
     mdl.result.then((data:any) => {
       console.log(data);
       if (data.success) {
-        this.data.DatePost1 = data.data.DatePost1;
-        this.data.DatePost2 = data.data.DatePost2;
-        this.data.DatePost3 = data.data.DatePost3;
-        this.data.DatePost4 = data.data.DatePost4;
-        this.data.DatePost5 = data.data.DatePost5;
-        this.data.DatePost6 = data.data.DatePost6;
+        this.dataPost.DatePost1 = data.data.DatePost1;
+        this.dataPost.DatePost2 = data.data.DatePost2;
+        this.dataPost.DatePost3 = data.data.DatePost3;
+        this.dataPost.DatePost4 = data.data.DatePost4;
+        this.dataPost.DatePost5 = data.data.DatePost5;
+        this.dataPost.DatePost6 = data.data.DatePost6;
+        this.dataPost.DateMsg1 = data.data.DateMsg1;
+        this.dataPost.DateMsg2 = data.data.DateMsg2;
+        this.dataPost.DateMsg3 = data.data.DateMsg3;
+        this.dataPost.DateMsg4 = data.data.DateMsg4;
+        this.dataPost.DateMsg5 = data.data.DateMsg5;
+        this.dataPost.DateMsg6 = data.data.DateMsg6;
       }
     },(err:any) => { 
       

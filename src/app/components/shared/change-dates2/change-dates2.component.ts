@@ -22,6 +22,12 @@ export class ChangeDates2Component implements OnInit {
     DatePost4: '',
     DatePost5: '',
     DatePost6: '',
+    DateMsg1: '',
+    DateMsg2: '',
+    DateMsg3: '',
+    DateMsg4: '',
+    DateMsg5: '',
+    DateMsg6: '',
     PeopleID: ''
   };
   public loading: boolean = false;
