@@ -170,6 +170,7 @@ export class PeopleManagementComponent implements OnInit {
     this.loading = true;
     try {
       this.data = await lastValueFrom(this.api.getPeople(id));
+      this.dataPost = await lastValueFrom(this.api.getPeoplePost(id));
       this.evolutions = await lastValueFrom(this.api.getPeopleEvolutions(id))
       //this.dates = await lastValueFrom(this.api.getPeopleDates(id));
       this.loading = false;
