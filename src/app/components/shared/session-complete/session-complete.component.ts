@@ -155,7 +155,7 @@ export class SessionCompleteComponent implements OnInit {
       swal.then((x:SweetAlertResult) => {
         if (x.value && x.value != '' && x.isConfirmed) {
           this.data.certificates[index].loading = true;
-          this.api.addExam({
+          this.api.addCertificateType({
             Name: x.value,
             Template: 'generic.html',
             templateHtml: '',
