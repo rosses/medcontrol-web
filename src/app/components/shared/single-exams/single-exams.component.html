@@ -38,8 +38,9 @@
                 </select>
               </td>
               <td>
-                <select class="form-control" name="examen_{{ii}}" [(ngModel)]="orders[ii].ExamID">
+                <select class="form-control" name="examen_{{ii}}" [(ngModel)]="orders[ii].ExamID" (change)="getIfNeedAddExam(ii)" [disabled]="orders[ii].loading">
                   <option [value]="t.ExamID" *ngFor="let t of getExams(ii)">{{t.Name}}</option>
+                  <option value="-1" *ngIf="orders[ii].ExamTypeID!=0">Agregar examen</option>
                 </select>
               </td>
               <td class="text-center">
@@ -51,8 +52,9 @@
                 </select>
               </td>
               <td *ngIf="orders[ii+1]">
-                <select class="form-control" name="examen_{{(ii+1)}}" [(ngModel)]="orders[ii+1].ExamID">
+                <select class="form-control" name="examen_{{(ii+1)}}" [(ngModel)]="orders[ii+1].ExamID" (change)="getIfNeedAddExam(ii+1)" [disabled]="orders[ii+1].loading">
                   <option [value]="t.ExamID" *ngFor="let t of getExams( (ii + 1) )">{{t.Name}}</option>
+                  <option value="-1" *ngIf="orders[ii+1].ExamTypeID!=0">Agregar examen</option>
                 </select>
               </td>
               <td *ngIf="orders[ii+1]" class="text-center">

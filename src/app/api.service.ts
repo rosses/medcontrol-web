@@ -318,8 +318,10 @@ export class ApiService {
     return this.delete('/v1/diagnosis/' + id);
   }
   /* CertificateTypes */
-  getCertificateTypes(){
-    return this.get('/v1/certificate-type');
+  getCertificateTypes(data?:any){
+    let d = '';
+    if (data) { d = new URLSearchParams(data).toString(); }
+    return this.get('/v1/certificate-type?' + d);
   }
   addCertificateType(data: any){
     return this.post('/v1/certificate-type', data);

@@ -31,6 +31,7 @@ import { WhatsAppShareComponent } from './whatsapp-share/whatsapp-share.componen
 import { ImcComponent } from './imc/imc.component';
 import { SingleExamsComponent } from './single-exams/single-exams.component';
 import { SingleRecipeComponent } from './single-recipe/single-recipe.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SingleRecipeComponent } from './single-recipe/single-recipe.component';
     InputMaskModule,
     NgxRutModule,
     NgbNavModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    AngularEditorModule
   ],
   providers: [
   ],

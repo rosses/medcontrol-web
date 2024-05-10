@@ -8,6 +8,7 @@ import { DummyService } from 'src/app/dummy.service';
 import { MaskService } from 'src/app/mask.service';
 import { AddMedicalExpressComponent } from '../add-medical-express/add-medical-express.component';
 import { environment } from 'src/environments/environment';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-single-exams',
@@ -68,7 +69,41 @@ export class SingleExamsComponent implements OnInit {
       this.orders.splice(index,1); 
     }
   } 
-
+  getIfNeedAddExam(index:number) {
+    let ex_id = parseInt(this.orders[index].ExamID) || 0;
+    let ExamTypeID = this.orders[index].ExamTypeID;
+    if (ex_id == -1) {
+      let swal = Swal.fire({
+        title: "Nuevo examen",
+        icon: 'question',
+        input: "text",
+        inputLabel: "Ingrese el nombre del nuevo examen",
+        confirmButtonText: 'Aceptar',
+        showCloseButton: true,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+      });
+      swal.then((x:SweetAlertResult) => {
+        if (x.value && x.value != '' && x.isConfirmed) {
+          this.orders[index].loading = true;
+          this.api.addExam({
+            ExamTypeID: ExamTypeID,
+            Name: x.value,
+            Active: 1
+          }).subscribe((added:any) => {
+            this.Exams.push(added);
+            this.orders[index].ExamID = added.ExamID;
+            this.orders[index].loading = false;
+          },(err:any) => {
+            this.api.toastError(err.error.error)
+          });
+        }
+        else if (x.value && x.value == '') {
+          this.api.toastError("Nombre examen inválido");
+        }
+      });
+    }
+  }
   save(withClose:boolean, options?:any) {
     this.loading = true;
     let w:any = null;

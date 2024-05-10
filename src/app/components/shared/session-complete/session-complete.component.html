@@ -167,8 +167,9 @@
                       </select>
                     </td>
                     <td>
-                      <select class="form-control" name="examen_{{ii}}" [(ngModel)]="data.orders[ii].ExamID">
+                      <select class="form-control" name="examen_{{ii}}" [(ngModel)]="data.orders[ii].ExamID" (change)="getIfNeedAddExam(ii)" [disabled]="data.orders[ii].loading">
                         <option [value]="t.ExamID" *ngFor="let t of getExams(ii)">{{t.Name}}</option>
+                        <option value="-1" *ngIf="data.orders[ii].ExamTypeID!=0">Agregar examen</option>
                       </select>
                     </td>
                     <td class="text-center">
@@ -180,8 +181,9 @@
                       </select>
                     </td>
                     <td *ngIf="data.orders[ii+1]">
-                      <select class="form-control" name="examen_{{(ii+1)}}" [(ngModel)]="data.orders[ii+1].ExamID">
+                      <select class="form-control" name="examen_{{(ii+1)}}" [(ngModel)]="data.orders[ii+1].ExamID" (change)="getIfNeedAddExam(ii+1)" [disabled]="data.orders[ii+1].loading">
                         <option [value]="t.ExamID" *ngFor="let t of getExams( (ii + 1) )">{{t.Name}}</option>
+                        <option value="-1" *ngIf="data.orders[ii+1].ExamTypeID!=0">Agregar examen</option>
                       </select>
                     </td>
                     <td *ngIf="data.orders[ii+1]" class="text-center">
@@ -328,7 +330,7 @@
                   <tr>
                     <th width="180">Tipo</th>
                     <th>Descripción</th>
-                    <th width="180">Opciones</th>
+                    <th width="80">Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -337,12 +339,14 @@
                   </tr>
                   <tr *ngFor="let o of data.certificates; let ii = index;">
                     <td>
-                      <select class="form-control" name="specialists_{{ii}}" [(ngModel)]="o.CertificateTypeID">
+                      <select class="form-control" [disabled]="o.loading" name="specialists_{{ii}}" [(ngModel)]="o.CertificateTypeID" (change)="changeCertificatetemplate(ii)">
                         <option [value]="c.CertificateTypeID" *ngFor="let c of CertificateTypes">{{c.Name}}</option>
+                        <option value="-1">Agregar nuevo</option>
                       </select>
                     </td>
                     <td>
-                      <input type="text" class="form-control" name="CDescription_{{ii}}" [(ngModel)]="o.Description">
+                      <angular-editor name="oCertificateDesc_{{ii}}" [(ngModel)]="o.Description" [config]="editorConfig"></angular-editor>
+                      <!-- <input type="text" class="form-control" name="EDescription_{{ii}}" [(ngModel)]="o.Description"> -->
                     </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-sm btn-danger" (click)="borrar('certificates',ii)">X</button>

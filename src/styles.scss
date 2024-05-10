@@ -89,3 +89,22 @@ select.form-control {
         margin:0;
     }
 }
+
+.angular-editor-toolbar {
+    background-color: #dfdfdf !important;
+    i {
+        color: #000 !important;
+    }
+}
+.ae-font .ae-picker-label {
+    color: #000 !important;
+}
+button.angular-editor-button {
+    height: 30px;
+}
+.angular-editor-toolbar-set {
+    margin: 0 !important;
+}
+.angular-editor .angular-editor-wrapper .angular-editor-textarea {
+    background-color:#FFF !important;
+}

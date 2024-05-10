@@ -571,7 +571,7 @@
                 <thead> 
                   <tr>
                     <th>Tipo</th>
-                    <th>Descripción</th>
+                    <!-- <th>Descripción</th> -->
                     <th>Fecha consulta</th>
                     <th>Hora consulta</th>
                     <th>Opciones</th>
@@ -585,7 +585,7 @@
                 <tbody *ngIf="certificates.length > 0">
                   <tr *ngFor="let e of certificates; let iii = index;">
                     <td>{{e.CertificateTypeName}}</td>
-                    <td>{{e.Description}}</td> 
+                    <!-- <td>{{e.Description}}</td>  -->
                     <td>{{e.Date | date: 'dd/MM/yyyy'}}</td> 
                     <td>{{e.Time | slice:0:5 }}</td> 
                     <td>

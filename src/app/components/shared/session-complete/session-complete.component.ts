@@ -9,6 +9,8 @@ import { MaskService } from 'src/app/mask.service';
 import { AddMedicalExpressComponent } from '../add-medical-express/add-medical-express.component';
 import { environment } from 'src/environments/environment';
 import { ImcComponent } from '../imc/imc.component';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-session-complete',
@@ -34,6 +36,84 @@ export class SessionCompleteComponent implements OnInit {
   public Groups: any[] = [];
   public Statuses: any[] = [];
 
+  public editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: false,
+    height: 'auto',
+    minHeight: '100px',
+    maxHeight: '300px',
+    width: 'auto',
+    minWidth: '0',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: '',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      {class: 'arial', name: 'Arial'},
+      {class: 'times-new-roman', name: 'Times New Roman'},
+      {class: 'calibri', name: 'Calibri'},
+      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    ],
+    customClasses: [
+    {
+      name: 'quote',
+      class: 'quote',
+    },
+    {
+      name: 'redText',
+      class: 'redText'
+    },
+    {
+      name: 'titleText',
+      class: 'titleText',
+      tag: 'h1',
+    },
+  ],
+  //uploadUrl: 'v1/image',
+  //upload: (file: File) => this.uploadImage(file),
+  uploadWithCredentials: false,
+  sanitize: true,
+  toolbarPosition: 'top',
+  toolbarHiddenButtons: [
+    [
+      //'undo',
+      'redo',
+      //'bold',
+      //'italic',
+      //'underline',
+      //'strikeThrough',
+      'subscript',
+      'superscript',
+      //'justifyLeft',
+      //'justifyCenter',
+      //'justifyRight',
+      //'justifyFull',
+      'indent',
+      'outdent',
+      //'insertUnorderedList',
+      'insertOrderedList',
+      //'heading',
+      'fontName'
+    ],
+    [
+      //'fontSize',
+      //'textColor',
+      //'backgroundColor',
+      'customClasses',
+      //'link',
+      //'unlink',
+      'insertImage',
+      'insertVideo',
+      //'insertHorizontalRule',
+      //'removeFormat',
+      'toggleEditorMode'
+    ]
+  ]
+  };
+
   constructor(
     private api: ApiService,
     public modal: NgbActiveModal,
@@ -50,7 +130,7 @@ export class SessionCompleteComponent implements OnInit {
     this.api.getMedicines().subscribe((data:any)=>{ this.Medicines = data; });
     this.api.getSpecialists().subscribe((data:any)=>{ this.Specialists = data; });
     this.api.getDiagnosis().subscribe((data:any)=>{ this.Diagnosis = data; });
-    this.api.getCertificateTypes().subscribe((data:any)=>{ this.CertificateTypes = data; });
+    this.api.getCertificateTypes({DateID: this.data.DateID}).subscribe((data:any)=>{ this.CertificateTypes = data; });
     this.api.getSurgerys().subscribe((data:any)=>{ this.Surgerys = data; });
     this.api.getGroups().subscribe((data:any)=>{ this.Groups = data; });
     this.api.getStatuses({GroupID: this.data.CreatedGroupID}).subscribe((data:any)=>{ this.Statuses = data; });
@@ -58,6 +138,45 @@ export class SessionCompleteComponent implements OnInit {
     if (this.data.DiagnosisID=='' || !this.data.DiagnosisID || this.data.DiagnosisID == 0 || this.data.DiagnosisID == '0') {
       this.data.DiagnosisID = '';
     } 
+  }
+  changeCertificatetemplate(index:number) {
+    let ct = parseInt(this.data.certificates[index].CertificateTypeID) || 0;
+    if (ct == -1) {
+      let swal = Swal.fire({
+        title: "Nuevo tipo certificado",
+        icon: 'question',
+        input: "text",
+        inputLabel: "Ingrese el nombre del nuevo tipo",
+        confirmButtonText: 'Aceptar',
+        showCloseButton: true,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+      });
+      swal.then((x:SweetAlertResult) => {
+        if (x.value && x.value != '' && x.isConfirmed) {
+          this.data.certificates[index].loading = true;
+          this.api.addExam({
+            Name: x.value,
+            Template: 'generic.html',
+            templateHtml: '',
+            Active: 1
+          }).subscribe((added:any) => {
+            this.Exams.push(added);
+            this.data.certificates[index].CertificateTypeID = added.CertificateTypeID;
+            this.data.certificates[index].loading = false;
+            this.changeCertificatetemplate(index);
+          },(err:any) => {
+            this.api.toastError(err.error.error)
+          });
+        }
+        else if (x.value && x.value == '') {
+          this.api.toastError("Nombre examen inválido");
+        }
+      });
+    } else {
+      let ct = this.CertificateTypes.filter((x:any) => { return x.CertificateTypeID == this.data.certificates[index].CertificateTypeID });
+      this.data.certificates[index].Description = ct[0].templateHtml;
+    }
   }
   numberOnly(event:any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -228,6 +347,41 @@ export class SessionCompleteComponent implements OnInit {
   }
   getExams(index:number) { 
     return this.Exams.filter((x:any) => { return parseInt(x.ExamTypeID) == parseInt(this.data.orders[index].ExamTypeID) });
+  }
+  getIfNeedAddExam(index:number) {
+    let ex_id = parseInt(this.data.orders[index].ExamID) || 0;
+    let ExamTypeID = this.data.orders[index].ExamTypeID;
+    if (ex_id == -1) {
+      let swal = Swal.fire({
+        title: "Nuevo examen",
+        icon: 'question',
+        input: "text",
+        inputLabel: "Ingrese el nombre del nuevo examen",
+        confirmButtonText: 'Aceptar',
+        showCloseButton: true,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+      });
+      swal.then((x:SweetAlertResult) => {
+        if (x.value && x.value != '' && x.isConfirmed) {
+          this.data.orders[index].loading = true;
+          this.api.addExam({
+            ExamTypeID: ExamTypeID,
+            Name: x.value,
+            Active: 1
+          }).subscribe((added:any) => {
+            this.Exams.push(added);
+            this.data.orders[index].ExamID = added.ExamID;
+            this.data.orders[index].loading = false;
+          },(err:any) => {
+            this.api.toastError(err.error.error)
+          });
+        }
+        else if (x.value && x.value == '') {
+          this.api.toastError("Nombre examen inválido");
+        }
+      });
+    }
   }
   borrar(topic:any, index:number) {
     if (topic=="orders") {
