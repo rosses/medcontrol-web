@@ -377,7 +377,31 @@
                 </div>
               </div>
             </div>
-           </div> 
+          </div> 
+
+          <div class="evo-bottom">
+            <div class="evo-bottom-cont">
+              <h5>Evoluciones:</h5>
+              <div class="evo-scroll">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr *ngIf="evolutions.length == 0">
+                      <th>Sin evoluciones</th>
+                    </tr>
+                    <ng-container *ngFor="let row of evolutions; let i = index;">
+                      <tr>
+                        <th>{{row.CreatedByName}}: {{row.DateAs | date: 'dd/MM/yy'}}</th>
+                      </tr>
+                      <tr>
+                        <td>{{row.Description}}</td>
+                      </tr>
+                    </ng-container> 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </ng-template>
       </li>
       <!-- Evoluciones -->
