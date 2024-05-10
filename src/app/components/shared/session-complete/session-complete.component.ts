@@ -161,10 +161,13 @@ export class SessionCompleteComponent implements OnInit {
             templateHtml: '',
             Active: 1
           }).subscribe((added:any) => {
-            this.CertificateTypes.push(added);
-            this.data.certificates[index].CertificateTypeID = added.CertificateTypeID;
-            this.data.certificates[index].loading = false;
-            this.changeCertificatetemplate(index);
+            this.api.getCertificateTypes({DateID: this.data.DateID}).subscribe((data:any)=>{ 
+              this.CertificateTypes = data; 
+              this.data.certificates[index].CertificateTypeID = added.CertificateTypeID;
+              this.changeCertificatetemplate(index);
+              this.data.certificates[index].loading = false;
+            });
+            //this.CertificateTypes.push(added); // no dynamic html on this
           },(err:any) => {
             this.api.toastError(err.error.error)
           });
