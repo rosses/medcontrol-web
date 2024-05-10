@@ -161,7 +161,7 @@ export class SessionCompleteComponent implements OnInit {
             templateHtml: '',
             Active: 1
           }).subscribe((added:any) => {
-            this.Exams.push(added);
+            this.CertificateTypes.push(added);
             this.data.certificates[index].CertificateTypeID = added.CertificateTypeID;
             this.data.certificates[index].loading = false;
             this.changeCertificatetemplate(index);
