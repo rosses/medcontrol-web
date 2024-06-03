@@ -108,7 +108,7 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.DateMsg4 = (this.dataPost.DateMsg4);
     mdl.componentInstance.data.DateMsg5 = (this.dataPost.DateMsg5);
     mdl.componentInstance.data.DateMsg6 = (this.dataPost.DateMsg6);
-    mdl.componentInstance.data.PeopleID = this.dataPost.PeopleID;
+    mdl.componentInstance.data.PeopleID = this.data.PeopleID;
     mdl.result.then((data:any) => {
       console.log(data);
       if (data.success) {

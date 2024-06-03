@@ -439,8 +439,8 @@
                   </tr>
                   <ng-container *ngFor="let row of evolutions; let i = index;">
                     <tr>
-                      <td>{{row.CreatedByName}}</td>
                       <td>{{row.DateAs | date: 'dd/MM/yy'}}</td>
+                      <td>{{row.CreatedByName}}</td>
                       <td>{{row.Description}}</td>
                       <td><button class="btn btn-sm btn-danger" (click)="deleteEvolutions(i)">X</button></td>
                     </tr>

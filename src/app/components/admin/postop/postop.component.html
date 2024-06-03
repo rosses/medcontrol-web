@@ -1,0 +1,142 @@
+<app-modal-cmp [toggle]="loading" [fixWidth]="true">
+  <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
+</app-modal-cmp>
+
+<app-page-header [userName]="api.getProfile('Name')" info="Postoperatorio"></app-page-header>
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+
+  <div class="container">
+ 
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-mini table-bordered table-posop">
+            <thead>
+              <tr>
+                <th width="100">
+                  Rut 
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" (change)="loadPeople(true)" [(ngModel)]="filter.CardCode" />
+                </th>
+                <th width="100">
+                  Nombre
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" (change)="loadPeople(true)" [(ngModel)]="filter.Name" />
+                </th>
+                <th class="text-center" width="80">
+                  Previsión
+                  <select class="form-control" [(ngModel)]="filter.HealthID">
+                    <option value="">- todos -</option>
+                    <option [value]="h.HealthID" *ngFor="let h of healths">{{h.Name}}</option>
+                  </select>
+                </th>
+                <th class="text-center" width="80">
+                  Status 
+                  <select class="form-control" [(ngModel)]="filter.StatusID">
+                    <option value="">- todos -</option>
+                    <option [value]="s.StatusID" *ngFor="let s of statuses">{{s.Name}}</option>
+                  </select>
+                </th>
+                <th class="text-center" width="80">
+                  Cirugía
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" (change)="loadPeople(true)" [(ngModel)]="filter.Surgery" />
+                </th>
+                <th width="80">
+                  Fecha<br />Ingreso
+                  <input type="date" class="form-control" (change)="loadPeople(true)" [(ngModel)]="filter.FechaIngreso" />
+                </th>
+                <th width="80">
+                  Fecha<br />Término
+                  <input type="date" class="form-control" (change)="loadPeople(true)" [(ngModel)]="filter.FechaTermino" />
+                </th>
+                <th width="80">
+                  Fecha<br />Cirugía
+                  <input type="date" class="form-control" (change)="loadPeople(true)" [(ngModel)]="filter.FechaCirugia" />
+                </th>
+                <th class="text-center" width="70">
+                  IMC<br />Pre-op
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMCPre" />
+                </th>
+                <th class="text-center"  width="70">
+                  IMC<br />Post-op
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMCPost" />
+                </th>
+                <th class="text-center">
+                  PEP
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMCPep" />
+                </th>
+                <th class="text-center">
+                  Nutriologo
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.NutriologoName" />
+                </th>
+                <th class="text-center">
+                  Psicologo
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.PsicologoName" />
+                </th>
+                <th class="text-center">
+                  Nutricionista
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.NutricionistaName" />
+                </th>
+                <th class="text-center">
+                  Psiquiatra
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.PsiquiatraName" />
+                </th>
+                <th class="text-center">
+                  Lab
+                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckLab" />
+                </th>
+                <th class="text-center">
+                  RxTx
+                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckRxTx" />
+                </th>
+                <th class="text-center">
+                  Eco
+                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckECO" />
+                </th>
+                <th class="text-center">
+                  ECG
+                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckECG" />
+                </th>
+                <th class="text-center">
+                  Eco
+                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckECO2" />
+                </th>
+                <th class="text-center">
+                  EDA
+                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckEDA" />
+                </th>
+
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of peoples.data; let i = index">
+              <tr> 
+                <td>{{item.CardCode}}</td>
+                <td>{{item.Name}} {{item.Lastname}}</td>
+                <td>{{item.HealthName}}</td>
+                <td>{{item.StatusName}}</td>
+                <td>{{item.SurgeryName}}</td>
+                <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
+                <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
+                <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
+                <td><!-- imc pre --></td>
+                <td><!-- imc post --></td>
+                <td><!-- pep --></td>
+                <td><!-- nutriologo --></td>
+                <td><!-- psicologo --></td>
+                <td><!-- nutrinista--></td>
+                <td><!-- psiqu --></td>
+                <td><input type="checkbox" disabled /></td><!-- lab --> 
+                <td><input type="checkbox" disabled /></td><!-- rxtx --> 
+                <td><input type="checkbox" disabled /></td><!-- eco --> 
+                <td><input type="checkbox" disabled /></td><!-- ecg --> 
+                <td><input type="checkbox" disabled /></td><!-- eco2 --> 
+                <td><input type="checkbox" disabled /></td><!-- eda --> 
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { BillingComponent } from './billing/billing.component';
 import { SettingComponent } from './setting/setting.component';
 import { PeopleComponent } from './people/people.component';
 import { PeopleManagementComponent } from './people-management/people-management.component';
+import { PostopComponent } from './postop/postop.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'people/:id',
         component: PeopleManagementComponent
+      },
+      {
+        path: 'postop',
+        component: PostopComponent
       },
       {
         path: 'billing',

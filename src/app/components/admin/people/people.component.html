@@ -67,7 +67,7 @@
         <div class="medcontrol-pagination">
           <div class="row align-items-center">
             <div class="col-9">
-              <ngb-pagination [collectionSize]="peoples.total" [(page)]="filter.page" [maxSize]="10" (pageChange)="loadPeople()">
+              <ngb-pagination [collectionSize]="peoples.total" [(page)]="filter.page" [pageSize]="15" [maxSize]="10" (pageChange)="loadPeople()">
                 <ng-template ngbPaginationPrevious>&laquo;</ng-template>
                 <ng-template ngbPaginationNext>&raquo;</ng-template>
                 <ng-template ngbPaginationNumber let-p>{{ p }}</ng-template>

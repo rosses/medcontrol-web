@@ -180,6 +180,7 @@ export class ApiService {
     if (data) { d = new URLSearchParams(data).toString(); }
     return this.get('/v1/people?' + d);
   }
+
   addPeople(data: any){
     return this.post('/v1/people', data);
   }

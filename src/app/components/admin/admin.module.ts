@@ -14,6 +14,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PeopleComponent } from './people/people.component';
 import { PeopleManagementComponent } from './people-management/people-management.component';
 import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { PostopComponent } from './postop/postop.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NgbNavModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     NotificationsComponent, 
     AdminUsersComponent,
     PeopleComponent,
+    PostopComponent,
     BillingComponent,
     SettingComponent,
     PeopleManagementComponent

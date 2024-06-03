@@ -1,0 +1,42 @@
+.actions {
+  list-style: none;
+  padding: auto;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  li {
+    cursor: pointer;
+    img {
+      width: 25px;
+    }
+  }
+}
+.btn-link {
+  color: #828282;
+}
+
+::ng-deep {
+  .pincode-wrapper {
+    gap: 1.75em !important;
+  }
+}
+
+.table-posop {
+  input {
+    border: 1px solid gray; 
+    padding: 2px;
+    width: 100%;
+    border-radius: 0;
+    outline: none;
+  }
+  input:focus {
+    border-color: gray;
+    box-shadow: 0; 
+} 
+}
+.table-responsive {
+  max-height: calc(100vh - 100px);
+  table thead th { position: sticky; top: 0; }
+}

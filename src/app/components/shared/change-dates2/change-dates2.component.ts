@@ -42,7 +42,7 @@ export class ChangeDates2Component implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    console.log(this.data);
   }
   async save() {
     this.loading = true;
