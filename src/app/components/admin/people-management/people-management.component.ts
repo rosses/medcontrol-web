@@ -90,64 +90,53 @@ export class PeopleManagementComponent implements OnInit {
     });
   }
   
-  changeDates2() {
+  changeDates2(x:any,idx:number) {
     console.log('changeDates2()');
     const mdl = this.modal.open(ChangeDates2Component, {
       backdrop: false,
       keyboard: true,
       size: 'lg'
     }); 
-    mdl.componentInstance.data.DatePost1 = (this.dataPost.DatePost1);
-    mdl.componentInstance.data.DatePost2 = (this.dataPost.DatePost2);
-    mdl.componentInstance.data.DatePost3 = (this.dataPost.DatePost3);
-    mdl.componentInstance.data.DatePost4 = (this.dataPost.DatePost4);
-    mdl.componentInstance.data.DatePost5 = (this.dataPost.DatePost5);
-    mdl.componentInstance.data.DatePost6 = (this.dataPost.DatePost6);
-    mdl.componentInstance.data.DateMsg1 = (this.dataPost.DateMsg1);
-    mdl.componentInstance.data.DateMsg2 = (this.dataPost.DateMsg2);
-    mdl.componentInstance.data.DateMsg3 = (this.dataPost.DateMsg3);
-    mdl.componentInstance.data.DateMsg4 = (this.dataPost.DateMsg4);
-    mdl.componentInstance.data.DateMsg5 = (this.dataPost.DateMsg5);
-    mdl.componentInstance.data.DateMsg6 = (this.dataPost.DateMsg6);
-    mdl.componentInstance.data.PeopleID = this.data.PeopleID;
+    mdl.componentInstance.data.DatePost1 = (x.DatePost1);
+    mdl.componentInstance.data.DatePost2 = (x.DatePost2);
+    mdl.componentInstance.data.DatePost3 = (x.DatePost3);
+    mdl.componentInstance.data.DatePost4 = (x.DatePost4);
+    mdl.componentInstance.data.DatePost5 = (x.DatePost5);
+    mdl.componentInstance.data.DatePost6 = (x.DatePost6);
+    mdl.componentInstance.data.DateMsg1 = (x.DateMsg1);
+    mdl.componentInstance.data.DateMsg2 = (x.DateMsg2);
+    mdl.componentInstance.data.DateMsg3 = (x.DateMsg3);
+    mdl.componentInstance.data.DateMsg4 = (x.DateMsg4);
+    mdl.componentInstance.data.DateMsg5 = (x.DateMsg5);
+    mdl.componentInstance.data.DateMsg6 = (x.DateMsg6);
+    mdl.componentInstance.data.PeopleID = x.PeopleID;
+    mdl.componentInstance.data.DateID = x.DateID;
+    mdl.componentInstance.data.PeopleSurgeryID = x.PeopleSurgeryID;
     mdl.result.then((data:any) => {
-      console.log(data);
       if (data.success) {
-        this.dataPost.DatePost1 = data.data.DatePost1;
-        this.dataPost.DatePost2 = data.data.DatePost2;
-        this.dataPost.DatePost3 = data.data.DatePost3;
-        this.dataPost.DatePost4 = data.data.DatePost4;
-        this.dataPost.DatePost5 = data.data.DatePost5;
-        this.dataPost.DatePost6 = data.data.DatePost6;
-        this.dataPost.DateMsg1 = data.data.DateMsg1;
-        this.dataPost.DateMsg2 = data.data.DateMsg2;
-        this.dataPost.DateMsg3 = data.data.DateMsg3;
-        this.dataPost.DateMsg4 = data.data.DateMsg4;
-        this.dataPost.DateMsg5 = data.data.DateMsg5;
-        this.dataPost.DateMsg6 = data.data.DateMsg6;
+        this.data.Surgerys[idx] = data.data;
       }
     },(err:any) => { 
       
     });    
   }
   
-  changeDates(PeopleID:string,DateAsEvaluation:string,DateAsSurgery:string,DateAsFinish:string) {
-    console.log('changeDates('+PeopleID+','+DateAsEvaluation+','+DateAsSurgery+','+DateAsFinish+')');
+  changeDates(x:any, idx:number) {
+    //console.log('changeDates('+PeopleID+','+DateAsEvaluation+','+DateAsSurgery+','+DateAsFinish+')');
     const mdl = this.modal.open(ChangeDatesComponent, {
       backdrop: false,
       keyboard: true,
       size: 'lg'
     }); 
-    mdl.componentInstance.data.DateAsEvaluation = (DateAsEvaluation);
-    mdl.componentInstance.data.DateAsSurgery = (DateAsSurgery);
-    mdl.componentInstance.data.DateAsFinish = (DateAsFinish);
-    mdl.componentInstance.data.PeopleID = PeopleID;
+    mdl.componentInstance.data.DateAsEnter = (x.DateAsEvaluation);
+    mdl.componentInstance.data.DateAsSurgery = (x.DateAsSurgery);
+    mdl.componentInstance.data.DateAsFinish = (x.DateAsFinish);
+    mdl.componentInstance.data.PeopleID = x.PeopleID;
+    mdl.componentInstance.data.PeopleSurgeryID = x.PeopleSurgeryID;
     mdl.result.then((data:any) => {
       console.log(data);
       if (data.success) {
-        this.data.DateAsEvaluation = data.data.DateAsEvaluation;
-        this.data.DateAsSurgery = data.data.DateAsSurgery;
-        this.data.DateAsFinish = data.data.DateAsFinish;
+        this.data.Surgerys[idx] = data.data;
       }
     },(err:any) => { 
       

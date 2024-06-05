@@ -16,10 +16,11 @@ import { MaskService } from 'src/app/mask.service';
 export class ChangeDatesComponent implements OnInit {
 
   public data: any = {
-    DateAsEvaluation: '',
+    DateAsEnter: '',
     DateAsSurgery: '',
     DateAsFinish: '',
-    PeopleID: ''
+    PeopleID: '',
+    PeopleSurgeryID: ''
   };
   public loading: boolean = false;
   public faSpinner = faSpinner;

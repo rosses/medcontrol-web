@@ -114,7 +114,7 @@
                   No se han creado procesos de cirugía
                 </div>
               </div>
-              <div class="row my-3" *ngFor="let x of data.Surgerys">
+              <div class="row my-3" *ngFor="let x of data.Surgerys; let idx = index;">
                 <div class="col-12">
                   <div class="p-2" style="border: 1px solid blue;">
                     <div class="row">
@@ -123,9 +123,9 @@
                         <b>Diagnóstico:</b> {{x.DiagnosisName}}<br />
                         <b>Observaciones:</b> {{x.Obs}}<br />
                         <b>Fecha Consulta:</b> {{x.Date | date: 'dd/MM/yyyy' }}<br />
-                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="data.DateAsEvaluation">{{data.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Término:</b>&nbsp;<span *ngIf="data.DateAsFinish">{{data.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="data.DateAsSurgery">{{data.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(data.PeopleID, data.DateAsEvaluation, data.DateAsSurgery, data.DateAsFinish)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
+                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="data.DateAsEvaluation">{{data.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Término:</b>&nbsp;<span *ngIf="data.DateAsFinish">{{data.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="data.DateAsSurgery">{{data.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
                       </div>
                       <div class="col-4">
                         <h6>Autorizaciones :</h6> 
@@ -179,12 +179,12 @@
                     <div class="row">
                       <div class="col-6">
                         <h6>Post-Operatorio</h6>
-                        <b>Fecha Control Cirujano:</b>&nbsp;<span *ngIf="data.DatePost1">{{data.DatePost1 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Control 6 Meses:</b>&nbsp;<span *ngIf="data.DatePost2">{{data.DatePost2 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Control 1 año:</b>&nbsp;<span *ngIf="data.DatePost3">{{data.DatePost3 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
-                        <b>Control Nutriología:</b>&nbsp;<span *ngIf="data.DatePost4">{{data.DatePost4 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
-                        <b>Control Nutricionista:</b>&nbsp;<span *ngIf="data.DatePost5">{{data.DatePost5 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
-                        <b>Control Psicológico:</b>&nbsp;<span *ngIf="data.DatePost6">{{data.DatePost6 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2()"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Fecha Control Cirujano:</b>&nbsp;<span *ngIf="x.DatePost1">{{x.DatePost1 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Control 6 Meses:</b>&nbsp;<span *ngIf="x.DatePost2">{{x.DatePost2 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Control 1 año:</b>&nbsp;<span *ngIf="x.DatePost3">{{x.DatePost3 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Control Nutriología:</b>&nbsp;<span *ngIf="x.DatePost4">{{x.DatePost4 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Control Nutricionista:</b>&nbsp;<span *ngIf="x.DatePost5">{{x.DatePost5 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
+                        <b>Control Psicológico:</b>&nbsp;<span *ngIf="x.DatePost6">{{x.DatePost6 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> <br />
                       </div> 
                     </div>
                   </div>

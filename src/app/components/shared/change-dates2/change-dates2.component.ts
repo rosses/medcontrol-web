@@ -28,7 +28,9 @@ export class ChangeDates2Component implements OnInit {
     DateMsg4: '',
     DateMsg5: '',
     DateMsg6: '',
-    PeopleID: ''
+    PeopleID: '',
+    PeopleSurgeryID: '',
+    DateID: ''
   };
   public loading: boolean = false;
   public faSpinner = faSpinner;

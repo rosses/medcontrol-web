@@ -53,16 +53,8 @@
                   <input type="date" class="form-control" (change)="loadPeople(true)" [(ngModel)]="filter.FechaCirugia" />
                 </th>
                 <th class="text-center" width="70">
-                  IMC<br />Pre-op
-                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMCPre" />
-                </th>
-                <th class="text-center"  width="70">
-                  IMC<br />Post-op
-                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMCPost" />
-                </th>
-                <th class="text-center">
-                  PEP
-                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMCPep" />
+                  IMC
+                  <input type="text" class="form-control" (keyup.enter)="loadPeople(true)" [(ngModel)]="filter.IMC" />
                 </th>
                 <th class="text-center">
                   Nutriologo
@@ -109,17 +101,15 @@
             </thead>
             <tbody *ngFor="let item of peoples.data; let i = index">
               <tr> 
-                <td>{{item.CardCode}}</td>
-                <td>{{item.Name}} {{item.Lastname}}</td>
-                <td>{{item.HealthName}}</td>
-                <td>{{item.StatusName}}</td>
-                <td>{{item.SurgeryName}}</td>
-                <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
-                <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
-                <td>{{item.CreatedAt | date:'dd/MM/yyyy'}}</td>
-                <td><!-- imc pre --></td>
-                <td><!-- imc post --></td>
-                <td><!-- pep --></td>
+                <td>{{item.RUT}}</td>
+                <td>{{item.Nombre}}</td>
+                <td>{{item.Prevision}}</td>
+                <td>{{item.Estado}}</td>
+                <td>{{item.Cirugia}}</td>
+                <td>{{item.FechaIngreso | date:'dd/MM/yyyy'}}</td>
+                <td>{{item.FechaTermino | date:'dd/MM/yyyy'}}</td>
+                <td>{{item.FechaCirugia | date:'dd/MM/yyyy'}}</td>
+                <td><!-- imc --></td>
                 <td><!-- nutriologo --></td>
                 <td><!-- psicologo --></td>
                 <td><!-- nutrinista--></td>
