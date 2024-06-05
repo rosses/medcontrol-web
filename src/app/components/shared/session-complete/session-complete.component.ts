@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { ImcComponent } from '../imc/imc.component';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-session-complete',
@@ -26,6 +27,7 @@ export class SessionCompleteComponent implements OnInit {
   public render: boolean = false;
   public faSpinner = faSpinner; 
 
+  public PeopleSurgerys: any[] = [];
   public ExamTypes: any[] = [];
   public Exams: any[] = [];
   public Medicines: any[] = [];
@@ -133,7 +135,8 @@ export class SessionCompleteComponent implements OnInit {
     this.api.getCertificateTypes({DateID: this.data.DateID}).subscribe((data:any)=>{ this.CertificateTypes = data; });
     this.api.getSurgerys().subscribe((data:any)=>{ this.Surgerys = data; });
     this.api.getGroups().subscribe((data:any)=>{ this.Groups = data; });
-    this.api.getStatuses({GroupID: this.data.CreatedGroupID}).subscribe((data:any)=>{ this.Statuses = data; });
+    this.api.getPeopleSurgerys(this.data.PeopleID).subscribe((data:any) => { this.PeopleSurgerys = data; })
+    //this.api.getStatuses({GroupID: this.data.CreatedGroupID}).subscribe((data:any)=>{ this.Statuses = data; });
     this.render = true;
     if (this.data.DiagnosisID=='' || !this.data.DiagnosisID || this.data.DiagnosisID == 0 || this.data.DiagnosisID == '0') {
       this.data.DiagnosisID = '';

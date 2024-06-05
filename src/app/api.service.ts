@@ -190,6 +190,9 @@ export class ApiService {
   getPeople(id: string){
     return this.get('/v1/people/' + id);
   }
+  getPeopleSurgerys(id:string) {
+    return this.get('/v1/people/' + id + '/surgerys');
+  }
   getPeoplePost(id: string){
     return this.get('/v1/people/' + id + '/post');
   }

@@ -89,6 +89,7 @@ export class PeopleManagementComponent implements OnInit {
       this.loading = false;
     });
   }
+  
   changeDates2() {
     console.log('changeDates2()');
     const mdl = this.modal.open(ChangeDates2Component, {
@@ -129,6 +130,7 @@ export class PeopleManagementComponent implements OnInit {
       
     });    
   }
+  
   changeDates(PeopleID:string,DateAsEvaluation:string,DateAsSurgery:string,DateAsFinish:string) {
     console.log('changeDates('+PeopleID+','+DateAsEvaluation+','+DateAsSurgery+','+DateAsFinish+')');
     const mdl = this.modal.open(ChangeDatesComponent, {
@@ -170,7 +172,7 @@ export class PeopleManagementComponent implements OnInit {
     this.loading = true;
     try {
       this.data = await lastValueFrom(this.api.getPeople(id));
-      this.dataPost = await lastValueFrom(this.api.getPeoplePost(id));
+      //this.dataPost = await lastValueFrom(this.api.getPeoplePost(id));
       this.evolutions = await lastValueFrom(this.api.getPeopleEvolutions(id))
       //this.dates = await lastValueFrom(this.api.getPeopleDates(id));
       this.loading = false;
@@ -591,6 +593,7 @@ export class PeopleManagementComponent implements OnInit {
       mdl.componentInstance.data.dropRecipes = [];
       mdl.componentInstance.dataPeople = this.data;
       mdl.result.then((data:any) => {
+        console.log(data);
         if (data.success) {
           for (let i = 0 ; i < this.dates.length; i++) {
             if (this.dates[i].DateID == DateID) {
@@ -601,7 +604,7 @@ export class PeopleManagementComponent implements OnInit {
               break;
             }
           }
-          if (data.options && data.options.whatsapp) {
+          if (data.whatsapp) {
             this.sendWhatsApp('orders','Tu orden de exámenes',DateID)
           }
         }

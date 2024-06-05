@@ -86,7 +86,14 @@
               </div>
             </div>
             <div class="col-4">
-              <h5 class="my-1">Diagnóstico</h5>
+              <h5 class="my-1">Clasificación</h5>
+
+              <div class="form-group mt-2">
+                <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="query"> No aplica</label><br />
+                <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="diagnosis"> Diagnóstico</label><br />
+                <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="posop"> Postoperatorio</label><br />
+              </div>
+              
               <!--
               <div class="form-group mt-2">
                 <label>Cambiar Etapa:</label>
@@ -101,7 +108,7 @@
                 </select>
               </div>
               -->
-              <div class="form-group mt-2">
+              <div class="form-group mt-2" *ngIf="data.typeofdate == 'diagnosis'">
                 <label>Diagnostico:</label> 
                 <select name="DiagnosisID" class="form-control" [(ngModel)]="data.DiagnosisID">
                   <option value="">No aplica</option>
@@ -111,13 +118,19 @@
                 <label *ngIf="data.DiagnosisID == '99999999'">Nuevo Diagnóstico:</label>
                 <input type="text" class="form-control" *ngIf="data.DiagnosisID == '99999999'" [(ngModel)]="data.DiagnosisNew" placeholder="nombre..." />
               </div>
-              <div class="form-group mt-2" [hidden]="!data.DiagnosisID || data.DiagnosisID == ''">
+              <div class="form-group mt-2" *ngIf="data.typeofdate == 'diagnosis'" [hidden]="!data.DiagnosisID || data.DiagnosisID == ''">
                 <label>Cirugía:</label>
                 <select name="DestinationGroupID" class="form-control" [(ngModel)]="data.SurgeryID">
                   <option value="">No aplica</option>
                   <option [value]="s.SurgeryID" *ngFor="let s of Surgerys">{{s.Name}}</option>
                 </select>
                 <button type="button" class="btn btn-sm btn-info btn-cargaplantilla" (click)="searchTemplate()">cargar plantilla de exámenes</button>
+              </div>
+              <div class="form-group mt-2" *ngIf="data.typeofdate == 'posop'">
+                <label>Cirugía previa:</label> 
+                <select name="SurgeryPeopleID" class="form-control" [(ngModel)]="data.PeopleSurgeryID">
+                  <option [value]="d.PeopleSurgeryID" *ngFor="let d of PeopleSurgerys">{{d.Name}}</option>
+                </select>          
               </div>
               <div class="form-group mt-2">
                 <label>Observaciones:</label>
