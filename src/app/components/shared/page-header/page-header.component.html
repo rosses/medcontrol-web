@@ -1,20 +1,21 @@
 <div class="page-header mb-3">
   <div class="container">
     <div class="row align-items-center">
-      <div class="col-6">
+      <div class="col-8">
         <h5 class="fw-normal mb-0">{{info}}</h5>
+        <button *ngIf="info=='Postoperatorio'" class="btn btn-success">Descarga Excel</button>
       </div>
-      <div class="col-2 text-end">
+      <div class="col-3 text-end">
+        <p class="m-0">{{ today | date:'dd \'de\' MMMM \',\' YYYY' }}, {{ today | date:'hh:mm a' }}</p>
+        <p class="m-0">Conectado como <b>{{userName}}</b></p>
+      </div>
+      <div class="col-1 text-end">
         <div class="div-notifications">
           <div class="budget">0</div>
           <a [routerLink]="['/admin/notifications']">
             <fa-icon class="fabell" [icon]="faBell"></fa-icon>
           </a>
         </div>
-      </div>
-      <div class="col-auto text-end">
-        <p class="m-0">{{ today | date:'dd \'de\' MMMM \',\' YYYY' }}, {{ today | date:'hh:mm a' }}</p>
-        <p class="m-0">Conectado como <b>{{userName}}</b></p>
       </div>
     </div>
   </div>

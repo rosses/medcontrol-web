@@ -388,8 +388,8 @@ export class PeopleManagementComponent implements OnInit {
       
     });
   }
-  printFicha(PeopleID:string) {
-    window.open(environment.url + '/v1/pdf-render/people/'+PeopleID,'_blank');
+  printFicha(type:string,ID:string) {
+    window.open(environment.url + '/v1/pdf-render/exams-sheet/'+type+'/'+ID,'_blank');
   }
   addEvolution() {
     const mdl = this.modal.open(EvolutionAddComponent, {

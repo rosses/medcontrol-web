@@ -86,10 +86,10 @@
               </div>
             </div>
             <div class="col-4">
-              <h5 class="my-1">Clasificación</h5>
+              <h5 class="my-1">Clasificación de consulta</h5>
 
               <div class="form-group mt-2">
-                <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="query"> No aplica</label><br />
+                <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="query"> Sólo consulta</label><br />
                 <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="diagnosis"> Diagnóstico</label><br />
                 <label><input type="radio" name="typeofdate" [(ngModel)]="data.typeofdate" value="posop"> Postoperatorio</label><br />
               </div>
@@ -267,7 +267,6 @@
         </div> 
         </ng-template>
       </li>
-   
       <li [ngbNavItem]="5" [class.active]="subactive == 5">
         <button type="button" class="nav-icon" ngbNavLink (click)="subactive=5">
           <span>Interconsultas</span>
@@ -322,7 +321,6 @@
           </div> 
           </ng-template>
       </li>
-      
       <li [ngbNavItem]="6" [class.active]="subactive == 6">
         <button type="button" class="nav-icon" ngbNavLink (click)="subactive=6">
           <span>Certificados</span>
@@ -373,9 +371,7 @@
       </li> 
     </ul>
     <div [ngbNavOutlet]="nav2" class="mt-2"></div>
-   
-
-
+  
     <div class="row my-3">
       <div class="col text-start">
         <button type="button" class="btn btn-default float-start" [disabled]="loading" (click)="cancel()">Cancelar</button>

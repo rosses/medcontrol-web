@@ -45,12 +45,12 @@ export class PostopComponent implements OnInit {
     PsicologoName: '',
     NutricionistaName: '',
     PsiquiatraName: '',
-    CheckLab: false,
-    CheckRxTx: false,
-    CheckECO: false,
-    CheckECG: false,
-    CheckECO2: false,
-    CheckEDA: false,
+    CheckLab: '',
+    CheckRxTx: '',
+    CheckECO: '',
+    CheckECG: '',
+    CheckECO2: '',
+    CheckEDA: '',
     page: 0
   }
   healths: any[] = [];

@@ -101,7 +101,7 @@
               <hr />
               <div class="text-end">
                 <button class="btn btn-sm btn-primary mb-1" (click)="copyFicha(data?.PeopleID)"><fa-icon [icon]="faCopy"></fa-icon> Copiar</button>&nbsp;&nbsp;
-                <button class="btn btn-sm btn-primary mb-1" (click)="printFicha(data?.PeopleID)"><fa-icon [icon]="faPrint"></fa-icon> Imprimir</button>&nbsp;&nbsp;
+
                 <!--<button class="btn btn-sm btn-primary mb-1" (click)="compareOrders()"><fa-icon [icon]="faChartLine"></fa-icon> Comparar exámenes</button>-->
               </div>
             </div>
@@ -349,6 +349,10 @@
                     <div class="col-9">
                       <div class="row"> 
                         <div class="col">
+                          <b>Clasificación:</b><br>
+                          {{(d.typeofdate=='diagnosis' ? 'Cirugía' : (d.typeofdate == 'query' ? 'Sólo consulta' : 'Postoperatorio')) }} {{(d.typeofdate == 'diagnosis' || d.typeofdate == 'posop' ? ' / ' : '')}}
+                        </div>
+                        <div class="col">
                           <b>Actualizado por:</b><br>
                           {{d.UpdatedUserName}}
                         </div>
@@ -462,7 +466,7 @@
         <ng-template ngbNavContent>
           <div class="row my-1">
             <div class="col text-end">
-              <button class="btn btn-warning btn-sm" (click)="addOrdenExamenesManual()">+ Nueva orden examenes</button>
+              <button class="btn btn-warning btn-sm" (click)="addOrdenExamenesManual()">+ Nueva orden simple</button>
             </div>
           </div>
           <div class="row my-2">
@@ -476,8 +480,9 @@
                 <ng-container *ngFor="let o of exams; let ii = index;">
                   <thead>
                     <tr *ngIf="o.OrderType=='GS'">
-                      <th style="background-color:#ffffa0;" colspan="1">Orden manual el {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" colspan="1">Exámenes del {{o.Date | date: 'dd/MM/yy'}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
+                        <button class="btn btn-sm btn-primary" (click)="printFicha('group',o.GroupID)"><fa-icon [icon]="faPrint"></fa-icon> Ficha de exámenes</button>&nbsp;&nbsp;
                         <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID,true)">ver pdf</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders-single','Tu orden de exámenes',o.DateID)">whatsapp</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="deployResultsSingle(o.DateID)">cargar resultados</button>
@@ -486,8 +491,9 @@
                     </tr>
 
                     <tr *ngIf="o.OrderType=='DT'">
-                      <th style="background-color:#ffffa0;" colspan="1">Consulta: {{o.Date | date: 'dd/MM/yy'}} a las {{o.Time  | slice:0:5}}</th>
+                      <th style="background-color:#ffffa0;" colspan="1">Consulta: {{o.Date | date: 'dd/MM/yy'}} | {{(o.typeofdate=='diagnosis' ? 'Cirugía' : (o.typeofdate == 'query' ? 'Sólo consulta' : 'Postoperatorio')) }} {{(o.typeofdate == 'diagnosis' || o.typeofdate == 'posop' ? ' / ' + o.SurgeryName : '')}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
+                        <button class="btn btn-sm btn-primary" (click)="printFicha('date',o.DateID)"><fa-icon [icon]="faPrint"></fa-icon> Ficha de exámenes</button>&nbsp;&nbsp;
                         <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders','Tu orden de exámenes',o.DateID)">whatsapp</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="deployResults(o.DateID)">cargar resultados</button>

@@ -74,27 +74,27 @@
                 </th>
                 <th class="text-center">
                   Lab
-                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckLab" />
+                  <select name="filter_lab" (change)="loadPeople(true)" [(ngModel)]="filter.CheckLab"><option value="">todo</option><option value="1">si</option><option value="0">no</option></select>
                 </th>
                 <th class="text-center">
                   RxTx
-                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckRxTx" />
+                  <select name="filter_rxtx" (change)="loadPeople(true)" [(ngModel)]="filter.CheckRxTx"><option value="">todo</option><option value="1">si</option><option value="0">no</option></select>
                 </th>
                 <th class="text-center">
                   Eco
-                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckECO" />
+                  <select name="filter_eco" (change)="loadPeople(true)" [(ngModel)]="filter.CheckECO"><option value="">todo</option><option value="1">si</option><option value="0">no</option></select>
                 </th>
                 <th class="text-center">
                   ECG
-                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckECG" />
+                  <select name="filter_ecg" (change)="loadPeople(true)" [(ngModel)]="filter.CheckECG"><option value="">todo</option><option value="1">si</option><option value="0">no</option></select>
                 </th>
                 <th class="text-center">
                   Eco
-                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckECO2" />
+                  <select name="filter_eco2" (change)="loadPeople(true)" [(ngModel)]="filter.CheckECO2"><option value="">todo</option><option value="1">si</option><option value="0">no</option></select>
                 </th>
                 <th class="text-center">
                   EDA
-                  <input type="checkbox" (click)="loadPeople(true)" [(ngModel)]="filter.CheckEDA" />
+                  <select name="filter_eda" (change)="loadPeople(true)" [(ngModel)]="filter.CheckEDA"><option value="">todo</option><option value="1">si</option><option value="0">no</option></select>
                 </th>
 
               </tr>
