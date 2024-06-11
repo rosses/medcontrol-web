@@ -7,6 +7,7 @@
     <hr />
     <div class="row mb-2">
       <div class="col-12">
+        <!--
         <table class="mt-4 table table-striped table-mini table-bordered">
           <thead>
             <tr>
@@ -38,6 +39,30 @@
             </tr>
           </tbody>
         </table>
+        -->
+        <div class="row">
+          <div class="col-6" *ngFor="let t of table">
+            <h3>{{t.ExamTypeName}}</h3>
+            <table class="mt-4 table table-striped table-mini">
+              <tbody>
+                <tr *ngIf="rows.length == 0">
+                  <td colspan="2">No hay campos para completar</td>
+                </tr>
+                <tr *ngFor="let o of rows; let ii = index;">
+                  <!--<td>{{o.ExamName}}</td>-->
+                  <td>
+                    {{o.Name}}
+                  </td>
+                  <td>
+                    <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value"  />
+                    <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
+                    <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{ii}}" [(ngModel)]="o.Value" /> confirma</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row my-3">

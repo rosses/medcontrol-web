@@ -21,6 +21,7 @@ export class OrderResultComponent implements OnInit {
 
   public ExamsData: any[] = []; 
   public rows: any[] = [];
+  public table: any[] = [];
   public Exams: any[] = [];
   @Input() DateID: string = '';
   @Input() SingleID: string = '';
@@ -80,6 +81,29 @@ export class OrderResultComponent implements OnInit {
           this.loading = false; 
         });
       }
+      this.table = this.rows.reduce((acc, current) => {
+        const { ExamTypeID, ExamTypeName, ExamName, ExamID, ExamDataValueID, ExamDataType, ExamDataID, Active } = current;
+        
+        if (!acc[ExamTypeID]) {
+            acc[ExamTypeID] = {
+                ExamTypeID,
+                ExamTypeName,
+                items: []
+            };
+        }
+        
+        acc[ExamTypeID].items.push({
+            ExamName,
+            ExamID,
+            ExamDataValueID,
+            ExamDataType,
+            ExamDataID,
+            Active
+        });
+        
+        return acc;
+      }, {});
+      console.log(this.table);
     });
   }
   ngAfterViewInit() { 
