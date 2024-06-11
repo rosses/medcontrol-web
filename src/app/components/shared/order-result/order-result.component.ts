@@ -81,28 +81,30 @@ export class OrderResultComponent implements OnInit {
           this.loading = false; 
         });
       }
-      this.table = this.rows.reduce((acc, current) => {
-        const { ExamTypeID, ExamTypeName, ExamName, ExamID, ExamDataValueID, ExamDataType, ExamDataID, Active } = current;
-        
-        if (!acc[ExamTypeID]) {
-            acc[ExamTypeID] = {
-                ExamTypeID,
-                ExamTypeName,
-                items: []
-            };
+      this.table = [];
+
+      for (let i = 0; i < this.rows.length; i++) {
+
+        if (this.table.filter((x:any) => { return x.ExamTypeID == this.rows[i].ExamTypeID  }).length == 0) {
+          this.table.push({
+            ExamTypeID: this.rows[i].ExamTypeID,
+            ExamTypeName: this.rows[i].ExamTypeName,
+            items: []
+          });
         }
         
-        acc[ExamTypeID].items.push({
-            ExamName,
-            ExamID,
-            ExamDataValueID,
-            ExamDataType,
-            ExamDataID,
-            Active
-        });
-        
-        return acc;
-      }, {});
+        let fi = this.table.findIndex((x:any)=>{ return x.ExamTypeID == this.rows[i].ExamTypeID});
+        if (this.table[fi].items.findIndex((x:any)=>{return x.ExamDataID == this.rows[i].ExamDataID})==-1) {
+          this.table[fi].items.push({
+            ExamName: this.rows[i].ExamName,
+            ExamID: this.rows[i].ExamID,
+            ExamDataValueID: this.rows[i].ExamDataValueID,
+            ExamDataType: this.rows[i].ExamDataType,
+            ExamDataID: this.rows[i].ExamDataID,
+            Active: this.rows[i].Active
+          });
+        }
+      } 
       console.log(this.table);
     });
   }
