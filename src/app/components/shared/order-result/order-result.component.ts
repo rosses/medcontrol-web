@@ -82,6 +82,7 @@ export class OrderResultComponent implements OnInit {
         });
       }
       this.table = [];
+      console.log(this.rows);
 
       for (let i = 0; i < this.rows.length; i++) {
 
@@ -101,6 +102,7 @@ export class OrderResultComponent implements OnInit {
             ExamDataValueID: this.rows[i].ExamDataValueID,
             ExamDataType: this.rows[i].ExamDataType,
             ExamDataID: this.rows[i].ExamDataID,
+            Name: this.rows[i].Name,
             Active: this.rows[i].Active
           });
         }

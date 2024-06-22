@@ -262,7 +262,8 @@ export class PeopleManagementComponent implements OnInit {
     const mdl = this.modal.open(OrderResultComponent, {
       backdrop: false,
       keyboard: true,
-      size: 'lg'
+      size: 'lg',
+      windowClass: 'cargaa'
     }); 
     mdl.componentInstance.DateID = DateID;
     mdl.componentInstance.ExamTypeName = ExamTypeName;

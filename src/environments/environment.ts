@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   url: 'http://localhost:8000'
+  //url: 'https://medcontrol-api.enlanube.cl',
   //url: 'https://medcontrol-api-cwnjx.ondigitalocean.app'
 };
 
