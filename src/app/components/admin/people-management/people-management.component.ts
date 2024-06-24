@@ -267,6 +267,7 @@ export class PeopleManagementComponent implements OnInit {
     }); 
     mdl.componentInstance.fecha = fecha?.split('-').reverse().join('-');
     mdl.componentInstance.DateID = DateID;
+    mdl.componentInstance.PeopleID = this.id;
     mdl.componentInstance.ExamTypeName = ExamTypeName;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
     mdl.componentInstance.Exams = Exams;
@@ -298,6 +299,7 @@ export class PeopleManagementComponent implements OnInit {
     }); 
     mdl.componentInstance.fecha = fecha?.split('-').reverse().join('-');
     mdl.componentInstance.SingleID = SingleID;
+    mdl.componentInstance.PeopleID = this.id;
     mdl.componentInstance.ExamTypeName = ExamTypeName;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
     mdl.componentInstance.Exams = Exams;

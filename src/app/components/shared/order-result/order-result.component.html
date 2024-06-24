@@ -14,13 +14,29 @@
               <h5>{{t.ExamTypeName}}</h5>
               <table class="mt-1 table table-mini">
                 <tbody>
-                  <tr *ngFor="let o of getItemsByExamTypeId(t.ExamTypeID); trackBy0: trackByFna0; let ii = index">
-                    <td [attr.data-examdataid]="o.ExamDataID" [attr.data-examtypeid]="t.ExamTypeID">{{o.Name}}</td>
+                  <tr *ngFor="let o of t.sub; let ii = index">
+                    <td>{{o.Name}}</td>
                     <td>
-                      <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" (keyup)="setValue(o.ExamDataID, $event)" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)"  />
-                      <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{i}}_{{ii}}" (keyup)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" />
-                      <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" class="form-control" name="value_{{i}}_{{ii}}" (keyup)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)"></textarea>
-                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{i}}_{{ii}}" (keyup)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
+                      <input *ngIf="o.ExamDataType == 'number'" type="text" 
+                              (keypress)="numberOnly($event)" 
+                              class="form-control" 
+                              (change)="setValue(o.ExamDataID, $event)" 
+                              name="valueA_{{i}}_{{ii}}" 
+                              [ngModel]="getValue(o.ExamDataID)"  
+                      />
+                      <input *ngIf="o.ExamDataType == 'text'" type="text" 
+                              class="form-control" 
+                              name="valueA_{{i}}_{{ii}}" 
+                              (change)="setValue(o.ExamDataID, $event)" 
+                              [ngModel]="getValue(o.ExamDataID)"
+                      />
+                      <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" 
+                              class="form-control" 
+                              name="valueA_{{i}}_{{ii}}" 
+                              (change)="setValue(o.ExamDataID, $event)" 
+                              [ngModel]="getValue(o.ExamDataID)"
+                      ></textarea>
+                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="valueA_{{i}}_{{ii}}" (change)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
                     </td>
                   </tr>
                 </tbody>
@@ -34,13 +50,30 @@
               <h5>{{t.ExamTypeName}}</h5>
               <table class="mt-1 table table-mini">
                 <tbody>
-                  <tr *ngFor="let o of getItemsByExamTypeId(t.ExamTypeID);  trackBy: trackByFna1; let ii = index">
+                  <tr *ngFor="let o of t.sub; let ii = index">
                     <td [attr.data-examdataid]="o.ExamDataID" [attr.data-examtypeid]="t.ExamTypeID">{{o.Name}}</td>
                     <td>
-                      <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)"  />
-                      <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)" />
-                      <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" class="form-control" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)"></textarea>
-                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)" /> confirma</div>
+                      <input *ngIf="o.ExamDataType == 'number'" type="text" 
+                              (keypress)="numberOnly($event)" 
+                              class="form-control" 
+                              (change)="setValue(o.ExamDataID, $event)" 
+                              name="valueB_{{i}}_{{ii}}" 
+                              [ngModel]="getValue(o.ExamDataID)"  
+                      />
+                      <input *ngIf="o.ExamDataType == 'text'" type="text" 
+                              class="form-control" 
+                              name="valueB_{{i}}_{{ii}}" 
+                              (change)="setValue(o.ExamDataID, $event)" 
+                              [ngModel]="getValue(o.ExamDataID)"
+                      />
+                      <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" 
+                              class="form-control" 
+                              name="valueB_{{i}}_{{ii}}" 
+                              (change)="setValue(o.ExamDataID, $event)" 
+                              [ngModel]="getValue(o.ExamDataID)"
+                      ></textarea>
+                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="valueB_{{i}}_{{ii}}" (change)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
+
                     </td>
                   </tr>
                 </tbody>
@@ -51,7 +84,7 @@
               <tbody>
                 <tr>
                   <td>
-                   <textarea style="height: 180px;" class="form-control"></textarea>
+                   <textarea style="height: 180px;" name="commentsss" class="form-control" [(ngModel)]="comments"></textarea>
                   </td>
                 </tr>
               </tbody>
@@ -63,9 +96,7 @@
         </div>
       </div>
       <div class="col-3">
-        <textarea class="form-control"  style="height: 500px; padding:10px; border: 1px solid gray;" disabled>
- 
-        </textarea>
+        <textarea class="form-control" name="fichaa" style="height: 500px; padding:10px; border: 1px solid gray;"  [(ngModel)]="ficha" disabled></textarea>
       </div>
     </div>
 

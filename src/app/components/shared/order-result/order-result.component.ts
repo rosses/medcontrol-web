@@ -20,12 +20,13 @@ export class OrderResultComponent implements OnInit {
   public faSpinner = faSpinner; 
 
   public ExamsData: any[] = []; 
-  public rows: any[] = [];
-  public table: any[] = [];
   public Exams: any[] = [];
   public itemsA: any[] = [];
   public itemsB: any[] = [];
+  public ficha: string  = '';
+  public comments: string  = '';
   @Input() DateID: string = '';
+  @Input() PeopleID: string = '';
   @Input() fecha: string = '';
   @Input() SingleID: string = '';
   @Input() ExamTypeID: string = '';
@@ -45,10 +46,14 @@ export class OrderResultComponent implements OnInit {
     console.log('DateID', this.DateID);
     console.log('SingleID', this.SingleID);
     console.log('ExamTypeID', this.ExamTypeID);
+
+    this.api.getPeopleFicha(this.PeopleID).subscribe((data:any) => {
+      this.ficha = data.text;
+    })
     this.api.getExamDatas().subscribe((data:any)=>{ 
       this.ExamsData = data.filter((x:any) => { return this.Exams.indexOf(x.ExamName) > - 1 }); // solo valores solicitados en la entrada
       
-
+      this.comments = (this.ExamsData[0].comments || '');
       if (this.DateID!='') {
         this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
           for (let i = 0; i < this.ExamsData.length; i++) {
@@ -59,9 +64,7 @@ export class OrderResultComponent implements OnInit {
               }
             }
           }
-        
-          this.render = true; 
-          this.loading = false; 
+          this.renderiza();
         });
       }
       else if (this.SingleID!='') {
@@ -74,122 +77,60 @@ export class OrderResultComponent implements OnInit {
               }
             }
           }
-          this.render = true; 
-          this.loading = false; 
+          this.renderiza();
         });
       }
 
-      this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
-        ExamTypeName: item.ExamTypeName,
-        ExamTypeID: item.ExamTypeID
-      })).filter((item, index, self) =>
-        index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
-      )));
-      this.itemsB = this.ExamsData.filter((x:any) => { return x.Side == 'B' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
-        ExamTypeName: item.ExamTypeName,
-        ExamTypeID: item.ExamTypeID
-      })).filter((item, index, self) =>
-        index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
-      )));
+
     });
-    /*
-    this.api.getExamDatas().subscribe((data:any)=>{ 
-      this.ExamsData = data; 
-      console.log(this.ExamsData);
-      if (this.ExamTypeID) {
-        this.rows = this.ExamsData.filter((x) => { return x.ExamTypeID == this.ExamTypeID && this.Exams.indexOf(x.ExamName) > -1});
-      }
-      else {
-        this.rows = this.ExamsData.filter((x) => { return this.Exams.indexOf(x.ExamName) > -1});
-      }
-      console.log('Exams', this.Exams);
-
-      if (this.DateID!='') {
-        this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
-          for (let i = 0; i < this.rows.length; i++) {
-            for (let j = 0; j < data.length; j++) {
-              if (this.rows[i].ExamDataID == data[j].ExamDataID) {
-                this.rows[i].Value = data[j].Value;
-                this.rows[i].ExamDataValueID = data[j].ExamDataValueID;
-              }
-            }
-          }
-          this.render = true; 
-          this.loading = false; 
-        });
-      }
-      else if (this.SingleID!='') {
-        this.api.getExamValuesByGroup(this.SingleID).subscribe((data:any) => {
-          for (let i = 0; i < this.rows.length; i++) {
-            for (let j = 0; j < data.length; j++) {
-              if (this.rows[i].ExamDataID == data[j].ExamDataID) {
-                this.rows[i].Value = data[j].Value;
-                this.rows[i].ExamDataValueID = data[j].ExamDataValueID;
-              }
-            }
-          }
-          this.render = true; 
-          this.loading = false; 
-        });
-      }
-      this.table = [];
-      console.log(this.rows);
-
-      for (let i = 0; i < this.rows.length; i++) {
-
-        if (this.table.filter((x:any) => { return x.ExamTypeID == this.rows[i].ExamTypeID  }).length == 0) {
-          this.table.push({
-            ExamTypeID: this.rows[i].ExamTypeID,
-            ExamTypeName: this.rows[i].ExamTypeName,
-            items: []
-          });
-        }
-        
-        let fi = this.table.findIndex((x:any)=>{ return x.ExamTypeID == this.rows[i].ExamTypeID});
-        if (this.table[fi].items.findIndex((x:any)=>{return x.ExamDataID == this.rows[i].ExamDataID})==-1) {
-          this.table[fi].items.push({
-            ExamName: this.rows[i].ExamName,
-            ExamID: this.rows[i].ExamID,
-            ExamDataValueID: this.rows[i].ExamDataValueID,
-            ExamDataType: this.rows[i].ExamDataType,
-            ExamDataID: this.rows[i].ExamDataID,
-            Name: this.rows[i].Name,
-            Active: this.rows[i].Active
-          });
-        }
-      } 
-      console.log(this.table);
-    });
-    */
+    
   }
-  trackByFna0(index: number, item: any): any {
-    return item.ExamDataID; // or any unique identifier for your items
-  }
-  trackByFna1(index: number, item: any): any {
-    return item.ExamDataID; // or any unique identifier for your items
+  renderiza() {
+    console.log(this.ExamsData);
+
+    this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
+      ExamTypeName: item.ExamTypeName,
+      ExamTypeID: item.ExamTypeID
+    })).filter((item, index, self) =>
+      index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
+    )));
+    this.itemsB = this.ExamsData.filter((x:any) => { return x.Side == 'B' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
+      ExamTypeName: item.ExamTypeName,
+      ExamTypeID: item.ExamTypeID
+    })).filter((item, index, self) =>
+      index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
+    )));
+
+    for (let i = 0; i<this.itemsA.length; i++) {
+      this.itemsA[i].sub = this.getItemsByExamTypeId(this.itemsA[i].ExamTypeID);
+    }
+    for (let i = 0; i<this.itemsA.length; i++) {
+      this.itemsB[i].sub = this.getItemsByExamTypeId(this.itemsB[i].ExamTypeID);
+    }
+    console.log(this.itemsA);
+
+    this.render = true; 
+    this.loading = false; 
   }
   ngAfterViewInit() { 
     
   }
 
   getItemsByExamTypeId(id:string) {
-    console.log('getItemsByExamTypeId', id);
-    let z = this.ExamsData.filter((x:any) => { return x.ExamTypeID == id }).sort((a,b) => { return parseInt(a.ExamsOrden) - parseInt(b.ExamsOrden) }).map((item) => ({
+    let z = this.ExamsData.filter((x:any) => { return x.ExamTypeID == id }).map((item) => ({
       ExamDataID: item.ExamDataID,
       ExamName: item.ExamName,
       ExamDataType: item.ExamDataType,
       Name: item.Name,
       ExamOrden: item.ExamOrden,
       Value: item.Value
-    }));
-    console.log(z);
+    })).sort((a,b) => { return parseInt(a.ExamOrden) - parseInt(b.ExamOrden) });
     return z;
   }
   getValue(id:string) {
     let d = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == id });
     if (d > -1) {
       let v = this.ExamsData[d].Value || '';
-      console.log('getValue', id, ' => ', v);
       return v;
     } else {
       return '';
@@ -212,10 +153,10 @@ export class OrderResultComponent implements OnInit {
     this.loading = true;
     
     this.api.saveExamData({
-      //data: this.rows,
       DateID: this.DateID,
       SingleID: this.SingleID,
-      data: this.ExamsData
+      data: this.ExamsData,
+      comments: this.comments
     }).subscribe((data:any) => {
       this.api.toastOk("Guardado correctamente");
       this.modal.close({ success: true });
