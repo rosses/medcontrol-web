@@ -248,12 +248,14 @@ export class PeopleManagementComponent implements OnInit {
 
   deployResults(DateID:string, ExamTypeID?: any, ExamTypeName?: any, Exams?: any, fecha?: string) {
 
+    let ExamTypeNames = [];
     if (!Exams) {
       Exams = [];
       for (let i = 0; i < this.exams.length; i++) {
         for (let j = 0; j < this.exams[i].data.length; j++) {
           if (this.exams[i].DateID == DateID) {
             Exams = [ ...Exams, ...this.exams[i].data[j].Exams ];
+            ExamTypeNames.push(this.exams[i].data[j].ExamTypeName);
           }
         }
       }
@@ -269,6 +271,7 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.DateID = DateID;
     mdl.componentInstance.PeopleID = this.id;
     mdl.componentInstance.ExamTypeName = ExamTypeName;
+    mdl.componentInstance.ExamTypeNames = ExamTypeNames;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
     mdl.componentInstance.Exams = Exams;
     mdl.result.then((data:any) => {
@@ -280,12 +283,14 @@ export class PeopleManagementComponent implements OnInit {
 
   deployResultsSingle(SingleID:string, ExamTypeID?: any, ExamTypeName?: any, Exams?: any , fecha?: string) {
 
+    let ExamTypeNames = [];
     if (!Exams) {
       Exams = [];
       for (let i = 0; i < this.exams.length; i++) {
         for (let j = 0; j < this.exams[i].data.length; j++) {
           if (this.exams[i].DateID == SingleID) {
             Exams = [ ...Exams, ...this.exams[i].data[j].Exams ];
+            ExamTypeNames.push(this.exams[i].data[j].ExamTypeName);
           }
         }
       }
@@ -301,6 +306,7 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.SingleID = SingleID;
     mdl.componentInstance.PeopleID = this.id;
     mdl.componentInstance.ExamTypeName = ExamTypeName;
+    mdl.componentInstance.ExamTypeNames = ExamTypeNames;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
     mdl.componentInstance.Exams = Exams;
     mdl.result.then((data:any) => {

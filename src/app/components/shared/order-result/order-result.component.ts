@@ -21,6 +21,7 @@ export class OrderResultComponent implements OnInit {
 
   public ExamsData: any[] = []; 
   public Exams: any[] = [];
+  public ExamTypeNames: any[] = [];
   public itemsA: any[] = [];
   public itemsB: any[] = [];
   public ficha: string  = '';
@@ -46,22 +47,25 @@ export class OrderResultComponent implements OnInit {
     console.log('DateID', this.DateID);
     console.log('SingleID', this.SingleID);
     console.log('ExamTypeID', this.ExamTypeID);
+    console.log('ExamTypeNames', this.ExamTypeNames);
 
     this.api.getPeopleFicha(this.PeopleID).subscribe((data:any) => {
       this.ficha = data.text;
     })
     this.api.getExamDatas().subscribe((data:any)=>{ 
-      this.ExamsData = data.filter((x:any) => { return this.Exams.indexOf(x.ExamName) > - 1 }); // solo valores solicitados en la entrada
+      //this.ExamsData = data.filter((x:any) => { return this.Exams.indexOf(x.ExamName) > - 1 }); // solo valores solicitados en la entrada
+      this.ExamsData = data.filter((x:any) => { return this.ExamTypeNames.indexOf(x.ExamTypeName) > - 1 }); // solo valores solicitados en la entrada por grupo
       
-      this.comments = (this.ExamsData[0].comments || '');
+      this.comments = (this.ExamsData.length > 0 && this.ExamsData[0].comments ? this.ExamsData[0].comments : '');
       if (this.DateID!='') {
         this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
           for (let i = 0; i < this.ExamsData.length; i++) {
-            for (let j = 0; j < data.length; j++) {
-              let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
-              if (f > -1) {
-                this.ExamsData[f].Value = data[j].Value;
-              }
+            this.ExamsData[i].Value = '';
+          }
+          for (let j = 0; j < data.length; j++) {
+            let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
+            if (f > -1) {
+              this.ExamsData[f].Value = data[j].Value;
             }
           }
           this.renderiza();
@@ -70,11 +74,12 @@ export class OrderResultComponent implements OnInit {
       else if (this.SingleID!='') {
         this.api.getExamValuesByGroup(this.SingleID).subscribe((data:any) => {
           for (let i = 0; i < this.ExamsData.length; i++) {
-            for (let j = 0; j < data.length; j++) {
-              let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
-              if (f > -1) {
-                this.ExamsData[f].Value = data[j].Value;
-              }
+            this.ExamsData[i].Value = '';
+          }
+          for (let j = 0; j < data.length; j++) {
+            let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
+            if (f > -1) {
+              this.ExamsData[f].Value = data[j].Value;
             }
           }
           this.renderiza();
@@ -90,13 +95,13 @@ export class OrderResultComponent implements OnInit {
 
     this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
       ExamTypeName: item.ExamTypeName,
-      ExamTypeID: item.ExamTypeID
+      ExamTypeID: parseInt(item.ExamTypeID)
     })).filter((item, index, self) =>
       index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
     )));
     this.itemsB = this.ExamsData.filter((x:any) => { return x.Side == 'B' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
       ExamTypeName: item.ExamTypeName,
-      ExamTypeID: item.ExamTypeID
+      ExamTypeID: parseInt(item.ExamTypeID)
     })).filter((item, index, self) =>
       index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
     )));
@@ -118,8 +123,12 @@ export class OrderResultComponent implements OnInit {
   }
 
   getItemsByExamTypeId(id:string) {
-    let z = this.ExamsData.filter((x:any) => { return x.ExamTypeID == id }).map((item) => ({
-      ExamDataID: item.ExamDataID,
+    if (id == '4') {
+      console.log(this.ExamsData.filter((x:any) => { return parseInt(x.ExamTypeID) == parseInt(id) }));
+    }
+    
+    let z = this.ExamsData.filter((x:any) => { return parseInt(x.ExamTypeID) == parseInt(id) }).map((item) => ({
+      ExamDataID: parseInt(item.ExamDataID),
       ExamName: item.ExamName,
       ExamDataType: item.ExamDataType,
       Name: item.Name,
