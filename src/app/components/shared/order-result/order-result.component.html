@@ -3,71 +3,50 @@
     <div class="d-flex justify-content-center align-items-center"><app-loader></app-loader></div>
   </app-modal-cmp>
   <form *ngIf="render">
-    <h4>Carga de resultados de exámenes</h4>
+    <h4>Resultados de exámenes ({{fecha}})</h4>
     <hr />
 
     <div class="row mb-2">
       <div class="col-9">
         <div class="row mb-2">
-      
-          <!--
-          <table class="mt-4 table table-striped table-mini table-bordered">
-            <thead>
-              <tr>
-                <th width="150">Grupo</th>
-                <th width="150">Examen</th>
-                <th width="150">Campo</th>
-                <th>Valor</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngIf="rows.length == 0">
-                <td colspan="4">No hay campos para completar</td>
-              </tr>
-              <tr *ngFor="let o of rows; let ii = index;">
-                <td>
-                  {{o.ExamTypeName}}
-                </td>
-                <td>
-                  {{o.ExamName}}
-                </td>
-                <td>
-                  {{o.Name}}
-                </td>
-                <td>
-                  <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
-                  <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
-                  <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{ii}}" [(ngModel)]="o.Value" /> confirma</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          -->
-          <ng-container *ngFor="let t of table; let i2 = index">
           <div class="col-6">
-            <h4>{{t.ExamTypeName}}</h4>
-            <table class="mt-4 table table-mini">
-              <tbody>
-                <tr *ngIf="t.items.length == 0">
-                  <td colspan="2">No hay campos para completar</td>
-                </tr>
-                <tr *ngFor="let o of t.items; let ii = index;">
-                  <td>
-                    {{o.Name}}
-                  </td>
-                  <td>
-                    <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value"  />
-                    <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{ii}}" [(ngModel)]="o.Value" />
-                    <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{ii}}" [(ngModel)]="o.Value" /> confirma</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>              
+            <ng-container *ngFor="let t of itemsA; let i = index">
+              <h5>{{t.ExamTypeName}}</h5>
+              <table class="mt-1 table table-mini">
+                <tbody>
+                  <tr *ngFor="let o of getItemsByExamTypeId(t.ExamTypeID); trackBy0: trackByFna0; let ii = index">
+                    <td [attr.data-examdataid]="o.ExamDataID" [attr.data-examtypeid]="t.ExamTypeID">{{o.Name}}</td>
+                    <td>
+                      <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" (keyup)="setValue(o.ExamDataID, $event)" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)"  />
+                      <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{i}}_{{ii}}" (keyup)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" />
+                      <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" class="form-control" name="value_{{i}}_{{ii}}" (keyup)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)"></textarea>
+                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{i}}_{{ii}}" (keyup)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+
           </div>
-          </ng-container>
-          
           <div class="col-6">
-            <h4>Observaciones</h4>
+
+            <ng-container *ngFor="let t of itemsB; let i = index">
+              <h5>{{t.ExamTypeName}}</h5>
+              <table class="mt-1 table table-mini">
+                <tbody>
+                  <tr *ngFor="let o of getItemsByExamTypeId(t.ExamTypeID);  trackBy: trackByFna1; let ii = index">
+                    <td [attr.data-examdataid]="o.ExamDataID" [attr.data-examtypeid]="t.ExamTypeID">{{o.Name}}</td>
+                    <td>
+                      <input *ngIf="o.ExamDataType == 'number'" type="text" (keypress)="numberOnly($event)" class="form-control" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)"  />
+                      <input *ngIf="o.ExamDataType == 'text'" type="text" class="form-control" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)" />
+                      <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" class="form-control" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)"></textarea>
+                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="value_{{i}}_{{ii}}" [ngModel]="getValue(o.ExamDataID)" (keyup)="setValue(o.ExamDataID, $event)" /> confirma</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+            <h5>Observaciones</h5>
             <table class="mt-4 table table-mini">
               <tbody>
                 <tr>
@@ -76,62 +55,18 @@
                   </td>
                 </tr>
               </tbody>
-            </table>              
+            </table> 
+            
           </div>
-      </div>
+
+          
+        </div>
       </div>
       <div class="col-3">
-        <textarea class="form-control"  style="height: 500px; padding:10px; border: 1px solid gray;">
-          2024-06-14 19:20:05
-
-ANTROPOMETRIA
-Peso: 102 Talla: 167  IMC: 0
-
-ANTECEDENTES
-Ciudad donde Vive: Valdivia 
-Profesión: Profesora
-Médicos: Hernia lumbar, Apnea (CPAP hace aprox 5 años), hígado graso, DLP, resistencia a la insulina
-Farmacos: metformina, rosuvastatina, tellmi-D, fluoxetina, furosemida, lirex
-Quirúrgicos: Cesarea x1, meniscos izquierda. Amigdalas, apendice (vía lap), trompas falopio (2016 vía lap)
-Alergias: Metales. Mieloxicam, nitrofurantoína.
-Hábitos: Viene con su esposo Milton
-
-CADIOLÓGICOS
-Electrocardiograma: Normal
-Ecocardiograma: Normal
-
-ECOGRAFÍA
-Ecografía Abdominal: esteatosis hepatica difusa leve
-
-ENDOSCÓPICOS
-Test de Ureasa: Negativo
-Endoscopía Digestiva: Gastropatia erosiva de antro. Duodenopatia hemorragica del bulbo.
-
-ESPECIALISTAS
-Evaluación por Nutricionista: Arantxa
-
-IMAGENOLOGÍA
-Radiografía de Torax: Curva cifotica en la transicion dorsolumbar, resto normal
-
-SANGRE
-Triglicéridos: 150
-Colesterol Total: 180
-HDL: 0
-HOMA: 200
-Plaquetas: 100
-Pruebas Tiroideas: Normal
-Pruebas Hepáticas: Normal
-LDL: 78
-Niveles de Vitamina D: 18.9
-Hemograma: Normal
-Hematocrito: 43.6
-Glóbulos Blancos: 8200
-Hemoglobina Glicosilada: 5.5
-Glicemia Ayuno: 95
-
+        <textarea class="form-control"  style="height: 500px; padding:10px; border: 1px solid gray;" disabled>
+ 
         </textarea>
       </div>
-
     </div>
 
     <div class="row my-3">

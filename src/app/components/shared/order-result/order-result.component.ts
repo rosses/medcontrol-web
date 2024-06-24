@@ -23,7 +23,10 @@ export class OrderResultComponent implements OnInit {
   public rows: any[] = [];
   public table: any[] = [];
   public Exams: any[] = [];
+  public itemsA: any[] = [];
+  public itemsB: any[] = [];
   @Input() DateID: string = '';
+  @Input() fecha: string = '';
   @Input() SingleID: string = '';
   @Input() ExamTypeID: string = '';
   @Input() ExamTypeName: string = '';
@@ -42,6 +45,54 @@ export class OrderResultComponent implements OnInit {
     console.log('DateID', this.DateID);
     console.log('SingleID', this.SingleID);
     console.log('ExamTypeID', this.ExamTypeID);
+    this.api.getExamDatas().subscribe((data:any)=>{ 
+      this.ExamsData = data.filter((x:any) => { return this.Exams.indexOf(x.ExamName) > - 1 }); // solo valores solicitados en la entrada
+      
+
+      if (this.DateID!='') {
+        this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
+          for (let i = 0; i < this.ExamsData.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+              let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
+              if (f > -1) {
+                this.ExamsData[f].Value = data[j].Value;
+              }
+            }
+          }
+        
+          this.render = true; 
+          this.loading = false; 
+        });
+      }
+      else if (this.SingleID!='') {
+        this.api.getExamValuesByGroup(this.SingleID).subscribe((data:any) => {
+          for (let i = 0; i < this.ExamsData.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+              let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
+              if (f > -1) {
+                this.ExamsData[f].Value = data[j].Value;
+              }
+            }
+          }
+          this.render = true; 
+          this.loading = false; 
+        });
+      }
+
+      this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
+        ExamTypeName: item.ExamTypeName,
+        ExamTypeID: item.ExamTypeID
+      })).filter((item, index, self) =>
+        index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
+      )));
+      this.itemsB = this.ExamsData.filter((x:any) => { return x.Side == 'B' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
+        ExamTypeName: item.ExamTypeName,
+        ExamTypeID: item.ExamTypeID
+      })).filter((item, index, self) =>
+        index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
+      )));
+    });
+    /*
     this.api.getExamDatas().subscribe((data:any)=>{ 
       this.ExamsData = data; 
       console.log(this.ExamsData);
@@ -109,9 +160,40 @@ export class OrderResultComponent implements OnInit {
       } 
       console.log(this.table);
     });
+    */
+  }
+  trackByFna0(index: number, item: any): any {
+    return item.ExamDataID; // or any unique identifier for your items
+  }
+  trackByFna1(index: number, item: any): any {
+    return item.ExamDataID; // or any unique identifier for your items
   }
   ngAfterViewInit() { 
     
+  }
+
+  getItemsByExamTypeId(id:string) {
+    console.log('getItemsByExamTypeId', id);
+    let z = this.ExamsData.filter((x:any) => { return x.ExamTypeID == id }).sort((a,b) => { return parseInt(a.ExamsOrden) - parseInt(b.ExamsOrden) }).map((item) => ({
+      ExamDataID: item.ExamDataID,
+      ExamName: item.ExamName,
+      ExamDataType: item.ExamDataType,
+      Name: item.Name,
+      ExamOrden: item.ExamOrden,
+      Value: item.Value
+    }));
+    console.log(z);
+    return z;
+  }
+  getValue(id:string) {
+    let d = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == id });
+    if (d > -1) {
+      let v = this.ExamsData[d].Value || '';
+      console.log('getValue', id, ' => ', v);
+      return v;
+    } else {
+      return '';
+    }
   }
   numberOnly(event:any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -120,13 +202,20 @@ export class OrderResultComponent implements OnInit {
     }
     return true;
   }
+  setValue(id:string, event:any) {
+    let d = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == id });
+    if (d > -1) {
+      this.ExamsData[d].Value = event.target.value;
+    }
+  }
   save() {
     this.loading = true;
     
     this.api.saveExamData({
-      data: this.rows,
+      //data: this.rows,
       DateID: this.DateID,
-      SingleID: this.SingleID
+      SingleID: this.SingleID,
+      data: this.ExamsData
     }).subscribe((data:any) => {
       this.api.toastOk("Guardado correctamente");
       this.modal.close({ success: true });

@@ -34,6 +34,12 @@ select.form-control {
     font-size: 0.8rem !important;
     padding: 5px 4px !important;
 }
+.table-mini input, .table-mini textarea  {
+    padding: 0px 5px !important
+}
+.table-mini input:focus, .table-mini textarea:focus {
+    outline:none;
+} 
 .table-mini button {
     padding: 2px 6px !important;
     margin-left: 4px !important;

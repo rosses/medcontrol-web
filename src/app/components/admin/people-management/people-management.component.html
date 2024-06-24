@@ -482,10 +482,10 @@
                     <tr *ngIf="o.OrderType=='GS'">
                       <th style="background-color:#ffffa0;" colspan="1">Exámenes del {{o.Date | date: 'dd/MM/yy'}}</th>
                       <th style="background-color:#ffffa0;" class="text-end">
-                        <button class="btn btn-sm btn-primary" (click)="printFicha('group',o.GroupID)"><fa-icon [icon]="faPrint"></fa-icon> Ficha de exámenes</button>&nbsp;&nbsp;
+                        <button class="btn btn-sm btn-primary" (click)="printFicha('group',o.DateID)"><fa-icon [icon]="faPrint"></fa-icon> Ficha de exámenes</button>&nbsp;&nbsp;
                         <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID,true)">ver pdf</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders-single','Tu orden de exámenes',o.DateID)">whatsapp</button>
-                        <button type="button" class="btn btn-sm btn-success" (click)="deployResultsSingle(o.DateID)">cargar resultados</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="deployResultsSingle(o.DateID,null,null,null,o.Date)">cargar resultados</button>
                         <button type="button" class="btn btn-sm btn-danger" (click)="deleteFreeOrder(o.DateID)">eliminar</button>
                       </th>
                     </tr>
@@ -496,7 +496,7 @@
                         <button class="btn btn-sm btn-primary" (click)="printFicha('date',o.DateID)"><fa-icon [icon]="faPrint"></fa-icon> Ficha de exámenes</button>&nbsp;&nbsp;
                         <button type="button" class="btn btn-sm btn-success" (click)="verOrdenPDF(o.DateID)">ver pdf</button>
                         <button type="button" class="btn btn-sm btn-success" (click)="sendWhatsApp('orders','Tu orden de exámenes',o.DateID)">whatsapp</button>
-                        <button type="button" class="btn btn-sm btn-success" (click)="deployResults(o.DateID)">cargar resultados</button>
+                        <button type="button" class="btn btn-sm btn-success" (click)="deployResults(o.DateID,null,null,null,o.Date)">cargar resultados</button>
                       </th>
                     </tr>
 

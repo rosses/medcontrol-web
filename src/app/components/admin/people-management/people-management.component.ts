@@ -246,7 +246,7 @@ export class PeopleManagementComponent implements OnInit {
     });
   }
 
-  deployResults(DateID:string, ExamTypeID?: string, ExamTypeName?: string, Exams?: string[] ) {
+  deployResults(DateID:string, ExamTypeID?: any, ExamTypeName?: any, Exams?: any, fecha?: string) {
 
     if (!Exams) {
       Exams = [];
@@ -265,6 +265,7 @@ export class PeopleManagementComponent implements OnInit {
       size: 'lg',
       windowClass: 'cargaa'
     }); 
+    mdl.componentInstance.fecha = fecha?.split('-').reverse().join('-');
     mdl.componentInstance.DateID = DateID;
     mdl.componentInstance.ExamTypeName = ExamTypeName;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
@@ -276,7 +277,7 @@ export class PeopleManagementComponent implements OnInit {
     });
   }
 
-  deployResultsSingle(SingleID:string, ExamTypeID?: string, ExamTypeName?: string, Exams?: string[] ) {
+  deployResultsSingle(SingleID:string, ExamTypeID?: any, ExamTypeName?: any, Exams?: any , fecha?: string) {
 
     if (!Exams) {
       Exams = [];
@@ -292,8 +293,10 @@ export class PeopleManagementComponent implements OnInit {
     const mdl = this.modal.open(OrderResultComponent, {
       backdrop: false,
       keyboard: true,
-      size: 'lg'
+      size: 'lg',
+      windowClass: 'cargaa'
     }); 
+    mdl.componentInstance.fecha = fecha?.split('-').reverse().join('-');
     mdl.componentInstance.SingleID = SingleID;
     mdl.componentInstance.ExamTypeName = ExamTypeName;
     mdl.componentInstance.ExamTypeID = ExamTypeID;
