@@ -86,7 +86,7 @@ export class OrderResultComponent implements OnInit {
     
   }
   renderiza() {
-    console.log(this.ExamsData);
+    //console.log(this.ExamsData);
 
     this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
       ExamTypeName: item.ExamTypeName,
@@ -104,10 +104,11 @@ export class OrderResultComponent implements OnInit {
     for (let i = 0; i<this.itemsA.length; i++) {
       this.itemsA[i].sub = this.getItemsByExamTypeId(this.itemsA[i].ExamTypeID);
     }
-    for (let i = 0; i<this.itemsA.length; i++) {
+    for (let i = 0; i<this.itemsB.length; i++) {
       this.itemsB[i].sub = this.getItemsByExamTypeId(this.itemsB[i].ExamTypeID);
     }
-    console.log(this.itemsA);
+    console.log("this.itemsA", this.itemsA);
+    console.log('this.itemsB',this.itemsB);
 
     this.render = true; 
     this.loading = false; 
