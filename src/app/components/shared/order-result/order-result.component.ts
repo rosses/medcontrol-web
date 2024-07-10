@@ -55,8 +55,11 @@ export class OrderResultComponent implements OnInit {
     this.api.getExamDatas().subscribe((data:any)=>{ 
       //this.ExamsData = data.filter((x:any) => { return this.Exams.indexOf(x.ExamName) > - 1 }); // solo valores solicitados en la entrada
       this.ExamsData = data.filter((x:any) => { return this.ExamTypeNames.indexOf(x.ExamTypeName) > - 1 }); // solo valores solicitados en la entrada por grupo
-      
-      this.comments = (this.ExamsData.length > 0 && this.ExamsData[0].comments ? this.ExamsData[0].comments : '');
+      let _comm = data.find((x:any) => { return x.ExamDataID == '36' || x.ExamDataID == 36 });
+      this.comments = '';
+      if (_comm) {
+        this.comments = this.getValue('36'); //(this.ExamsData.length > 0 && this.ExamsData[0].comments ? this.ExamsData[0].comments : '');
+      }
       if (this.DateID!='') {
         this.api.getExamValuesByDate(this.DateID).subscribe((data:any) => {
           for (let i = 0; i < this.ExamsData.length; i++) {
