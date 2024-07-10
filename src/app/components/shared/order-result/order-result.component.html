@@ -14,7 +14,8 @@
               <h5>{{t.ExamTypeName}}</h5>
               <table class="mt-1 table table-mini">
                 <tbody>
-                  <tr *ngFor="let o of t.sub; let ii = index">
+                  <ng-container *ngFor="let o of t.sub; let ii = index">
+                  <tr *ngIf="o.ExamDataID != 36 && o.ExamDataID != '36'">
                     <td>{{o.Name}}</td>
                     <td>
                       <input *ngIf="o.ExamDataType == 'number'" type="text" 
@@ -39,6 +40,7 @@
                       <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="valueA_{{i}}_{{ii}}" (change)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
                     </td>
                   </tr>
+                  </ng-container>
                 </tbody>
               </table>
             </ng-container>
@@ -51,7 +53,7 @@
               <table class="mt-1 table table-mini">
                 <tbody>
                   <ng-container *ngFor="let o of t.sub; let ii = index">
-                  <tr *ngIf="o.ExamDataID != 36">
+                  <tr *ngIf="o.ExamDataID != 36 && o.ExamDataID != '36'">
                     <td [attr.data-examdataid]="o.ExamDataID" [attr.data-examtypeid]="t.ExamTypeID">{{o.Name}}</td>
                     <td>
                       <input *ngIf="o.ExamDataType == 'number'" type="text" 
