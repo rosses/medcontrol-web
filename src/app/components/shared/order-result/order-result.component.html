@@ -51,7 +51,7 @@
               <table class="mt-1 table table-mini">
                 <tbody>
                   <ng-container *ngFor="let o of t.sub; let ii = index">
-                  <tr *ngIf="o.ExamDataID != '36'">
+                  <tr *ngIf="o.ExamDataID != 36">
                     <td [attr.data-examdataid]="o.ExamDataID" [attr.data-examtypeid]="t.ExamTypeID">{{o.Name}}</td>
                     <td>
                       <input *ngIf="o.ExamDataType == 'number'" type="text" 
