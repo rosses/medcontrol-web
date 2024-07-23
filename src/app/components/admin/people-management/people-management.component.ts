@@ -113,8 +113,7 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.DateID = x.DateID;
     mdl.componentInstance.data.PeopleSurgeryID = x.PeopleSurgeryID;
     mdl.result.then((data:any) => {
-      if (data.success) {
-        console.log(data.data);
+      if (data.success) { 
         this.data.Surgerys[idx].DatePost1 = data.data.DatePost1;
         this.data.Surgerys[idx].DatePost2 = data.data.DatePost2;
         this.data.Surgerys[idx].DatePost3 = data.data.DatePost3;
@@ -127,9 +126,6 @@ export class PeopleManagementComponent implements OnInit {
         this.data.Surgerys[idx].DateMsg4 = data.data.DateMsg4;
         this.data.Surgerys[idx].DateMsg5 = data.data.DateMsg5;
         this.data.Surgerys[idx].DateMsg6 = data.data.DateMsg6;
-        this.data.Surgerys[idx].DateAsEnter = data.data.DateAsEnter;
-        this.data.Surgerys[idx].DateAsSurgery = data.data.DateMsg6;
-        this.data.Surgerys[idx].DateAsFinish = data.data.DateAsFinish;
       }
     },(err:any) => { 
       
@@ -149,9 +145,10 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.PeopleID = x.PeopleID;
     mdl.componentInstance.data.PeopleSurgeryID = x.PeopleSurgeryID;
     mdl.result.then((data:any) => {
-      console.log(data);
       if (data.success) {
-        this.data.Surgerys[idx] = data.data;
+        this.data.Surgerys[idx].DateAsEnter = data.data.DateAsEnter;
+        this.data.Surgerys[idx].DateAsSurgery = data.data.DateMsg6;
+        this.data.Surgerys[idx].DateAsFinish = data.data.DateAsFinish;
       }
     },(err:any) => { 
       
