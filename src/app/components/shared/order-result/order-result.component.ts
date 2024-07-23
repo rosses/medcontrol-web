@@ -49,7 +49,7 @@ export class OrderResultComponent implements OnInit {
     console.log('ExamTypeID', this.ExamTypeID);
     console.log('ExamTypeNames', this.ExamTypeNames);
 
-    this.api.getPeopleFicha(this.PeopleID).subscribe((data:any) => {
+    this.api.getPeopleFicha(this.PeopleID, (this.DateID != '' ? this.DateID : this.SingleID), (this.DateID != '' ? 'date' : 'single')).subscribe((data:any) => {
       this.ficha = data.text;
     })
     this.api.getExamDatas().subscribe((data:any)=>{ 

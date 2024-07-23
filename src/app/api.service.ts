@@ -217,8 +217,8 @@ export class ApiService {
   getPeopleEvolutions(id: string){
     return this.get('/v1/people/'+id+'/evolutions');
   }
-  getPeopleFicha(id: string) {
-    return this.get('/v1/people/'+id+'/text');
+  getPeopleFicha(id: string, aux?:string, type?: string) {
+    return this.get('/v1/people/'+id+'/text?aux='+aux+'&type='+type);
   }
   changeStatusPeople(data:any) {
     return this.post('/v1/people/'+data.PeopleID+'/change-status', data);
