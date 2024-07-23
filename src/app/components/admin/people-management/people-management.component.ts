@@ -139,9 +139,9 @@ export class PeopleManagementComponent implements OnInit {
       keyboard: true,
       size: 'lg'
     }); 
-    mdl.componentInstance.data.DateAsEnter = (x.DateAsEnter ? x.DateAsEnter.substring(0,10) : '');
-    mdl.componentInstance.data.DateAsSurgery = (x.DateAsSurgery ? x.DateAsSurgery.substring(0,10) : '');
-    mdl.componentInstance.data.DateAsFinish = (x.DateAsFinish ? x.DateAsFinish.substring(0,10) : '');
+    mdl.componentInstance.data.DateAsEnter = (x.DateAsEnter && x.DateAsEnter!='' ? x.DateAsEnter.substring(0,10) : '');
+    mdl.componentInstance.data.DateAsSurgery = (x.DateAsSurgery && x.DateAsSurgery!='' ? x.DateAsSurgery.substring(0,10) : '');
+    mdl.componentInstance.data.DateAsFinish = (x.DateAsFinish && x.DateAsFinish!=''? x.DateAsFinish.substring(0,10) : '');
     mdl.componentInstance.data.PeopleID = x.PeopleID;
     mdl.componentInstance.data.PeopleSurgeryID = x.PeopleSurgeryID;
     mdl.result.then((data:any) => {
