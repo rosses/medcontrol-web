@@ -147,7 +147,7 @@ export class PeopleManagementComponent implements OnInit {
     mdl.result.then((data:any) => {
       if (data.success) {
         this.data.Surgerys[idx].DateAsEnter = data.data.DateAsEnter;
-        this.data.Surgerys[idx].DateAsSurgery = data.data.DateMsg6;
+        this.data.Surgerys[idx].DateAsSurgery = data.data.DateAsSurgery;
         this.data.Surgerys[idx].DateAsFinish = data.data.DateAsFinish;
       }
     },(err:any) => { 
