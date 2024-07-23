@@ -139,7 +139,7 @@ export class PeopleManagementComponent implements OnInit {
       keyboard: true,
       size: 'lg'
     }); 
-    mdl.componentInstance.data.DateAsEnter = (x.DateAsEvaluation);
+    mdl.componentInstance.data.DateAsEnter = (x.DateAsEnter);
     mdl.componentInstance.data.DateAsSurgery = (x.DateAsSurgery);
     mdl.componentInstance.data.DateAsFinish = (x.DateAsFinish);
     mdl.componentInstance.data.PeopleID = x.PeopleID;

@@ -123,7 +123,7 @@
                         <b>Diagnóstico:</b> {{x.DiagnosisName}}<br />
                         <b>Observaciones:</b> {{x.Obs}}<br />
                         <b>Fecha Consulta:</b> {{x.Date | date: 'dd/MM/yyyy' }}<br />
-                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="x.DateAsEvaluation">{{x.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="x.DateAsEnter">{{x.DateAsEnter | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
                         <b>Fecha Término:</b>&nbsp;<span *ngIf="x.DateAsFinish">{{x.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
                         <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="x.DateAsSurgery">{{x.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
                         <br /><br />
