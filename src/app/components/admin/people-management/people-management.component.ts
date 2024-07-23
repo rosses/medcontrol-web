@@ -114,7 +114,22 @@ export class PeopleManagementComponent implements OnInit {
     mdl.componentInstance.data.PeopleSurgeryID = x.PeopleSurgeryID;
     mdl.result.then((data:any) => {
       if (data.success) {
-        this.data.Surgerys[idx] = data.data;
+        console.log(data.data);
+        this.data.Surgerys[idx].DatePost1 = data.data.DatePost1;
+        this.data.Surgerys[idx].DatePost2 = data.data.DatePost2;
+        this.data.Surgerys[idx].DatePost3 = data.data.DatePost3;
+        this.data.Surgerys[idx].DatePost4 = data.data.DatePost4;
+        this.data.Surgerys[idx].DatePost5 = data.data.DatePost5;
+        this.data.Surgerys[idx].DatePost6 = data.data.DatePost6;
+        this.data.Surgerys[idx].DateMsg1 = data.data.DateMsg1;
+        this.data.Surgerys[idx].DateMsg2 = data.data.DateMsg2;
+        this.data.Surgerys[idx].DateMsg3 = data.data.DateMsg3;
+        this.data.Surgerys[idx].DateMsg4 = data.data.DateMsg4;
+        this.data.Surgerys[idx].DateMsg5 = data.data.DateMsg5;
+        this.data.Surgerys[idx].DateMsg6 = data.data.DateMsg6;
+        this.data.Surgerys[idx].DateAsEnter = data.data.DateAsEnter;
+        this.data.Surgerys[idx].DateAsSurgery = data.data.DateMsg6;
+        this.data.Surgerys[idx].DateAsFinish = data.data.DateAsFinish;
       }
     },(err:any) => { 
       
