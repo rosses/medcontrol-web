@@ -123,9 +123,9 @@
                         <b>Diagnóstico:</b> {{x.DiagnosisName}}<br />
                         <b>Observaciones:</b> {{x.Obs}}<br />
                         <b>Fecha Consulta:</b> {{x.Date | date: 'dd/MM/yyyy' }}<br />
-                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="data.DateAsEvaluation">{{data.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Término:</b>&nbsp;<span *ngIf="data.DateAsFinish">{{data.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
-                        <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="data.DateAsSurgery">{{data.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
+                        <b>Fecha Criterio Ex. PAD:</b>&nbsp;<span *ngIf="x.DateAsEvaluation">{{x.DateAsEvaluation | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Término:</b>&nbsp;<span *ngIf="x.DateAsFinish">{{x.DateAsFinish | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
+                        <b>Fecha Cirugía:</b>&nbsp;<span *ngIf="x.DateAsSurgery">{{x.DateAsSurgery | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates(x, idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a> 
                         <br /><br />
                         <b>Fecha Control Cirujano:</b>&nbsp;<span *ngIf="x.DatePost1">{{x.DatePost1 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
                         <b>Fecha Control 6 Meses:</b>&nbsp;<span *ngIf="x.DatePost2">{{x.DatePost2 | date: 'dd/MM/yyyy' }}</span>&nbsp;&nbsp;&nbsp;<a [routerLink]="" (click)="changeDates2(x,idx)"><fa-icon size="sm" [icon]="faEdit"></fa-icon> </a><br />
