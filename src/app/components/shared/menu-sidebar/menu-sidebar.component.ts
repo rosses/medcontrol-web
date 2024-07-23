@@ -36,7 +36,7 @@ export class MenuSidebarComponent implements OnInit {
     },
     {
       icon: "icon-prestador-de-salud",
-      name: "Postoperatorio",
+      name: "Consulta Pacientes",
       url: "postop"
     },
 /*     {
