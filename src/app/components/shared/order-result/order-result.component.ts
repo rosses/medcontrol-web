@@ -95,12 +95,14 @@ export class OrderResultComponent implements OnInit {
     
     this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
       ExamTypeName: item.ExamTypeName,
+      ExamID: item.ExamID,
       ExamTypeID: parseInt(item.ExamTypeID)
     })).filter((item, index, self) =>
       index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
     )));
     this.itemsB = this.ExamsData.filter((x:any) => { return x.Side == 'B' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
       ExamTypeName: item.ExamTypeName,
+      ExamID: item.ExamID,
       ExamTypeID: parseInt(item.ExamTypeID)
     })).filter((item, index, self) =>
       index === self.findIndex((t) => ( t.ExamTypeID === item.ExamTypeID
