@@ -58,20 +58,20 @@
                       <input *ngIf="o.ExamDataType == 'number'" type="text" 
                               (keypress)="numberOnly($event)" 
                               class="form-control" 
-                              (change)="setValue(o.ExamDataID, $event)" 
+                              (change)="setValue(o.ExamDataID, $event, o.ExamID)" 
                               name="valueB_{{i}}_{{ii}}" 
                               [ngModel]="getValue(o.ExamDataID)"  
                       />
                       <input *ngIf="o.ExamDataType == 'text'" type="text" 
                               class="form-control" 
                               name="valueB_{{i}}_{{ii}}" 
-                              (change)="setValue(o.ExamDataID, $event)" 
+                              (change)="setValue(o.ExamDataID, $event, o.ExamID)" 
                               [ngModel]="getValue(o.ExamDataID)"
                       />
                       <textarea style="height: 40px;" *ngIf="o.ExamDataType == 'textarea'" 
                               class="form-control" 
                               name="valueB_{{i}}_{{ii}}" 
-                              (change)="setValue(o.ExamDataID, $event)" 
+                              (change)="setValue(o.ExamDataID, $event, o.ExamID)" 
                               [ngModel]="getValue(o.ExamDataID)"
                       ></textarea>
                       <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="valueB_{{i}}_{{ii}}" (change)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>

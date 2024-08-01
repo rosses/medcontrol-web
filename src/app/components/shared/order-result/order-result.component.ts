@@ -154,10 +154,18 @@ export class OrderResultComponent implements OnInit {
     }
     return true;
   }
-  setValue(id:string, event:any) {
+  setValue(id:string, event:any, examid?:string) {
+    console.log('setValue('+id+','+event.target.value+','+examid+')');
     let d = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == id });
     if (d > -1) {
       this.ExamsData[d].Value = event.target.value;
+    }
+    else {
+      this.ExamsData.push({
+        ExamDataID: id,
+        ExamID: examid,
+        Value: event.target.value
+      })
     }
   }
   save() {
