@@ -169,6 +169,10 @@ export class OrderResultComponent implements OnInit {
         Value: event.target.value
       })
     }
+
+    if (id == '36') {
+      this.comments = event.target.value;
+    }
   }
   save() {
     this.loading = true;
