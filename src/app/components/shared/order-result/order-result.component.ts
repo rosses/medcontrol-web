@@ -64,6 +64,7 @@ export class OrderResultComponent implements OnInit {
             let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
             if (f > -1) {
               this.ExamsData[f].Value = data[j].Value;
+              this.ExamsData[f].ExamDataValueID = data[j].ExamDataValueID;
             }
           }
           this.renderiza();
@@ -78,6 +79,7 @@ export class OrderResultComponent implements OnInit {
             let f = this.ExamsData.findIndex((x:any) => { return x.ExamDataID == data[j].ExamDataID });
             if (f > -1) {
               this.ExamsData[f].Value = data[j].Value;
+              this.ExamsData[f].ExamDataValueID = data[j].ExamDataValueID;
             }
           }
           this.renderiza();
@@ -131,7 +133,8 @@ export class OrderResultComponent implements OnInit {
       ExamDataType: item.ExamDataType,
       Name: item.Name,
       ExamOrden: item.ExamOrden,
-      Value: item.Value
+      Value: item.Value,
+      ExamDataValueID: (item.ExamDataValueID ?? 0)
     })).sort((a,b) => { return parseInt(a.ExamOrden) - parseInt(b.ExamOrden) });
     return z;
   }
