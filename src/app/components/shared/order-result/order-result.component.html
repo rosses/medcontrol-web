@@ -74,7 +74,7 @@
                               (change)="setValue(o.ExamDataID, $event, o.ExamID)" 
                               [ngModel]="getValue(o.ExamDataID)"
                       ></textarea>
-                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="valueB_{{i}}_{{ii}}" (change)="setValue(o.ExamDataID, $event)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
+                      <div *ngIf="o.ExamDataType == 'boolean'" class="checkbox"><input type="checkbox" name="valueB_{{i}}_{{ii}}" (change)="setValue(o.ExamDataID, $event, o.ExamID)" [ngModel]="getValue(o.ExamDataID)" /> confirma</div>
                     </td>
                   </tr>
                   </ng-container>
