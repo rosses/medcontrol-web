@@ -92,6 +92,7 @@ export class OrderResultComponent implements OnInit {
   renderiza() {
     //console.log(this.ExamsData);
     this.comments = this.getValue(36);
+    console.log('this.comments::after', this.comments);
     
     this.itemsA = this.ExamsData.filter((x:any) => { return x.Side == 'A' }).sort((a,b) => { return parseInt(a.SideOrder) - parseInt(b.SideOrder) }).map((item) => ({
       ExamTypeName: item.ExamTypeName,
