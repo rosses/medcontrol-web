@@ -77,7 +77,7 @@
               </div>
               <div class="table-cmp__col">{{getName(n.Origin)}}</div>
               <div class="table-cmp__col"><a (click)="markRead(n.NotifyID)" [routerLink]="'/admin/people/'+n.PeopleID">{{n.Name}} {{n.Lastname}}</a></div>
-              <div class="table-cmp__col">{{n.CreatedAt | date: 'd/m/Y'}}</div>
+              <div class="table-cmp__col">{{n.CreatedAt | date: 'dd/MM/yyyy'}}</div>
               <div class="table-cmp__col">{{n.Description}}</div>
             </div> 
           </div>
