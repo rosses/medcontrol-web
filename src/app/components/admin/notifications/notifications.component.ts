@@ -57,6 +57,7 @@ export class NotificationsComponent implements OnInit {
   }
   markRead(id:string) {
     this.api.readNotify(id).subscribe((data:any)=>{});
+    this.api.notiEvent.emit(true);
   }
 
   deleteReset() {

@@ -24,6 +24,12 @@ export class PageHeaderComponent implements OnInit {
   constructor(public api: ApiService) { }
 
   ngOnInit(): void {
+    this.api.notiEvent.subscribe((data:any) => {
+      this.refresh();
+    })
+    this.refresh();
+  }
+  refresh() {
     this.api.getNotifyTotal().subscribe((data:any) => {
       this.total = data.total;
     });

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import Swal from 'sweetalert2';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ApiService {
-
+  public notiEvent: EventEmitter<any> = new EventEmitter<any>();
   constructor(private http: HttpClient, public router: Router) { }
 
   async setToken(token: string) { 
