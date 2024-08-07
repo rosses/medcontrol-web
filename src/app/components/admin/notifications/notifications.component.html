@@ -58,40 +58,28 @@
               <div class="table-cmp__col">Tipo Alerta</div>
               <div class="table-cmp__col">Paciente</div>
               <div class="table-cmp__col">Fecha Alerta</div>
-              <div class="table-cmp__col">Recordatorio</div>
+              <div class="table-cmp__col">Descripción</div>
             </div>
           </div>
 
           <div class="table-cmp__body">
-            <div class="table-cmp__row">
-              <div class="table-cmp__col">
+            <div class="table-cmp__row" *ngIf="notifications.length == 0">
+              <div class="col">
                 Sin notificaciones
               </div>
             </div>
-            <!-- 
-            <div class="table-cmp__row">
+            
+            <div class="table-cmp__row" *ngFor="let n of notifications">
               <div class="table-cmp__col">
 
-                <app-checkbox-cmp></app-checkbox-cmp>
+                <app-checkbox-cmp [checked]="n.ReadAt"></app-checkbox-cmp>
 
               </div>
-              <div class="table-cmp__col">Consultas</div>
-              <div class="table-cmp__col">Felipe Meneses</div>
-              <div class="table-cmp__col">30-12-2023</div>
-              <div class="table-cmp__col">Corresponde control post-operatorio</div>
-            </div>
-            <div class="table-cmp__row" >
-              <div class="table-cmp__col">
-
-                <app-checkbox-cmp></app-checkbox-cmp>
-
-              </div>
-              <div class="table-cmp__col">Examen</div>
-              <div class="table-cmp__col">Camila Moreno</div>
-              <div class="table-cmp__col">02-01-2024</div>
-              <div class="table-cmp__col">Examenes pendientes de ingreso</div>
-            </div>
-            -->
+              <div class="table-cmp__col">{{getName(n.Origin)}}</div>
+              <div class="table-cmp__col"><a (click)="markRead(n.NotifyID)" [routerLink]="'/admin/people/'+n.PeopleID">{{n.Name}} {{n.Lastname}}</a></div>
+              <div class="table-cmp__col">{{n.CreatedAt | date: 'd/m/Y'}}</div>
+              <div class="table-cmp__col">{{n.Description}}</div>
+            </div> 
           </div>
         </div>
 

@@ -62,6 +62,15 @@ export class ApiService {
   removeCustomer(id:string) {
     return this.delete('/v1/customer/'+id);
   } 
+  getNotifyTotal() {
+    return this.get("/v1/notify/total");
+  }
+  getNotifyList() {
+    return this.get("/v1/notify/list");
+  }
+  readNotify(id:string) {
+    return this.get("/v1/notify/read/"+id);
+  }
 
   /* Profile Management */
   getCustomerUsers() {

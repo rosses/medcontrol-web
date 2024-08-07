@@ -12,6 +12,9 @@ export class PageHeaderComponent implements OnInit {
   @Input() userName: string = '';
   @Input() info: string = 'Info';
 
+  
+  public total: number = 0;
+
   today: number = Date.now();
   faBell = faBell;
   todayDate : Date = new Date();
@@ -21,7 +24,9 @@ export class PageHeaderComponent implements OnInit {
   constructor(public api: ApiService) { }
 
   ngOnInit(): void {
-    
+    this.api.getNotifyTotal().subscribe((data:any) => {
+      this.total = data.total;
+    });
   }
 
 }

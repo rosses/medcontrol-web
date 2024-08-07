@@ -13,6 +13,7 @@ export class NotificationsComponent implements OnInit {
   deleteModal: boolean = false;
   requestDeleted: boolean = false;
 
+  notifications: any[] = [];
   dataTable = [
     {
       name: 'Jorge Perez',
@@ -37,8 +38,15 @@ export class NotificationsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.api.getNotifyList().subscribe((data:any)=>{
+      this.notifications = data;
+    })
   }
-
+  getName(n:string) {
+    if (n == 'surgery') { return 'Cirugía'; }
+    if (n == 'finish') { return 'Término Exámenes'; }
+    if (n == 'enter') { return 'PAD'; }
+  }
   deleteRequest() {
     this.requestConfirm = false;
     this.loading = true;
@@ -46,6 +54,9 @@ export class NotificationsComponent implements OnInit {
       this.loading = false;
       this.requestDeleted = true;
     }, 1500);
+  }
+  markRead(id:string) {
+    this.api.readNotify(id).subscribe((data:any)=>{});
   }
 
   deleteReset() {
