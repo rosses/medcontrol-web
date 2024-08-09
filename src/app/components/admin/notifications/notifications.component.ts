@@ -44,8 +44,11 @@ export class NotificationsComponent implements OnInit {
   }
   getName(n:string) {
     if (n == 'surgery') { return 'Cirugía'; }
-    if (n == 'finish') { return 'Término Exámenes'; }
-    if (n == 'enter') { return 'PAD'; }
+    else if (n == 'finish') { return 'Término Exámenes'; }
+    else if (n == 'enter') { return 'PAD'; }
+    else {
+      return 'Postoperatorio';
+    }
   }
   deleteRequest() {
     this.requestConfirm = false;
